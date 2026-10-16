@@ -5,10 +5,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Hind:wght@400;500;600&family=Tiro+Devanagari+Marathi&family=Tiro+Devanagari+Sanskrit&display=swap">
 <style>
-/* Layout: a pothi-leaf reading column. Home lists the next observance and every festival; a festival opens on a strip of its days, with today's checklist under it. A full-screen mala sheet does the japa. */
+/* Layout: a pothi-leaf reading column. Home opens on the next observance (a lamp-lit panel) and a deck of festival cards, each in its deity's colour. A festival opens on a calendar strip of its days, with today's checklist grouped by the hours of the day. A full-screen mala sheet does the japa. */
 :root {
 	--paper: #faf4e8;
 	--surface: #f3e7d2;
+	--card: #fffaf1;
 	--ink: #2a1c10;
 	--ink-2: #6d5643;
 	--accent: #b0301c;      /* sindoor */
@@ -19,6 +20,20 @@
 	--shadow: rgba(84, 46, 10, 0.14);
 	--scrim: rgba(42, 28, 16, 0.38);
 	--bead: #dcc6a0;
+	--flame: #e08a1e;
+	--gold: #b8892a;
+
+	/* deity accents */
+	--d-ganesha: #c23c17;   /* sindoor */
+	--d-durga: #a5162b;     /* kumkum */
+	--d-lakshmi: #a37612;   /* gold */
+	--d-shiva: #4c6782;     /* ash-blue */
+	--d-vishnu: #2f4a8a;    /* indigo */
+	--d-krishna: #1d6478;   /* peacock */
+	--d-rama: #c0620a;      /* saffron */
+	--d-hanuman: #c24d0c;   /* deep saffron */
+	--d-saraswati: #94770c; /* white-yellow, inked */
+	--d-surya: #cf5a08;     /* sun-orange */
 
 	--f-sa: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", "Kohinoor Devanagari", "Devanagari Sangam MN", "Mangal", serif;
 	--f-mr: "Tiro Devanagari Marathi", "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", "Kohinoor Devanagari", "Mangal", serif;
@@ -28,18 +43,29 @@
 }
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]) {
-		--paper: #120f17; --surface: #1d1922; --ink: #f0e4cf; --ink-2: #ab9e8c;
+		--paper: #120f17; --surface: #1d1922; --card: #18141d; --ink: #f0e4cf; --ink-2: #ab9e8c;
 		--accent: #f07b5c; --accent-ink: #1d0904; --durva: #95c167; --wash: #33201f;
 		--rule: #2c2631; --shadow: rgba(0, 0, 0, 0.5); --scrim: rgba(4, 3, 8, 0.66); --bead: #44394a;
+		--flame: #f3a443; --gold: #d9ad55;
+		--d-ganesha: #f2835c; --d-durga: #f0687a; --d-lakshmi: #e4b84e; --d-shiva: #9fbad2; --d-vishnu: #93a9e6;
+		--d-krishna: #6cbcd2; --d-rama: #f2a54a; --d-hanuman: #f49152; --d-saraswati: #ecd879; --d-surya: #f7a347;
 		color-scheme: dark;
 	}
 }
 :root[data-theme="dark"] {
-	--paper: #120f17; --surface: #1d1922; --ink: #f0e4cf; --ink-2: #ab9e8c;
+	--paper: #120f17; --surface: #1d1922; --card: #18141d; --ink: #f0e4cf; --ink-2: #ab9e8c;
 	--accent: #f07b5c; --accent-ink: #1d0904; --durva: #95c167; --wash: #33201f;
 	--rule: #2c2631; --shadow: rgba(0, 0, 0, 0.5); --scrim: rgba(4, 3, 8, 0.66); --bead: #44394a;
+	--flame: #f3a443; --gold: #d9ad55;
+	--d-ganesha: #f2835c; --d-durga: #f0687a; --d-lakshmi: #e4b84e; --d-shiva: #9fbad2; --d-vishnu: #93a9e6;
+	--d-krishna: #6cbcd2; --d-rama: #f2a54a; --d-hanuman: #f49152; --d-saraswati: #ecd879; --d-surya: #f7a347;
 	color-scheme: dark;
 }
+.acc-ganesha { --fa: var(--d-ganesha); } .acc-durga { --fa: var(--d-durga); } .acc-lakshmi { --fa: var(--d-lakshmi); }
+.acc-shiva { --fa: var(--d-shiva); } .acc-vishnu { --fa: var(--d-vishnu); } .acc-krishna { --fa: var(--d-krishna); }
+.acc-rama { --fa: var(--d-rama); } .acc-hanuman { --fa: var(--d-hanuman); } .acc-saraswati { --fa: var(--d-saraswati); }
+.acc-surya { --fa: var(--d-surya); }
+[class*="acc-"] { --tint: color-mix(in srgb, var(--fa) 9%, var(--card)); --tint-2: color-mix(in srgb, var(--fa) 16%, var(--card)); }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -50,8 +76,10 @@ body {
 	padding-left: max(16px, env(safe-area-inset-left, 0px));
 	padding-right: max(16px, env(safe-area-inset-right, 0px));
 	padding-block: 0 48px;
+	margin: 0;
 }
-.col { max-width: 42rem; margin: 0 auto; display: grid; gap: 1.5rem; }
+.col { max-width: 42rem; margin: 0 auto; display: grid; gap: 1.6rem; min-width: 0; }
+.col > * { min-width: 0; }
 button { font: inherit; color: inherit; }
 a { color: var(--accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
@@ -62,108 +90,182 @@ p { margin: 0; }
 .lat { font-family: var(--f-lat); }
 .muted { color: var(--ink-2); }
 .eyebrow { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; }
+.sec-h { display: flex; align-items: center; gap: .7rem; }
+.sec-h::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+
+/* motif: a toran of dots (marigold, leaf) and a small diya */
+.toran { height: 10px; background:
+	radial-gradient(circle at 50% 3px, var(--flame) 2.6px, transparent 3.2px) 0 0 / 18px 10px repeat-x,
+	radial-gradient(circle at 50% 3px, var(--durva) 1.6px, transparent 2.2px) 9px 2px / 18px 10px repeat-x;
+	opacity: .8; }
+.diya { width: 1.6rem; height: 1.6rem; flex: 0 0 auto; }
+.diya .bowl { fill: var(--gold); }
+.diya .flame { fill: var(--flame); transform-origin: 12px 11px; }
+.diya .core { fill: #fff3c9; }
+@media (prefers-reduced-motion: no-preference) {
+	.diya .flame { animation: flick 3.2s ease-in-out infinite; }
+	@keyframes flick { 0%, 100% { transform: scale(1, 1) rotate(0); } 40% { transform: scale(.96, 1.06) rotate(-2deg); } 70% { transform: scale(1.03, .97) rotate(1.5deg); } }
+}
 
 /* header */
 .top {
 	position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
-	background: var(--paper); border-bottom: 1px solid var(--rule);
+	background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+	border-bottom: 1px solid var(--rule);
 	margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
-	padding: .6rem max(16px, env(safe-area-inset-right, 0px)) .6rem max(16px, env(safe-area-inset-left, 0px));
+	padding: .55rem max(16px, env(safe-area-inset-right, 0px)) .55rem max(16px, env(safe-area-inset-left, 0px));
 }
 .top-in { max-width: 42rem; margin: 0 auto; display: flex; align-items: center; gap: .75rem; }
-.brand { display: flex; align-items: baseline; gap: .5rem; flex: 1; min-width: 0; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
-.brand b { font-family: var(--f-sa); font-size: 1.35rem; font-weight: 400; color: var(--accent); }
+.brand { display: flex; align-items: center; gap: .5rem; flex: 1; min-width: 0; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+.brand b { font-family: var(--f-sa); font-size: 1.35rem; font-weight: 400; color: var(--accent); line-height: 1.2; }
 .brand span { font-size: .95rem; font-weight: 600; white-space: nowrap; }
-.tabs { display: flex; gap: .25rem; }
-.tab { border: 0; background: none; padding: .35rem .7rem; border-radius: 99px; cursor: pointer; font-size: .9rem; color: var(--ink-2); }
-.tab[aria-current="page"] { background: var(--wash); color: var(--ink); font-weight: 500; }
+.tabs { display: flex; gap: .2rem; background: var(--surface); border-radius: 99px; padding: .2rem; }
+.tab { border: 0; background: none; padding: .3rem .8rem; border-radius: 99px; cursor: pointer; font-size: .88rem; color: var(--ink-2); }
+.tab[aria-current="page"] { background: var(--card); color: var(--ink); font-weight: 500; box-shadow: 0 1px 2px var(--shadow); }
 .sync { font-size: .72rem; color: var(--ink-2); padding: .4rem 0 0; text-align: right; max-width: 42rem; margin: 0 auto; }
 
-main { padding-top: 1.25rem; }
+main { padding-top: 1.1rem; }
 
-/* home */
+/* home: the next observance */
 .next {
-	background: var(--surface); border-radius: 14px; padding: 1.1rem 1.2rem;
-	display: grid; gap: .55rem; border: 1px solid var(--rule);
+	position: relative; overflow: hidden;
+	background: linear-gradient(160deg, var(--tint-2, var(--surface)) 0%, var(--tint, var(--surface)) 55%, var(--card) 100%);
+	border-radius: 20px; padding: 1.3rem 1.3rem 1.25rem;
+	display: grid; gap: .7rem; border: 1px solid color-mix(in srgb, var(--fa, var(--accent)) 22%, var(--rule));
+	box-shadow: 0 10px 30px -18px var(--shadow);
 }
-.next h2 { font-size: 1.45rem; }
-.next .when { display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-variant-numeric: tabular-nums; }
-.next .when b { color: var(--accent); font-weight: 600; }
+.next .toran { margin: -1.3rem -1.3rem .1rem; }
+.next .head { display: flex; align-items: center; gap: .5rem; }
+.next .live { color: var(--fa); font-weight: 600; }
+.next .live::before { content: ""; display: inline-block; width: .5rem; height: .5rem; border-radius: 50%; background: var(--fa); margin-right: .45rem; vertical-align: .08em; box-shadow: 0 0 0 3px color-mix(in srgb, var(--fa) 22%, transparent); }
+.next .big { font-family: var(--f-sa); font-size: clamp(2.2rem, 10vw, 3.3rem); line-height: 1.15; color: var(--fa, var(--accent)); overflow-wrap: anywhere; }
+.next h2 { font-size: 1.2rem; }
+.next .when { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: .6rem 1rem; font-variant-numeric: tabular-nums; }
+.next .when .date { font-weight: 500; }
+.count { display: grid; justify-items: end; line-height: 1; text-align: right; }
+.count b { font-size: 2.4rem; font-weight: 500; color: var(--fa, var(--accent)); font-variant-numeric: tabular-nums; }
+.count small { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin-top: .25rem; }
+.now { display: grid; gap: .2rem; padding: .75rem .9rem; border-radius: 12px; background: color-mix(in srgb, var(--card) 70%, transparent); border: 1px solid color-mix(in srgb, var(--fa) 18%, var(--rule)); }
+.now b { font-size: 1.05rem; }
+.now .bar { margin-top: .35rem; }
+.bar { height: 6px; border-radius: 99px; background: var(--rule); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--durva); border-radius: inherit; transition: width .3s; }
 .btn {
 	display: inline-flex; align-items: center; gap: .4rem; justify-self: start;
-	border: 0; border-radius: 99px; padding: .55rem 1.05rem; cursor: pointer;
-	background: var(--accent); color: var(--accent-ink); font-weight: 500; text-decoration: none;
+	border: 0; border-radius: 99px; padding: .6rem 1.15rem; cursor: pointer;
+	background: var(--fa, var(--accent)); color: var(--accent-ink); font-weight: 500; text-decoration: none;
 }
-.btn.quiet { background: var(--wash); color: var(--ink); }
-.list { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.btn.quiet { background: var(--tint-2, var(--wash)); color: var(--ink); }
+.then { font-size: .95rem; }
+
+/* home: festival cards */
+.list { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
 .row {
-	display: grid; grid-template-columns: 4.6rem 1fr auto; align-items: center; gap: .9rem;
-	padding: .8rem 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; cursor: pointer; width: 100%;
+	position: relative; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: .3rem .9rem;
+	padding: .9rem 1rem .9rem 1.15rem; border: 1px solid color-mix(in srgb, var(--fa) 20%, var(--rule)); border-radius: 16px;
+	background: var(--tint); text-align: left; cursor: pointer; width: 100%; overflow: hidden;
+	transition: transform .15s, box-shadow .15s;
 }
-.row:disabled { cursor: default; }
-.row .dv { font-family: var(--f-sa); font-size: 1.05rem; color: var(--accent); line-height: 1.2; }
-.row .t { min-width: 0; }
-.row .t b { display: block; font-weight: 600; }
-.row .t small { color: var(--ink-2); font-size: .85rem; }
-.pill { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; padding: .15rem .55rem; border-radius: 99px; background: var(--wash); color: var(--ink-2); white-space: nowrap; }
-.pill.ready { background: var(--accent); color: var(--accent-ink); }
-.row:disabled .dv { color: var(--ink-2); }
+.row::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--fa); }
+.row:hover { box-shadow: 0 8px 22px -16px var(--shadow); transform: translateY(-1px); }
+.row:disabled { cursor: default; opacity: .6; }
+.row .chipdate { display: grid; justify-items: center; width: 3.3rem; padding: .35rem 0 .3rem; border-radius: 10px; background: var(--card); border: 1px solid color-mix(in srgb, var(--fa) 25%, var(--rule)); line-height: 1.05; font-variant-numeric: tabular-nums; }
+.row .chipdate b { font-size: 1.35rem; font-weight: 600; color: var(--fa); }
+.row .chipdate small { font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.row .t { min-width: 0; display: grid; gap: .05rem; }
+.row .dv { font-family: var(--f-sa); font-size: 1.3rem; color: var(--fa); line-height: 1.3; }
+.row .t b { font-weight: 600; }
+.row .t small { color: var(--ink-2); font-size: .84rem; }
+.pill { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; padding: .12rem .5rem; border-radius: 99px; background: var(--fa); color: var(--accent-ink); white-space: nowrap; justify-self: start; }
+.pill.soon { background: none; color: var(--fa); border: 1px solid currentColor; }
 
 /* festival */
 .hero { display: grid; gap: .35rem; }
-.hero .dv { font-family: var(--f-sa); font-size: clamp(2rem, 7vw, 2.8rem); color: var(--accent); line-height: 1.15; }
-.hero h1 { font-size: 1.5rem; }
-.lede { max-width: 62ch; }
-.facts { display: grid; grid-template-columns: minmax(9rem, auto) 1fr; gap: .35rem 1rem; margin: 0; font-size: .95rem; }
+.hero .dv { font-family: var(--f-sa); font-size: clamp(2.2rem, 9vw, 3.1rem); color: var(--fa, var(--accent)); line-height: 1.2; }
+.hero h1 { font-size: 1.45rem; }
+.hero.banner { padding: 1.2rem 1.25rem 1.15rem; border-radius: 20px; background: linear-gradient(160deg, var(--tint-2) 0%, var(--tint) 60%, var(--card) 100%); border: 1px solid color-mix(in srgb, var(--fa) 22%, var(--rule)); overflow: hidden; }
+.hero.banner .toran { margin: -1.2rem -1.25rem .5rem; }
+.hero .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .35rem; }
+.tag { font-size: .78rem; padding: .15rem .6rem; border-radius: 99px; background: var(--card); border: 1px solid color-mix(in srgb, var(--fa) 22%, var(--rule)); color: var(--ink-2); }
+.tag.on { color: var(--fa); font-weight: 600; }
+.lede { max-width: 62ch; font-size: 1.02rem; }
+
+.panchang { border-radius: 16px; background: var(--card); border: 1px solid var(--rule); overflow: hidden; }
+.panchang .ph { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .6rem 1rem; background: var(--surface); border-bottom: 1px solid var(--rule); }
+.panchang .ph span:last-child { font-size: .8rem; color: var(--fa, var(--accent)); font-weight: 500; }
+.facts { display: grid; grid-template-columns: minmax(9rem, auto) 1fr; margin: 0; font-size: .95rem; }
+.facts dt, .facts dd { padding: .55rem 1rem; border-bottom: 1px dashed var(--rule); }
+.facts dt:last-of-type, .facts dd:last-of-type { border-bottom: 0; }
 .facts dt { color: var(--ink-2); }
-.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; font-weight: 500; }
+.panchang .src { padding: .5rem 1rem .65rem; border-top: 1px solid var(--rule); }
 .src { font-size: .78rem; color: var(--ink-2); }
 .choose { display: grid; gap: .45rem; }
 .chips { display: flex; flex-wrap: wrap; gap: .4rem; }
-.chip { border: 1px solid var(--rule); background: none; border-radius: 99px; padding: .35rem .8rem; cursor: pointer; font-size: .9rem; }
+.chip { border: 1px solid var(--rule); background: var(--card); border-radius: 99px; padding: .35rem .85rem; cursor: pointer; font-size: .9rem; }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .chip-note { font-size: .85rem; color: var(--ink-2); }
+.plan { display: grid; gap: 1rem; padding: 1rem; border-radius: 16px; background: var(--surface); }
 
-.strip { display: flex; gap: .45rem; overflow-x: auto; padding: .2rem .1rem .5rem; scroll-snap-type: x proximity; }
+.strip-wrap { display: grid; gap: .5rem; }
+.strip { display: flex; gap: .45rem; overflow-x: auto; padding: .35rem .1rem .6rem; scroll-snap-type: x proximity; scrollbar-width: thin; }
 .day {
-	flex: 0 0 auto; width: 4.4rem; scroll-snap-align: start;
-	display: grid; justify-items: center; gap: .15rem; padding: .5rem .2rem .45rem;
-	border: 1px solid var(--rule); border-radius: 12px; background: none; cursor: pointer;
+	position: relative; flex: 0 0 auto; width: 4.3rem; scroll-snap-align: start;
+	display: grid; justify-items: center; gap: .1rem; padding: .45rem .2rem .5rem;
+	border: 1px solid var(--rule); border-radius: 14px; background: var(--card); cursor: pointer;
+	font-variant-numeric: tabular-nums;
 }
-.day[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); }
-.day.gone { opacity: .45; }
-.day small { font-size: .68rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; }
-.day b { font-size: 1.15rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
-.ring { width: 22px; height: 22px; }
+.day .num { font-size: .62rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: .08em; }
+.day small { font-size: .66rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; }
+.day b { font-size: 1.3rem; line-height: 1.1; font-weight: 600; }
+.day.gone { opacity: .55; }
+.day.is-today { border-color: var(--fa, var(--accent)); box-shadow: inset 0 0 0 1px var(--fa, var(--accent)); }
+.day.is-today::after { content: "Today"; position: absolute; top: -.55rem; left: 50%; transform: translateX(-50%); font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; background: var(--fa, var(--accent)); color: var(--accent-ink); padding: .05rem .4rem; border-radius: 99px; }
+.day[aria-pressed="true"] { background: var(--fa, var(--accent)); border-color: var(--fa, var(--accent)); opacity: 1; }
+.day[aria-pressed="true"] b, .day[aria-pressed="true"] small, .day[aria-pressed="true"] .num { color: var(--accent-ink); }
+.day[aria-pressed="true"] .ring .bg { stroke: color-mix(in srgb, var(--accent-ink) 35%, transparent); }
+.day[aria-pressed="true"] .ring .fg { stroke: var(--accent-ink); }
+.ring { width: 20px; height: 20px; margin-top: .15rem; }
 .ring circle { fill: none; stroke-width: 3; }
 .ring .bg { stroke: var(--rule); }
 .ring .fg { stroke: var(--durva); stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; }
 
-.today { display: grid; gap: .8rem; }
-.today h2 { font-size: 1.3rem; }
-.today .tithi { color: var(--accent); font-weight: 500; }
-.notice { border-left: 3px solid var(--accent); padding: .55rem .85rem; background: var(--surface); border-radius: 0 10px 10px 0; display: grid; gap: .4rem; }
-.notice .sa { font-size: 1.15rem; line-height: 1.6; white-space: pre-line; }
+.today { display: grid; gap: .9rem; }
+.today h2 { font-size: 1.4rem; }
+.today .tithi { color: var(--fa, var(--accent)); font-weight: 500; font-size: 1rem; display: block; margin-top: .1rem; }
+.today .focus { font-size: 1.02rem; padding-left: .9rem; border-left: 2px solid color-mix(in srgb, var(--fa, var(--accent)) 45%, transparent); }
+.progress { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .35rem 1rem; padding: .75rem .95rem; border-radius: 14px; background: var(--surface); }
+.progress .bar { grid-column: 1 / -1; }
+.progress b { font-variant-numeric: tabular-nums; }
+.progress span { font-size: .85rem; color: var(--ink-2); }
+.notice { border-left: 3px solid var(--accent); padding: .7rem .95rem; background: var(--surface); border-radius: 0 12px 12px 0; display: grid; gap: .4rem; }
+.notice .sa { font-size: 1.2rem; line-height: 1.7; white-space: pre-line; }
 
-.check { display: grid; border-top: 1px solid var(--rule); }
-.task { display: grid; grid-template-columns: 2.2rem 1fr; gap: .2rem .7rem; padding: .75rem 0; border-bottom: 1px solid var(--rule); }
+.check { display: grid; gap: 1.1rem; }
+.slot { display: grid; gap: .5rem; }
+.slot-h { display: flex; align-items: center; gap: .55rem; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+.slot-h svg { width: 1.1rem; height: 1.1rem; stroke: var(--fa, var(--accent)); fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.slot-h::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.slot-list { display: grid; gap: .5rem; }
+.task { display: grid; grid-template-columns: 2.2rem 1fr; gap: .2rem .75rem; padding: .8rem .9rem; border-radius: 14px; background: var(--card); border: 1px solid var(--rule); transition: background .2s, border-color .2s; }
+.task.done { background: color-mix(in srgb, var(--durva) 7%, var(--card)); border-color: color-mix(in srgb, var(--durva) 25%, var(--rule)); }
 .tick {
-	width: 1.9rem; height: 1.9rem; border-radius: 50%; border: 2px solid var(--bead); background: none; cursor: pointer;
-	display: grid; place-items: center; padding: 0;
+	width: 1.95rem; height: 1.95rem; border-radius: 50%; border: 2px solid var(--bead); background: none; cursor: pointer;
+	display: grid; place-items: center; padding: 0; transition: background .15s, border-color .15s;
 }
 .tick svg { width: 1rem; height: 1rem; stroke: var(--accent-ink); stroke-width: 3; fill: none; opacity: 0; }
 .tick[aria-checked="true"] { background: var(--durva); border-color: var(--durva); }
 .tick[aria-checked="true"] svg { opacity: 1; stroke: var(--paper); }
 .task .body { min-width: 0; display: grid; gap: .15rem; }
-.task .time { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.task .time { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--fa, var(--accent)); font-weight: 500; }
 .task .title { font-weight: 600; }
-.task.done .title { color: var(--ink-2); }
+.task.done .title { color: var(--ink-2); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--durva) 60%, transparent); }
 .task .detail { font-size: .92rem; color: var(--ink-2); }
-.task .acts { display: flex; flex-wrap: wrap; gap: .5rem; padding-top: .25rem; }
-.link { border: 0; background: none; padding: 0; color: var(--accent); cursor: pointer; font-weight: 500; font-size: .9rem; text-decoration: underline; text-underline-offset: 3px; }
+.task .acts { display: flex; flex-wrap: wrap; gap: .5rem 1rem; padding-top: .3rem; align-items: center; }
+.link { border: 0; background: none; padding: 0; color: var(--accent); cursor: pointer; font-weight: 500; font-size: .9rem; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .meter { font-size: .85rem; font-variant-numeric: tabular-nums; color: var(--durva); font-weight: 500; }
 
-details.fold { border-top: 1px solid var(--rule); padding: .7rem 0; }
+details.fold { border-top: 1px solid var(--rule); padding: .8rem 0; }
 details.fold:last-of-type { border-bottom: 1px solid var(--rule); }
 details.fold summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
 details.fold summary::-webkit-details-marker { display: none; }
@@ -176,45 +278,55 @@ ol.steps { margin: 0; padding-left: 1.4rem; columns: 2 13rem; column-gap: 2rem; 
 .texts { display: grid; gap: .4rem; }
 
 /* sankashti dates */
-.dates { display: grid; gap: .45rem; }
-.date-btn { display: grid; grid-template-columns: 5.2rem 1fr auto; gap: .8rem; align-items: center; text-align: left; border: 1px solid var(--rule); border-radius: 12px; padding: .6rem .8rem; background: none; cursor: pointer; }
-.date-btn[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); }
+.dates { display: grid; gap: .5rem; }
+.date-btn { display: grid; grid-template-columns: 4.6rem 1fr auto; gap: .8rem; align-items: center; text-align: left; border: 1px solid var(--rule); border-radius: 14px; padding: .65rem .85rem; background: var(--card); cursor: pointer; }
+.date-btn[aria-pressed="true"] { border-color: var(--fa, var(--accent)); background: var(--tint, var(--wash)); box-shadow: inset 3px 0 0 var(--fa, var(--accent)); }
 .date-btn b { font-variant-numeric: tabular-nums; }
 .date-btn small { color: var(--ink-2); display: block; font-size: .82rem; }
 
 /* reader */
 .script-tog { display: flex; gap: .3rem; }
-.text-body { display: grid; gap: 1.1rem; }
-.verse { display: grid; gap: .25rem; }
-.verse .sa, .verse .mr { font-size: 1.2rem; line-height: 1.75; white-space: pre-line; }
-.verse .lat { font-size: 1rem; color: var(--ink-2); white-space: pre-line; font-style: italic; }
-.verse h3 { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 600; padding-top: .4rem; }
+.text-body { display: grid; gap: 1.4rem; }
+.verse { display: grid; gap: .35rem; position: relative; }
+.verse.v { padding-left: 2.4rem; }
+.verse.v::before { content: attr(data-n); font-family: var(--f-sa); position: absolute; left: 0; top: .45rem; width: 1.7rem; height: 1.7rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--rule); color: var(--ink-2); font-size: .72rem; font-variant-numeric: tabular-nums; background: var(--card); }
+.verse .sa, .verse .mr { font-size: 1.25rem; line-height: 1.95; white-space: pre-line; }
+.verse .lat { font-size: 1rem; line-height: 1.6; color: var(--ink-2); white-space: pre-line; font-style: italic; }
+.verse h3 { display: flex; align-items: center; justify-content: center; gap: .7rem; text-align: center; font-size: .85rem; letter-spacing: .1em; color: var(--accent); font-weight: 600; padding-top: .8rem; flex-wrap: wrap; }
+.verse h3::before, .verse h3::after { content: ""; width: 2.2rem; height: 7px; background: radial-gradient(circle, var(--flame) 2px, transparent 2.6px) center / 9px 7px repeat-x; opacity: .85; }
+.verse h3 .lat { font-size: .82rem; letter-spacing: .02em; text-transform: none; }
 .mean { font-size: .95rem; max-width: 62ch; }
-.names { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: .1rem 1.5rem; counter-reset: n; }
-.names li { list-style: none; display: grid; grid-template-columns: 1.8rem 1fr; padding: .25rem 0; border-bottom: 1px solid var(--rule); }
-.names li::before { counter-increment: n; content: counter(n); color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: .85rem; padding-top: .2rem; }
-.names .sa { font-size: 1.1rem; }
+.verse .mean { padding: .5rem .8rem; background: var(--surface); border-radius: 10px; }
+.reader { padding: 1.2rem 1.1rem; border-radius: 18px; background: var(--card); border: 1px solid var(--rule); }
+.names { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: .1rem 1.5rem; counter-reset: n; margin: 0; padding: 0; }
+.names li { list-style: none; display: grid; grid-template-columns: 1.8rem 1fr; padding: .35rem 0; border-bottom: 1px solid var(--rule); }
+.names li::before { counter-increment: n; content: counter(n); color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: .85rem; padding-top: .3rem; }
+.names .sa { font-size: 1.15rem; line-height: 1.7; }
 .names .lat { font-size: .85rem; color: var(--ink-2); grid-column: 2; font-style: italic; }
 body[data-script="deva"] .lat:not(.keep) { display: none; }
 body[data-script="iast"] .verse .sa, body[data-script="iast"] .verse .mr, body[data-script="iast"] .names .sa { display: none; }
 body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { color: var(--ink); font-style: normal; font-size: 1.1rem; }
 
 /* deities */
-.gods { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .6rem; }
-.god { display: grid; gap: .1rem; text-align: left; padding: .8rem .9rem; border: 1px solid var(--rule); border-radius: 12px; background: none; cursor: pointer; }
-.god .dv { font-family: var(--f-sa); font-size: 1.3rem; color: var(--accent); line-height: 1.25; }
+.gods { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: .65rem; }
+.god { position: relative; display: grid; gap: .1rem; text-align: left; padding: .9rem 1rem 1rem; border: 1px solid color-mix(in srgb, var(--fa) 22%, var(--rule)); border-radius: 16px; background: var(--tint); cursor: pointer; overflow: hidden; }
+.god::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--fa); }
+.god .dv { font-family: var(--f-sa); font-size: 1.45rem; color: var(--fa); line-height: 1.35; }
 .god small { color: var(--ink-2); font-size: .8rem; }
-.mantra { display: grid; gap: .35rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
-.mantra:first-of-type { border-top: 1px solid var(--rule); }
-.mantra .sa { font-size: 1.3rem; line-height: 1.7; white-space: pre-line; }
+.mantras { display: grid; gap: .9rem; }
+.mantra { display: grid; gap: .45rem; padding: 1.1rem 1.15rem 1.15rem; border-radius: 18px; background: var(--card); border: 1px solid color-mix(in srgb, var(--fa) 20%, var(--rule)); box-shadow: 0 8px 24px -20px var(--shadow); position: relative; overflow: hidden; }
+.mantra::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--fa); }
+.mantra .eyebrow { color: var(--fa); }
+.mantra .sa { font-size: 1.4rem; line-height: 1.85; white-space: pre-line; padding: .2rem 0; }
 .mantra .lat { font-size: .98rem; color: var(--ink-2); font-style: italic; white-space: pre-line; }
-.mantra .meta { display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: center; font-size: .85rem; color: var(--ink-2); }
+.mantra .meta { display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: center; font-size: .82rem; color: var(--ink-2); border-top: 1px dashed var(--rule); padding-top: .55rem; margin-top: .15rem; }
+.mantra .btn { margin-top: .2rem; }
 
 /* japa sheet */
 .sheet { position: fixed; inset: 0; z-index: 20; background: var(--paper); display: grid; grid-template-rows: auto 1fr auto; padding: calc(env(safe-area-inset-top, 0px) + .8rem) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 1rem) max(16px, env(safe-area-inset-left, 0px)); }
 .sheet-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; max-width: 42rem; width: 100%; margin: 0 auto; }
 .sheet-mid { display: grid; place-content: center; justify-items: center; gap: 1.2rem; text-align: center; min-height: 0; overflow: auto; }
-.sheet .sa { font-size: clamp(1.4rem, 5vw, 2rem); line-height: 1.6; white-space: pre-line; max-width: 30ch; }
+.sheet .sa { font-size: clamp(1.4rem, 5vw, 2rem); line-height: 1.7; white-space: pre-line; max-width: 30ch; }
 .sheet .lat { color: var(--ink-2); font-style: italic; white-space: pre-line; }
 .mala-btn { position: relative; width: min(64vw, 15rem); aspect-ratio: 1; max-width: 100%; border: 0; background: none; cursor: pointer; padding: 0; border-radius: 50%; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .mala-btn svg { width: 100%; height: 100%; display: block; }
@@ -230,21 +342,24 @@ body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { col
 .sheet-foot b { color: var(--durva); }
 .close { border: 1px solid var(--rule); background: none; border-radius: 99px; padding: .35rem .9rem; cursor: pointer; }
 
-.foot { font-size: .8rem; color: var(--ink-2); display: grid; gap: .3rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
+.foot { font-size: .8rem; color: var(--ink-2); display: grid; gap: .5rem; padding-top: .4rem; }
+.foot .toran { opacity: .5; margin-bottom: .4rem; }
 .back { justify-self: start; }
 
 @media (max-width: 30rem) {
 	.brand span { display: none; }
 	.facts, .kv { grid-template-columns: 1fr; gap: .1rem; }
-	.facts dd, .kv span { padding-bottom: .4rem; }
-	.row { grid-template-columns: 3.6rem 1fr auto; gap: .6rem; }
+	.facts dt { border-bottom: 0; padding-bottom: 0; font-size: .82rem; }
+	.kv span { padding-bottom: .4rem; }
+	.verse.v { padding-left: 2.1rem; }
+	.reader { padding: 1rem .85rem; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
 </style>
 
 <header class="top">
 	<div class="top-in">
-		<button class="brand" id="home-btn" aria-label="Utsav Sadhana, home"><b>उत्सव साधना</b><span>Utsav Sadhana</span></button>
+		<button class="brand" id="home-btn" aria-label="Utsav Sadhana, home"><svg class="diya" viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c1.9 2.6 2.6 4.4 2.6 5.8a2.6 2.6 0 0 1-5.2 0c0-1.4.7-3.2 2.6-5.8z"/><path class="core" d="M12 6.6c.8 1.1 1.1 1.8 1.1 2.4a1.1 1.1 0 0 1-2.2 0c0-.6.3-1.3 1.1-2.4z"/><path class="bowl" d="M2.5 13.2h19c-.6 4.4-4.6 7.3-9.5 7.3s-8.9-2.9-9.5-7.3zm6 8.3h7l-1 1.5h-5z"/></svg><b>उत्सव साधना</b><span>Utsav Sadhana</span></button>
 		<nav class="tabs" aria-label="Sections">
 			<button class="tab" id="tab-home" data-go="">Festivals</button>
 			<button class="tab" id="tab-mantra" data-go="mantras">Mantras</button>
@@ -796,6 +911,14 @@ const deva2iast = (function () {
 		return '<svg class="ring" viewBox="0 0 22 22" aria-hidden="true"><circle class="bg" cx="11" cy="11" r="8"/><circle class="fg" cx="11" cy="11" r="8" stroke-dasharray="' + (c * p).toFixed(2) + " " + c.toFixed(2) + '"/></svg>';
 	}
 
+	const acc = (f) => "acc-" + f.deity;
+	const TORAN = '<div class="toran" aria-hidden="true"></div>';
+	function doneCount(f, iso) { let n = 0; for (const t of f.core) if (state.done[doneKey(f, iso, t.id)]) n++; return n; }
+	function progressHtml(f, iso) {
+		const n = doneCount(f, iso), all = f.core.length;
+		return '<b>' + n + " of " + all + " done" + (iso === todayIso() ? " today" : "") + '</b><span>' + (n === all ? "Complete" : (all - n) + " to go") + '</span><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + all + '" aria-valuenow="' + n + '" aria-label="Checklist progress"><i style="width:' + Math.round(100 * n / all) + '%"></i></div>';
+	}
+
 	function viewHome() {
 		setTab("home");
 		const up = nextObservance();
@@ -803,24 +926,37 @@ const deva2iast = (function () {
 		if (up.length) {
 			const x = up[0];
 			const d = daysTo(x.date);
-			const live = x.date <= todayIso() && x.end >= todayIso();
-			h += '<section class="next" aria-labelledby="next-h"><span class="eyebrow">' + (live ? "Happening now" : "Next observance") + '</span>' +
+			const t = todayIso();
+			const live = x.date <= t && x.end >= t;
+			const now = live && !x.f.monthly ? x.f.days.find((y) => y.date === t) : null;
+			const idx = now ? x.f.days.indexOf(now) + 1 : 0;
+			h += '<section class="next ' + acc(x.f) + '" aria-labelledby="next-h">' + TORAN +
+				'<span class="eyebrow' + (live ? " live" : "") + '">' + (live ? "Happening now" : "Next observance") + '</span>' +
+				'<span class="big" lang="sa">' + esc(x.f.deva) + '</span>' +
 				'<h2 id="next-h">' + esc(x.label) + '</h2>' +
-				'<p class="when"><b>' + esc(fmt(x.date, { weekday: "long", day: "numeric", month: "long", year: "numeric" })) + '</b><span>' + (live ? "today" : esc(inDays(d))) + '</span></p>' +
-				'<p class="muted">' + esc(x.extra) + '</p>' +
-				'<button class="btn" data-go="f/' + x.f.id + (x.f.monthly ? "/" + x.date : "") + '">Open the sadhana</button></section>';
+				'<div class="when"><div><p class="date">' + esc(fmt(x.date, { weekday: "long", day: "numeric", month: "long", year: "numeric" })) + '</p><p class="muted">' + esc(x.extra) + '</p></div>' +
+				(live ? (idx ? '<span class="count"><b>' + idx + '</b><small>day of ' + x.f.days.length + '</small></span>' : '<span class="count"><b>Today</b></span>')
+					: '<span class="count"><b>' + d + '</b><small>' + (d === 1 ? "day to go" : "days to go") + '</small></span>') + '</div>';
+			if (now) h += '<div class="now"><span class="eyebrow">Today · ' + esc(now.tithi) + '</span><b>' + esc(now.title) + '</b>' + (now.focus ? '<p class="muted">' + esc(now.focus) + '</p>' : "") +
+				'<div class="progress" style="padding:0;background:none;margin-top:.3rem">' + progressHtml(x.f, t) + '</div></div>';
+			h += '<button class="btn" data-go="f/' + x.f.id + (x.f.monthly ? "/" + x.date : "") + '">' + (live ? "Open today's sadhana" : "Open the sadhana") + '</button></section>';
 			const later = up.find((y) => y.f.id !== x.f.id);
-			if (later) h += '<p class="muted">Then <a href="#f/' + later.f.id + '" data-go="f/' + later.f.id + '">' + esc(later.label) + '</a>, ' + esc(inDays(daysTo(later.date))) + '.</p>';
+			if (later) h += '<p class="muted then">Then <a href="#f/' + later.f.id + '" data-go="f/' + later.f.id + '">' + esc(later.label) + '</a>, ' + esc(inDays(daysTo(later.date))) + '.</p>';
 		}
-		h += '<section aria-labelledby="all-h" style="display:grid;gap:.6rem"><h2 id="all-h" class="eyebrow">Festivals</h2><div class="list">';
+		h += '<section aria-labelledby="all-h" style="display:grid;gap:.8rem"><h2 id="all-h" class="eyebrow sec-h">Festivals</h2><div class="list">';
 		// Every festival, soonest first by its next date (a monthly one by its next occurrence).
 		const t0 = todayIso();
 		const nextOf = (f) => f.monthly ? (f.dates.find((d) => d.date >= t0) || f.dates[f.dates.length - 1]).date : (f.end >= t0 ? f.start : "9" + f.start);
 		const byDate = FESTIVALS.slice().sort((a, b) => nextOf(a).localeCompare(nextOf(b)));
 		for (const f of byDate) {
 			const ready = f.status === "ready";
-			const when = f.monthly ? "Next " + fmt(nextOf(f), { day: "numeric", month: "short" }) : f.start ? fmt(f.start, { day: "numeric", month: "short", year: "numeric" }) : "";
-			h += '<button class="row" ' + (ready ? 'data-go="f/' + f.id + '"' : "disabled") + '><span class="dv">' + esc(f.deva) + '</span><span class="t"><b>' + esc(f.name) + '</b><small>' + esc(when ? when + " · " : "") + esc(GOD[f.deity].name) + '</small></span><span class="pill' + (ready ? " ready" : "") + '">' + (ready ? "Open" : "Coming") + '</span></button>';
+			const nd = f.monthly ? nextOf(f) : f.start;
+			const live = !f.monthly && f.start <= t0 && f.end >= t0;
+			const when = f.monthly ? "Every month · next " + fmt(nd, { day: "numeric", month: "short" }) : f.start ? fmt(f.start, { weekday: "short", day: "numeric", month: "short", year: "numeric" }) : "";
+			const chip = nd ? '<span class="chipdate" aria-hidden="true"><small>' + esc(fmt(nd, { month: "short" })) + '</small><b>' + dateOf(nd).getDate() + '</b><small>' + dateOf(nd).getFullYear() + '</small></span>' : '<span class="chipdate" aria-hidden="true"><b>·</b></span>';
+			const dn = daysTo(nd || t0);
+			const pill = !ready ? '<span class="pill soon">Coming</span>' : live ? '<span class="pill">Happening now</span>' : (dn >= 0 && dn <= 45 ? '<span class="pill soon">' + esc(inDays(dn)) + '</span>' : "");
+			h += '<button class="row ' + acc(f) + '" ' + (ready ? 'data-go="f/' + f.id + '"' : "disabled") + '>' + chip + '<span class="t"><span class="dv">' + esc(f.deva) + '</span><b>' + esc(f.name) + '</b><small>' + esc(GOD[f.deity].name) + (when ? " · " + esc(when) : "") + '</small>' + pill + '</span></button>';
 		}
 		h += '</div></section>';
 		h += footer();
@@ -842,6 +978,24 @@ const deva2iast = (function () {
 			'<div class="body"><span class="time">' + esc(t.time) + '</span><span class="title">' + esc(t.title) + '</span><span class="detail">' + esc(t.detail) + '</span>' + (acts ? '<span class="acts">' + acts + '</span>' : "") + '</div></div>';
 	}
 
+	/* the hours of the day: checklist items are grouped by when they are done, keeping their order within a group */
+	const SLOTS = [
+		["Morning", /dawn|sunrise|morning|before/i, '<circle cx="12" cy="15" r="4"/><path d="M3 19h18M12 5v3M5.6 9.6l2 2M18.4 9.6l-2 2"/>'],
+		["Through the day", /midday|any time|through/i, '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>'],
+		["Evening", /dusk|evening|moonrise/i, '<path d="M7 16a5 5 0 0 1 10 0M3 19h18M12 6v3M6 9l1.5 1.5M18 9l-1.5 1.5"/>'],
+		["Night", /night|midnight|prahar/i, '<path d="M19 14.5A7 7 0 0 1 9.5 5a7 7 0 1 0 9.5 9.5z"/>'],
+	];
+	const slotOf = (t) => { const i = SLOTS.findIndex((s) => s[1].test(t.time)); return i < 0 ? 1 : i; };
+	function checklistHtml(f, iso) {
+		let h = "";
+		SLOTS.forEach((s, i) => {
+			const items = f.core.filter((t) => slotOf(t) === i);
+			if (!items.length) return;
+			h += '<div class="slot"><h3 class="slot-h"><svg viewBox="0 0 24 24" aria-hidden="true">' + s[2] + '</svg>' + s[0] + '</h3><div class="slot-list">' + items.map((x) => taskHtml(f, iso, x)).join("") + '</div></div>';
+		});
+		return h;
+	}
+
 	function viewFestival(id, pick) {
 		setTab("home");
 		const f = FEST[id];
@@ -851,38 +1005,50 @@ const deva2iast = (function () {
 		const t = todayIso();
 		let sel = pick && days.find((d) => d.date === pick) ? pick : (days.find((d) => d.date === t) || days.find((d) => d.date > t) || days[0]).date;
 		const day = days.find((d) => d.date === sel);
+		document.body.className = acc(f);
+		const liveF = !f.monthly && f.start <= t && f.end >= t;
 		let h = '<button class="link back" data-go="">← All festivals</button>';
-		h += '<section class="hero"><span class="dv">' + esc(f.deva) + '</span><h1>' + esc(f.name) + (f.year ? " " + f.year : "") + '</h1><p class="muted">' + esc(f.sub) + '</p></section>';
+		const span = f.monthly ? "Every month" : f.start === f.end ? fmt(f.start, { day: "numeric", month: "short", year: "numeric" }) : fmt(f.start, { day: "numeric", month: "short" }) + " – " + fmt(f.end, { day: "numeric", month: "short", year: "numeric" });
+		h += '<section class="hero banner">' + TORAN + '<span class="dv">' + esc(f.deva) + '</span><h1>' + esc(f.name) + (f.year ? " " + f.year : "") + '</h1><p class="muted">' + esc(f.sub) + '</p>' +
+			'<div class="tags"><span class="tag">' + esc(span) + '</span><span class="tag">' + esc(GOD[f.deity].name) + '</span>' + (liveF ? '<span class="tag on">Happening now</span>' : "") + '</div></section>';
 		h += '<p class="lede">' + esc(f.intro) + '</p>';
-		if (f.facts) h += '<section style="display:grid;gap:.4rem"><dl class="facts">' + f.facts.map(([k, v]) => "<dt>" + esc(k) + "</dt><dd>" + esc(v) + "</dd>").join("") + '</dl><p class="src">' + esc(f.factsSrc) + ". " + (f.start <= t && f.end >= t ? "Happening now" : esc(inDays(daysTo(f.start))).replace(/^./, (c) => c.toUpperCase())) + '.</p></section>';
+		if (f.facts) h += '<section class="panchang" aria-label="Panchang"><div class="ph"><span class="eyebrow">Panchang · Pune</span><span>' + (liveF ? "Happening now" : esc(inDays(daysTo(f.start))).replace(/^./, (c) => c.toUpperCase())) + '</span></div><dl class="facts">' + f.facts.map(([k, v]) => "<dt>" + esc(k) + "</dt><dd>" + esc(v) + "</dd>").join("") + '</dl><p class="src">' + esc(f.factsSrc) + '.</p></section>';
 
+		h += '<section class="plan" aria-label="Your plan">';
 		if (f.durations) {
 			const cur = f.durations.find((d) => d.days === plan.days) || f.durations[f.durations.length - 1];
 			h += '<section class="choose"><span class="eyebrow" id="dur-l">How long Ganpati stays</span><div class="chips" role="group" aria-labelledby="dur-l">' +
 				f.durations.map((d) => '<button class="chip" aria-pressed="' + (d === cur) + '" data-days="' + d.days + '">' + esc(d.label) + '</button>').join("") + '</div><p class="chip-note">' + esc(cur.note) + '</p></section>';
 		}
 		h += '<section class="choose"><span class="eyebrow" id="mal-l">Daily japa</span><div class="chips" role="group" aria-labelledby="mal-l">' +
-			[1, 3, 11].map((m) => '<button class="chip" aria-pressed="' + (plan.malas === m) + '" data-malas="' + m + '">' + m + (m === 1 ? " mala" : " malas") + " · " + (m * MALA) + '</button>').join("") + '</div></section>';
+			[1, 3, 11].map((m) => '<button class="chip" aria-pressed="' + (plan.malas === m) + '" data-malas="' + m + '">' + m + (m === 1 ? " mala" : " malas") + " · " + (m * MALA) + '</button>').join("") + '</div></section></section>';
 
 		if (f.monthly) {
 			h += '<section class="dates" aria-label="Dates">' + f.dates.map((d) => '<button class="date-btn" aria-pressed="' + (d.date === sel) + '" data-day="' + d.date + '"><b>' + esc(fmt(d.date, { day: "numeric", month: "short" })) + '</b><span>' + esc(d.name) + '<small>' + esc(fmt(d.date, { weekday: "long" })) + (d.note ? " · " + esc(d.note) : "") + '</small></span><span class="meter">Moon ' + esc(d.moon) + '</span></button>').join("") + '</section><p class="src">' + esc(f.datesSrc) + '</p>';
 		} else {
-			h += '<div class="strip" role="group" aria-label="Days of the festival">' + days.map((d, i) => '<button class="day' + (d.date < t ? " gone" : "") + '" aria-pressed="' + (d.date === sel) + '" data-day="' + d.date + '" aria-label="Day ' + (i + 1) + ", " + esc(fmt(d.date, { weekday: "long", day: "numeric", month: "long" })) + '"><small>Day ' + (i + 1) + '</small><b>' + dateOf(d.date).getDate() + '</b><small>' + esc(fmt(d.date, { weekday: "short" })) + '</small>' + ringSvg(dayProgress(f, d.date)) + '</button>').join("") + '</div>';
+			const m0 = fmt(days[0].date, { month: "long", year: "numeric" }), m1 = fmt(days[days.length - 1].date, { month: "long", year: "numeric" });
+			h += '<section class="strip-wrap" aria-labelledby="strip-h"><h2 class="eyebrow sec-h" id="strip-h">' + esc(m0 === m1 ? m0 : m0 + " – " + m1) + '</h2>' +
+				'<div class="strip" role="group" aria-label="Days of the festival">' + days.map((d, i) => '<button class="day' + (d.date < t ? " gone" : "") + (d.date === t ? " is-today" : "") + '" aria-pressed="' + (d.date === sel) + '" data-day="' + d.date + '" aria-label="Day ' + (i + 1) + ", " + esc(fmt(d.date, { weekday: "long", day: "numeric", month: "long" })) + (d.date === t ? ", today" : "") + '"><span class="num">Day ' + (i + 1) + '</span><b>' + dateOf(d.date).getDate() + '</b><small>' + esc(fmt(d.date, { weekday: "short" })) + '</small>' + ringSvg(dayProgress(f, d.date)) + '</button>').join("") + '</div></section>';
 		}
 
 		h += '<section class="today" aria-labelledby="day-h"><div><span class="eyebrow">' + esc(fmt(day.date, { weekday: "long", day: "numeric", month: "long" })) + " · " + esc(inDays(daysTo(day.date))) + '</span><h2 id="day-h">' + esc(day.title) + ' <span class="tithi">' + esc(day.tithi) + '</span></h2></div>';
-		if (day.focus) h += '<p>' + esc(day.focus) + '</p>';
+		if (day.focus) h += '<p class="focus">' + esc(day.focus) + '</p>';
+		h += '<div class="progress">' + progressHtml(f, day.date) + '</div>';
 		if (day.special && day.special.includes("moon") && f.moon) h += '<div class="notice"><b>If you see the moon by mistake</b><p class="muted">' + esc(f.moon.why) + '</p><p class="sa">' + esc(f.moon.deva) + '</p><p class="lat keep">' + esc(iast(f.moon.deva)) + '</p><p>' + esc(f.moon.mean) + '</p><p class="src">' + esc(f.moon.src) + '</p></div>';
 		if (day.special && day.special.includes("shodasha")) h += '<details class="fold" open><summary>Shodashopachara: the sixteen offerings</summary><div><ol class="steps">' + f.shodasha.map((s) => "<li>" + esc(s) + "</li>").join("") + '</ol><p class="src">One common order; your family or purohit may differ.</p></div></details>';
-		h += '<div class="check">' + f.core.map((x) => taskHtml(f, day.date, x)).join("") + '</div></section>';
+		h += '<div class="check">' + checklistHtml(f, day.date) + '</div></section>';
 
 		if (f.samagri) h += '<details class="fold"><summary>Samagri</summary><div class="kv">' + f.samagri.map(([k, v]) => "<b>" + esc(k) + "</b><span>" + esc(v) + "</span>").join("") + '</div></details>';
 		const used = [...new Set(f.core.filter((x) => x.text).map((x) => x.text))];
 		h += '<details class="fold"><summary>Texts for this sadhana</summary><div class="texts">' + used.map((k) => '<button class="link" data-go="t/' + k + '">' + esc(TEXTS[k].title) + '</button>').join("") + '<button class="link" data-go="d/' + f.deity + '">All ' + esc(GOD[f.deity].name) + ' mantras</button></div></details>';
 		h += footer();
 		main.innerHTML = h;
+		const strip = main.querySelector(".strip"), on = strip && strip.querySelector('[aria-pressed="true"]');
+		if (on) strip.scrollLeft = Math.max(0, on.offsetLeft - strip.offsetLeft - (strip.clientWidth - on.offsetWidth) / 2);
 	}
 
+	/* the verse's own number, from its closing ॥ ७॥, shown in the margin (the text itself is untouched) */
+	const vnum = (b) => { const m = b.lines[b.lines.length - 1].match(/॥\s*([०-९]+)\s*॥\s*$/); return m ? m[1] : ""; };
 	function viewText(key) {
 		setTab("home");
 		const tx = TEXTS[key];
@@ -895,8 +1061,8 @@ const deva2iast = (function () {
 		if (tx.names) {
 			h += '<ol class="names">' + tx.names.map((n) => '<li><span class="sa">' + esc(n) + '</span><span class="lat">' + esc(iast(n)) + '</span></li>').join("") + '</ol>';
 		} else {
-			h += '<div class="text-body">' + tx.blocks.map((b) => b.head ? '<div class="verse"><h3>' + esc(b.head) + ' <span class="lat keep">' + esc(iast(b.head)) + '</span></h3></div>' :
-				'<div class="verse"><p class="' + cls + '">' + esc(b.lines.join("\n")) + '</p><p class="lat">' + esc(b.lines.map((l) => iast(l, mr)).join("\n")) + '</p>' + (b.mean ? '<p class="mean">' + esc(b.mean) + '</p>' : "") + '</div>').join("") + '</div>';
+			h += '<div class="text-body reader">' + tx.blocks.map((b) => b.head ? '<div class="verse"><h3>' + esc(b.head) + ' <span class="lat keep">' + esc(iast(b.head)) + '</span></h3></div>' :
+				'<div class="verse' + (vnum(b) ? ' v" data-n="' + vnum(b) : "") + '"><p class="' + cls + '">' + esc(b.lines.join("\n")) + '</p><p class="lat">' + esc(b.lines.map((l) => iast(l, mr)).join("\n")) + '</p>' + (b.mean ? '<p class="mean">' + esc(b.mean) + '</p>' : "") + '</div>').join("") + '</div>';
 		}
 		if (tx.mean) h += '<details class="fold"><summary>Meaning</summary><div><p class="mean" style="white-space:pre-line">' + esc(tx.mean) + '</p></div></details>';
 		h += '<p class="src">Source: <a href="' + esc(tx.url) + '" target="_blank" rel="noopener">' + esc(tx.src) + '</a>. ' + esc(tx.credit || "") + '</p>';
@@ -908,7 +1074,7 @@ const deva2iast = (function () {
 	function viewMantras() {
 		setTab("mantra");
 		let h = '<section class="hero"><span class="dv">मन्त्र</span><h1>Mantras by deity</h1><p class="muted">Each with its source, the usual count, and a mala to count on.</p></section>';
-		h += '<div class="gods">' + DEITIES.map((d) => '<button class="god" data-go="d/' + d.id + '"><span class="dv">' + esc(d.deva) + '</span><b>' + esc(d.name) + '</b><small>' + esc(d.day) + '</small></button>').join("") + '</div>';
+		h += '<div class="gods">' + DEITIES.map((d) => '<button class="god acc-' + d.id + '" data-go="d/' + d.id + '"><span class="dv">' + esc(d.deva) + '</span><b>' + esc(d.name) + '</b><small>' + esc(d.day) + '</small></button>').join("") + '</div>';
 		h += '<p class="src">Seed (bija) mantras such as गं, श्रीं, ऐं, दुं and हं are traditionally learnt from a guru. The nama mantras and shlokas are open to everyone.</p>';
 		h += footer();
 		main.innerHTML = h;
@@ -918,8 +1084,9 @@ const deva2iast = (function () {
 		setTab("mantra");
 		const d = GOD[id];
 		if (!d) return viewMantras();
+		document.body.className = "acc-" + d.id;
 		let h = '<button class="link back" data-go="mantras">← All deities</button>';
-		h += '<section class="hero"><span class="dv">' + esc(d.deva) + '</span><h1>' + esc(d.name) + '</h1><p class="muted">' + esc(d.about) + " Days: " + esc(d.day) + '.</p></section><div>';
+		h += '<section class="hero banner">' + TORAN + '<span class="dv">' + esc(d.deva) + '</span><h1>' + esc(d.name) + '</h1><p class="muted">' + esc(d.about) + " Days: " + esc(d.day) + '.</p></section><div class="mantras">';
 		for (const m of d.mantras) {
 			const ref = d.id + "/" + m.id;
 			const j = japaOf(ref);
@@ -935,7 +1102,7 @@ const deva2iast = (function () {
 	}
 
 	function footer() {
-		return '<footer class="foot"><p>Long texts are reproduced from <a href="https://sanskritdocuments.org" target="_blank" rel="noopener">sanskritdocuments.org</a> (volunteer-prepared, for personal study) and the aarti from Wikipedia. Festival dates and moonrise are for Pune, from Drik Panchang.</p><p>Follow your family custom or purohit where it differs.</p></footer>';
+		return '<footer class="foot">' + TORAN + '<p>Long texts are reproduced from <a href="https://sanskritdocuments.org" target="_blank" rel="noopener">sanskritdocuments.org</a> (volunteer-prepared, for personal study) and the aarti from Wikipedia. Festival dates and moonrise are for Pune, from Drik Panchang.</p><p>Follow your family custom or purohit where it differs.</p></footer>';
 	}
 
 	/* ---------- router ---------- */
@@ -951,6 +1118,7 @@ const deva2iast = (function () {
 	}
 	function render() {
 		const [kind, a, b] = route.split("/");
+		document.body.className = "";
 		if (kind === "f") viewFestival(a, b);
 		else if (kind === "t") viewText(a);
 		else if (kind === "mantras") viewMantras();
