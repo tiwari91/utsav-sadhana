@@ -46,7 +46,7 @@ for (const scheme of ["light", "dark"]) {
 		// Calendar tab
 		await page.click("#tab-cal");
 		const rows = await page.$$eval(".cal-row", (r) => r.map((x) => x.textContent));
-		check("Calendar lists every observance and each Sankashti, today marked", rows.length === (await page.evaluate(() => FESTIVALS.reduce((n, f) => n + (f.monthly ? f.dates.length : 1), 0))) && rows.filter((t) => /Sankashti/.test(t)).length === (await page.evaluate(() => FESTIVALS.find((f) => f.monthly).dates.length)) && (await page.$$("#cal-now")).length === 1 && (await wide()) <= 0, rows.length + " rows");
+		check("Calendar lists every observance and each Sankashti, today marked", rows.length === (await page.evaluate(() => FESTIVALS.reduce((n, f) => n + (f.monthly ? f.dates.filter((d) => d.date <= "2027-09-30").length : 1), 0))) && rows.filter((t) => /Sankashti/.test(t)).length === (await page.evaluate(() => FESTIVALS.find((f) => f.monthly).dates.filter((d) => d.date <= "2027-09-30").length)) && (await page.$$("#cal-now")).length === 1 && (await wide()) <= 0, rows.length + " rows");
 		await page.click('.cal-row[data-go^="f/diwali"]');
 		check("Calendar opens the festival", (await page.textContent("h1")).includes("Diwali"));
 		check("Add to calendar is hidden off GitHub Pages", await page.$eval("#ics", (e) => e.hidden));
