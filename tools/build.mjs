@@ -2,6 +2,7 @@
 // Devanagari-to-IAST function into src/template.html.
 //   node tools/build.mjs   -> build/artifact.html (for claude.ai) and index.html (standalone)
 import fs from "fs";
+import crypto from "crypto";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -94,6 +95,13 @@ const page = read("src/template.html")
 	.replace("/*TRANSLIT*/", () => tl);
 fs.mkdirSync(path.join(ROOT, "build"), { recursive: true });
 fs.writeFileSync(path.join(ROOT, "build/artifact.html"), page);
-fs.writeFileSync(path.join(ROOT, "index.html"), '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>' + page + "</body></html>\n");
+// The standalone copy also gets the install manifest and icons (the artifact has no files beside it).
+const pwa = '<link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="theme-color" content="#faf4e8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#120f17" media="(prefers-color-scheme: dark)">';
+const indexHtml = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' + pwa + '</head><body>' + page + "</body></html>\n";
+fs.writeFileSync(path.join(ROOT, "index.html"), indexHtml);
+// A new page means a new cache name, so the service worker picks the update up.
+const ver = crypto.createHash("sha256").update(indexHtml).digest("hex").slice(0, 12);
+const swPath = path.join(ROOT, "sw.js");
+fs.writeFileSync(swPath, fs.readFileSync(swPath, "utf8").replace(/const VERSION = "[^"]*";/, 'const VERSION = "' + ver + '";'));
 const count = Object.fromEntries(Object.entries(TEXTS).map(([k, t]) => [k, t.names ? t.names.length + " names" : t.blocks.filter((b) => b.lines).length + " verses"]));
 console.log("built", (page.length / 1024).toFixed(0) + " KB", count);

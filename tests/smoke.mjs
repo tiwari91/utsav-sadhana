@@ -1,6 +1,7 @@
 // Smoke test: open the page, walk home -> festival -> text -> japa, at phone width, light and dark.
 import { createRequire } from "module";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 const require = createRequire(process.env.PW_REQUIRE ?? "/Users/shankartiwar/Cayuse/s2s-web-client/package.json");
 const { chromium } = require("playwright");
@@ -37,7 +38,43 @@ for (const scheme of ["light", "dark"]) {
 		await page.goto("file://" + ROOT + "/index.html");
 		check("Home has no sideways scroll", (await wide()) <= 0);
 		await page.screenshot({ path: OUT + "/home.png", fullPage: true });
+		// Today card: the weekday mantra, and a streak that grows with japa
+		const wd = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][new Date().getDay()];
+		check("Today card shows the weekday mantra", (await page.textContent(".daycard .eyebrow")).startsWith(wd) && (await page.$$(".daycard [data-japa]")).length === 1);
+		await page.click(".daycard [data-japa]"); await page.click("#mala"); await page.click("#japa-close");
+		check("Japa streak counts today", /^1 day in a row/.test((await page.textContent("#streak")).trim()), (await page.textContent("#streak")).trim());
+		// Calendar tab
+		await page.click("#tab-cal");
+		const rows = await page.$$eval(".cal-row", (r) => r.map((x) => x.textContent));
+		check("Calendar lists every observance and each Sankashti, today marked", rows.length === (await page.evaluate(() => FESTIVALS.reduce((n, f) => n + (f.monthly ? f.dates.length : 1), 0))) && rows.filter((t) => /Sankashti/.test(t)).length === (await page.evaluate(() => FESTIVALS.find((f) => f.monthly).dates.length)) && (await page.$$("#cal-now")).length === 1 && (await wide()) <= 0, rows.length + " rows");
+		await page.click('.cal-row[data-go^="f/diwali"]');
+		check("Calendar opens the festival", (await page.textContent("h1")).includes("Diwali"));
+		check("Add to calendar is hidden off GitHub Pages", await page.$eval("#ics", (e) => e.hidden));
+		await page.click('[data-go="cal"]'); await page.click('.cal-row[data-go^="f/sankashti"] >> nth=1');
+		check("Calendar opens the Sankashti day", (await page.getAttribute('.date-btn[aria-pressed="true"]', "data-day")) === (await page.evaluate(() => location.hash.slice(-10))));
+		// Repeated time label gone when it matches its group
+		await page.click('[data-go=""] >> nth=0'); await page.click('.row[data-go="f/ganeshotsav"]');
+		const dup = await page.$$eval(".slot", (ss) => ss.filter((s) => [...s.querySelectorAll(".task .time")].some((t) => t.textContent.toLowerCase() === s.querySelector(".slot-h").textContent.toLowerCase())).length);
+		check("No time label repeats its group heading", dup === 0 && (await page.$$(".task .time")).length > 0);
+		// Reader: text size remembered, recite mode
+		await page.click('[data-go="t/atharva"] >> nth=0');
+		await page.click('[data-size="1"]'); await page.click('[data-size="1"]');
+		await page.reload(); await page.waitForTimeout(200);
+		check("Text size is remembered", (await page.textContent("#size-pct")) === "130%" && (await page.$eval(".text-body", (e) => e.style.getPropertyValue("--scale"))) === "1.3");
+		await page.click('[data-size="-1"]'); await page.click('[data-size="-1"]');
+		await page.click("[data-recite]");
+		const p0 = await page.textContent("#rc-pos");
+		await page.click("#rc-next"); await page.keyboard.press("ArrowRight");
+		await page.click("#rc-mala");
+		check("Recite steps verse by verse and counts", p0.startsWith("1 of") && (await page.textContent("#rc-pos")).startsWith("3 of") && (await page.textContent("#rc-mala-n")) === "1" && (await wide()) <= 0);
+		await page.waitForTimeout(300);
+		await page.screenshot({ path: OUT + "/recite.png" });
+		await page.keyboard.press("Escape");
+		check("Offline files and install manifest only in the Pages copy", fs.existsSync(ROOT + "/sw.js") && fs.existsSync(ROOT + "/icons/icon-512.png") && JSON.parse(fs.readFileSync(ROOT + "/manifest.webmanifest", "utf8")).icons.length === 3 &&
+			/rel="manifest"/.test(fs.readFileSync(ROOT + "/index.html", "utf8")) && !/rel="manifest"/.test(fs.readFileSync(ROOT + "/build/artifact.html", "utf8")) && !(await page.evaluate(() => navigator.serviceWorker && navigator.serviceWorker.controller)));
+		await page.goto("file://" + ROOT + "/index.html");
 	}
+	if (scheme === "dark") { await page.click("#tab-cal"); await page.screenshot({ path: OUT + "/calendar-dark.png" }); await page.click('[data-go=""] >> nth=0'); }
 	await page.click('[data-go="f/ganeshotsav"]');
 	await page.waitForTimeout(200);
 	check(scheme + ": festival shows 11 days", (await page.$$(".day")).length === 11);

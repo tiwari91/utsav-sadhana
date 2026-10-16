@@ -7,6 +7,10 @@ Festival-by-festival sadhana for the home: what to do each day, the texts to rec
 - **Navratri 2026** (11–20 Oct): a form of the Devi each day, kanya puja on Ashtami-Navami, Dussehra. **Diwali 2026** (6–11 Nov): Dhanteras to Bhai Dooj. **2027**: Sankranti, Vasant Panchami, Shivaratri (four prahar), Chaitra Navratri with the daily Ramaraksha, Hanuman Jayanti with the Chalisa, Janmashtami and Dahi Handi.
 - **Mantras by deity**: Ganesha, Shiva, Vishnu, Krishna, Rama, Hanuman, Durga, Lakshmi, Saraswati and Surya, each with its source, meaning and usual count.
 - **Mala counter**: 108 beads, keeps the screen on, vibrates on phones that support it.
+- **Today**: the weekday's mantra (Monday Shiva to Sunday Surya) with a mala, your japa streak and malas this week.
+- **Calendar**: every observance from October 2026 to September 2027 by month, with today marked.
+- **Reader**: text size (85–160%, remembered) and a recite mode, one verse at a time with swipe, arrow keys and its own mala.
+- **Offline and install** (GitHub Pages copy): a service worker and manifest; festivals can be added to your calendar as an .ics.
 - Devanagari, IAST or both. Light and dark themes. Progress is kept in the browser (and in your account when opened on claude.ai).
 
 Open `index.html`, or visit the GitHub Pages site.

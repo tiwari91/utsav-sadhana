@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Utsav Sadhana</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="theme-color" content="#faf4e8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#120f17" media="(prefers-color-scheme: dark)"></head><body><title>Utsav Sadhana</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Festival-by-festival sadhana: what to do each day, the texts to recite, and a mala counter, from Ganeshotsav and Navratri to Diwali, Shivaratri and Janmashtami.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -305,7 +305,7 @@ ol.steps { margin: 0; padding-left: 1.4rem; columns: 2 13rem; column-gap: 2rem; 
 .names .lat { font-size: .85rem; color: var(--ink-2); grid-column: 2; font-style: italic; }
 body[data-script="deva"] .lat:not(.keep) { display: none; }
 body[data-script="iast"] .verse .sa, body[data-script="iast"] .verse .mr, body[data-script="iast"] .names .sa { display: none; }
-body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { color: var(--ink); font-style: normal; font-size: 1.1rem; }
+body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { color: var(--ink); font-style: normal; font-size: calc(1.1rem * var(--scale, 1)); }
 
 /* deities */
 .gods { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: .65rem; }
@@ -342,6 +342,63 @@ body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { col
 .sheet-foot b { color: var(--durva); }
 .close { border: 1px solid var(--rule); background: none; border-radius: 99px; padding: .35rem .9rem; cursor: pointer; }
 
+/* home: today's mantra and the japa streak */
+.daycard { display: grid; gap: .6rem; padding: 1rem 1.1rem 1.05rem; border-radius: 18px; background: var(--card); border: 1px solid color-mix(in srgb, var(--fa) 22%, var(--rule)); position: relative; overflow: hidden; }
+.daycard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--fa); }
+.daycard .eyebrow { color: var(--fa); }
+.daycard .sa { font-size: 1.3rem; line-height: 1.7; white-space: pre-line; }
+.daycard .lat { color: var(--ink-2); font-style: italic; font-size: .95rem; }
+.daycard .acts { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem; }
+.streak { display: flex; gap: 1.2rem; font-size: .88rem; color: var(--ink-2); font-variant-numeric: tabular-nums; border-top: 1px dashed var(--rule); padding-top: .55rem; }
+.streak b { color: var(--durva); font-size: 1.05rem; font-weight: 600; }
+
+/* year calendar */
+.cal-m { display: grid; gap: .45rem; }
+.cal-row { display: grid; grid-template-columns: 3.1rem 1fr auto; gap: .75rem; align-items: center; text-align: left; width: 100%; padding: .55rem .8rem; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--fa) 18%, var(--rule)); background: var(--card); cursor: pointer; box-shadow: inset 3px 0 0 var(--fa); }
+.cal-row.gone { opacity: .55; }
+.cal-row.live { background: var(--tint-2); border-color: var(--fa); }
+.cal-row .cd { display: grid; justify-items: center; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.cal-row .cd b { font-size: 1.2rem; color: var(--fa); font-weight: 600; }
+.cal-row .cd small, .cal-row .ct small { font-size: .7rem; color: var(--ink-2); letter-spacing: .06em; text-transform: uppercase; }
+.cal-row .ct { min-width: 0; display: grid; }
+.cal-row .ct b { font-weight: 600; }
+.cal-row .ct small { text-transform: none; letter-spacing: 0; font-size: .82rem; }
+.cal-now { display: flex; align-items: center; gap: .5rem; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.cal-now::before, .cal-now::after { content: ""; flex: 1; height: 2px; background: var(--accent); border-radius: 2px; }
+
+/* reader tools and recite */
+.rtools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; }
+.sizes { display: flex; align-items: center; gap: .3rem; font-size: .82rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.sizes .chip { min-width: 2.6rem; }
+.text-body, .names { --scale: 1; }
+.verse .sa, .verse .mr { font-size: calc(1.25rem * var(--scale)); }
+.verse .lat { font-size: calc(1rem * var(--scale)); }
+.names .sa { font-size: calc(1.15rem * var(--scale)); }
+.recite { position: fixed; inset: 0; z-index: 20; background: var(--paper); display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; padding: calc(env(safe-area-inset-top, 0px) + .7rem) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + .9rem) max(16px, env(safe-area-inset-left, 0px)); --scale: 1; }
+.rc-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .6rem; max-width: 42rem; width: 100%; margin: 0 auto; }
+.rc-where { text-align: center; min-width: 0; }
+.rc-where b { display: block; font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rc-where span { font-size: .82rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.rc-bar { height: 3px; border-radius: 3px; background: var(--rule); margin: .6rem auto 0; max-width: 42rem; width: 100%; overflow: hidden; }
+.rc-bar i { display: block; height: 100%; background: var(--accent); transition: width .25s; }
+.rc-stage { min-height: 0; overflow-y: auto; display: grid; align-items: center; justify-items: center; padding: 1rem 0; touch-action: pan-y; outline: none; }
+.rc-card { max-width: 40rem; width: 100%; text-align: center; display: grid; gap: .8rem; transition: opacity .16s, transform .16s; }
+.rc-card.out-l { opacity: 0; transform: translateX(-18px); }
+.rc-card.out-r { opacity: 0; transform: translateX(18px); }
+.rc-card h3 { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.rc-card .sa, .rc-card .mr { font-size: calc(min(1.75rem, 6vw) * var(--scale)); line-height: 1.75; white-space: pre-line; text-wrap: balance; }
+.rc-card .lat { font-size: calc(min(1.15rem, 4.3vw) * var(--scale)); line-height: 1.55; color: var(--ink-2); font-style: italic; white-space: pre-line; overflow-wrap: anywhere; }
+.rc-card.long .sa, .rc-card.long .mr { font-size: calc(min(1.35rem, 5vw) * var(--scale)); }
+.rc-card.long .lat { font-size: calc(min(1rem, 3.8vw) * var(--scale)); }
+.rc-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .8rem; max-width: 30rem; width: 100%; margin: 0 auto; }
+.step { width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid var(--rule); background: var(--surface); cursor: pointer; display: grid; place-items: center; }
+.step:disabled { opacity: .35; cursor: default; }
+.step svg { width: 1.3rem; height: 1.3rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.rc-mala { display: grid; justify-items: center; gap: .3rem; }
+.rc-mala .mala-btn { width: min(38vw, 9.5rem); }
+.rc-mala .mala-num b { font-size: 1.7rem; }
+.rc-mala small.muted { font-size: .78rem; font-variant-numeric: tabular-nums; }
+
 .foot { font-size: .8rem; color: var(--ink-2); display: grid; gap: .5rem; padding-top: .4rem; }
 .foot .toran { opacity: .5; margin-bottom: .4rem; }
 .back { justify-self: start; }
@@ -353,7 +410,10 @@ body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { col
 	.kv span { padding-bottom: .4rem; }
 	.verse.v { padding-left: 2.1rem; }
 	.reader { padding: 1rem .85rem; }
+	.tab { padding: .3rem .55rem; font-size: .84rem; }
+	.brand b { font-size: 1.15rem; }
 }
+@media (max-width: 24rem) { .brand b { display: none; } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
 </style>
 
@@ -362,6 +422,7 @@ body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { col
 		<button class="brand" id="home-btn" aria-label="Utsav Sadhana, home"><svg class="diya" viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c1.9 2.6 2.6 4.4 2.6 5.8a2.6 2.6 0 0 1-5.2 0c0-1.4.7-3.2 2.6-5.8z"/><path class="core" d="M12 6.6c.8 1.1 1.1 1.8 1.1 2.4a1.1 1.1 0 0 1-2.2 0c0-.6.3-1.3 1.1-2.4z"/><path class="bowl" d="M2.5 13.2h19c-.6 4.4-4.6 7.3-9.5 7.3s-8.9-2.9-9.5-7.3zm6 8.3h7l-1 1.5h-5z"/></svg><b>उत्सव साधना</b><span>Utsav Sadhana</span></button>
 		<nav class="tabs" aria-label="Sections">
 			<button class="tab" id="tab-home" data-go="">Festivals</button>
+			<button class="tab" id="tab-cal" data-go="cal">Calendar</button>
 			<button class="tab" id="tab-mantra" data-go="mantras">Mantras</button>
 		</nav>
 	</div>
@@ -388,6 +449,24 @@ body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { col
 		<button class="link" id="mala-undo">Undo one</button>
 	</div>
 </div>
+
+<section class="recite" id="recite" hidden role="dialog" aria-modal="true" aria-labelledby="rc-title">
+	<div class="rc-top">
+		<button class="close" id="rc-close">Done</button>
+		<div class="rc-where"><b id="rc-title"></b><span id="rc-pos"></span></div>
+		<span class="sizes"><button class="chip" id="rc-smaller" aria-label="Smaller text">A−</button><button class="chip" id="rc-bigger" aria-label="Larger text">A+</button></span>
+	</div>
+	<div class="rc-bar" aria-hidden="true"><i id="rc-bar"></i></div>
+	<div class="rc-stage" id="rc-stage" tabindex="-1"><div class="rc-card" id="rc-card" aria-live="polite"></div></div>
+	<div class="rc-nav">
+		<button class="step" id="rc-prev" aria-label="Previous verse"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+		<div class="rc-mala">
+			<button class="mala-btn" id="rc-mala" aria-label="Count one recitation"><svg viewBox="0 0 132 132" aria-hidden="true" id="rc-mala-svg"></svg><span class="mala-num"><b id="rc-mala-n">0</b><small>of 108</small></span></button>
+			<small class="muted" id="rc-mala-meta"></small>
+		</div>
+		<button class="step" id="rc-next" aria-label="Next verse"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+	</div>
+</section>
 
 <script>
 /* Hand-written content for Utsav Sadhana. Long texts (Atharvashirsha, Sankatanashana stotram,
@@ -820,7 +899,7 @@ const deva2iast = (function () {
 
 	/* ---------- state: per person in db when signed in, else this browser ---------- */
 	const KEY = "utsav-sadhana";
-	let state = { done: {}, japa: {}, plan: {}, script: "both" };
+	let state = { done: {}, japa: {}, plan: {}, script: "both", scale: 1, rec: {} };
 	try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) state = Object.assign(state, s); } catch (e) { /* no storage */ }
 	let remote = null;   // db doc reference once available
 	let saveT = null;
@@ -868,6 +947,33 @@ const deva2iast = (function () {
 		} catch (e) { /* stay local */ }
 	})();
 
+	/* The GitHub Pages copy, opened directly: the only place downloads and offline work. In the claude.ai artifact these stay hidden. */
+	let PAGES = false;
+	try { PAGES = location.protocol === "https:" && window.self === window.top && /\.github\.io$/.test(location.hostname); } catch (e) { /* framed */ }
+	if (PAGES && "serviceWorker" in navigator) {
+		window.addEventListener("load", () => {
+			navigator.serviceWorker.register("sw.js").then(() => navigator.serviceWorker.ready).then((reg) => {
+				const urls = performance.getEntriesByType("resource").map((r) => r.name).filter((u) => /^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
+				if (reg.active && urls.length) reg.active.postMessage({ type: "cache-fonts", urls });
+			}).catch(() => {});
+		});
+	}
+	/* an .ics of the festival's dates, as all-day events */
+	let icsUrl = null;
+	function icsFor(f) {
+		const d8 = (iso) => iso.replace(/-/g, "");
+		const next = (iso) => { const d = dateOf(iso); d.setDate(d.getDate() + 1); return isoOf(d); };
+		const txt = (v) => String(v).replace(/[\\;,]/g, (c) => "\\" + c).replace(/\n/g, "\\n");
+		const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+		const ev = f.monthly ? f.dates.map((d) => [d.date, d.date, d.name + " Sankashti Chaturthi", "Moonrise " + d.moon + " (Pune)" + (d.note ? ". " + d.note : "")]) : [[f.start, f.end, f.name + (f.year ? " " + f.year : ""), f.sub]];
+		const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Utsav Sadhana//EN", "CALSCALE:GREGORIAN"];
+		ev.forEach(([a, b, name, desc], i) => lines.push("BEGIN:VEVENT", "UID:" + f.id + "-" + a + "-" + i + "@utsav-sadhana", "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + d8(a), "DTEND;VALUE=DATE:" + d8(next(b)), "SUMMARY:" + txt(name), "DESCRIPTION:" + txt(desc), "TRANSP:TRANSPARENT", "END:VEVENT"));
+		lines.push("END:VCALENDAR");
+		if (icsUrl) URL.revokeObjectURL(icsUrl);
+		icsUrl = URL.createObjectURL(new Blob([lines.join("\r\n") + "\r\n"], { type: "text/calendar" }));
+		return icsUrl;
+	}
+
 	/* ---------- lookups ---------- */
 	const FEST = Object.fromEntries(FESTIVALS.map((f) => [f.id, f]));
 	const GOD = Object.fromEntries(DEITIES.map((d) => [d.id, d]));
@@ -904,6 +1010,7 @@ const deva2iast = (function () {
 	/* ---------- views ---------- */
 	function setTab(name) {
 		$("tab-home").setAttribute("aria-current", name === "home" ? "page" : "false");
+		$("tab-cal").setAttribute("aria-current", name === "cal" ? "page" : "false");
 		$("tab-mantra").setAttribute("aria-current", name === "mantra" ? "page" : "false");
 	}
 	function ringSvg(p) {
@@ -943,6 +1050,7 @@ const deva2iast = (function () {
 			const later = up.find((y) => y.f.id !== x.f.id);
 			if (later) h += '<p class="muted then">Then <a href="#f/' + later.f.id + '" data-go="f/' + later.f.id + '">' + esc(later.label) + '</a>, ' + esc(inDays(daysTo(later.date))) + '.</p>';
 		}
+		h += todayCard();
 		h += '<section aria-labelledby="all-h" style="display:grid;gap:.8rem"><h2 id="all-h" class="eyebrow sec-h">Festivals</h2><div class="list">';
 		// Every festival, soonest first by its next date (a monthly one by its next occurrence).
 		const t0 = todayIso();
@@ -963,7 +1071,68 @@ const deva2iast = (function () {
 		main.innerHTML = h;
 	}
 
-	function taskHtml(f, iso, t) {
+	/* today: the weekday's deity, and the japa streak across every mantra */
+	const WEEKDAY = ["surya/suryaya", "shiva/panchakshari", "hanuman/ham", "ganesha/gam", "vishnu/ashtakshari", "lakshmi/mahalakshmi", "hanuman/ham"];
+	function japaDays() {
+		const by = {};
+		for (const k in state.japa) { const d = (state.japa[k] && state.japa[k].byDay) || {}; for (const iso in d) if (d[iso] > 0) by[iso] = (by[iso] || 0) + d[iso]; }
+		return by;
+	}
+	function streak() {
+		const by = japaDays();
+		const d = new Date(); d.setHours(12, 0, 0, 0);
+		if (!by[isoOf(d)]) d.setDate(d.getDate() - 1); // today not counted yet: the streak still stands from yesterday
+		let n = 0;
+		while (by[isoOf(d)]) { n++; d.setDate(d.getDate() - 1); }
+		const w = new Date(); w.setHours(12, 0, 0, 0); w.setDate(w.getDate() - ((w.getDay() + 6) % 7)); // Monday
+		let week = 0;
+		for (let i = 0; i < 7; i++) { week += by[isoOf(w)] || 0; w.setDate(w.getDate() + 1); }
+		return { days: n, today: by[todayIso()] || 0, week };
+	}
+	function todayCard() {
+		const ref = WEEKDAY[new Date().getDay()];
+		const g = GOD[ref.split("/")[0]], m = mantraOf(ref);
+		const st = streak();
+		const malas = Math.floor(st.week / MALA);
+		return '<section class="daycard acc-' + g.id + '" aria-labelledby="today-h"><span class="eyebrow" id="today-h">' + esc(fmt(todayIso(), { weekday: "long" })) + " · " + esc(g.name) + '</span>' +
+			'<p class="sa">' + esc(m.deva) + '</p><p class="lat">' + esc(iast(m.deva)) + '</p>' +
+			'<div class="acts"><button class="btn quiet" data-japa="' + ref + '" data-iso="' + todayIso() + '" data-target="' + m.count + '">Count on mala</button><span class="meter">' + (st.today ? st.today + " counted today" : "") + '</span></div>' +
+			'<p class="streak" id="streak"><span><b>' + st.days + '</b> ' + (st.days === 1 ? "day" : "days") + ' in a row</span><span><b>' + malas + '</b> ' + (malas === 1 ? "mala" : "malas") + ' this week' + (st.week % MALA ? " + " + (st.week % MALA) : "") + '</span></p></section>';
+	}
+
+	/* the year: every observance by month, today's place marked */
+	function viewCal() {
+		setTab("cal");
+		const t = todayIso();
+		const all = [];
+		for (const f of FESTIVALS) {
+			if (f.status !== "ready") continue;
+			if (f.monthly) f.dates.forEach((d) => all.push({ f, date: d.date, end: d.date, label: d.name + " Sankashti", sub: "Moonrise " + d.moon + (d.note ? " · " + d.note : "") }));
+			else all.push({ f, date: f.start, end: f.end, label: f.name, sub: f.start === f.end ? fmt(f.start, { weekday: "long" }) : fmt(f.start, { day: "numeric", month: "short" }) + " – " + fmt(f.end, { day: "numeric", month: "short" }) + " · " + (Math.round((dateOf(f.end) - dateOf(f.start)) / DAY_MS) + 1) + " days" });
+		}
+		all.sort((a, b) => a.date.localeCompare(b.date) || a.end.localeCompare(b.end));
+		let h = '<section class="hero"><span class="dv">पञ्चाङ्ग</span><h1>The year\'s observances</h1><p class="muted">October 2026 to September 2027, dates for Pune. Tap one to open its sadhana.</p></section>';
+		let marked = false;
+		for (let i = 0; i < 12; i++) {
+			const m0 = new Date(2026, 9 + i, 1), key = m0.getFullYear() + "-" + pad(m0.getMonth() + 1);
+			const items = all.filter((x) => x.date.slice(0, 7) === key);
+			if (!items.length) continue;
+			h += '<section class="cal-m" aria-label="' + esc(fmt(key + "-01", { month: "long", year: "numeric" })) + '"><h2 class="eyebrow sec-h">' + esc(fmt(key + "-01", { month: "long", year: "numeric" })) + '</h2>';
+			for (const x of items) {
+				if (!marked && x.end >= t) { marked = true; if (x.date > t) h += '<p class="cal-now" id="cal-now">Today · ' + esc(fmt(t, { day: "numeric", month: "short" })) + '</p>'; }
+				const live = x.date <= t && x.end >= t;
+				const day = x.f.monthly ? x.date : live ? t : x.date;
+				const pill = live ? '<span class="pill">Now</span>' : x.end >= t && daysTo(x.date) <= 45 ? '<span class="pill soon">' + esc(inDays(daysTo(x.date))) + '</span>' : "";
+				h += '<button class="cal-row ' + acc(x.f) + (x.end < t ? " gone" : "") + (live ? " live" : "") + '"' + (live ? ' id="cal-now"' : "") + ' data-go="f/' + x.f.id + "/" + day + '"><span class="cd"><b>' + dateOf(x.date).getDate() + '</b><small>' + esc(fmt(x.date, { weekday: "short" })) + '</small></span><span class="ct"><b>' + esc(x.label) + '</b><small>' + esc(x.sub) + '</small></span>' + pill + '</button>';
+			}
+			h += '</section>';
+		}
+		h += '<p class="src">Festival dates, muhurat and moonrise: Drik Panchang, Pune, checked 16 Oct 2026.</p>';
+		h += footer();
+		main.innerHTML = h;
+	}
+
+	function taskHtml(f, iso, t, slot) {
 		const k = doneKey(f, iso, t.id);
 		const on = !!state.done[k];
 		let acts = "";
@@ -975,7 +1144,7 @@ const deva2iast = (function () {
 			acts += '<button class="link" data-japa="' + t.mantra + '" data-iso="' + iso + '" data-task="' + k + '" data-target="' + target + '">Start japa</button><span class="meter">' + got + " / " + target + '</span>';
 		}
 		return '<div class="task' + (on ? " done" : "") + '"><button class="tick" role="checkbox" aria-checked="' + on + '" data-tick="' + k + '" aria-label="' + esc(t.title) + '"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button>' +
-			'<div class="body"><span class="time">' + esc(t.time) + '</span><span class="title">' + esc(t.title) + '</span><span class="detail">' + esc(t.detail) + '</span>' + (acts ? '<span class="acts">' + acts + '</span>' : "") + '</div></div>';
+			'<div class="body">' + (slot && slot.toLowerCase() === t.time.toLowerCase() ? "" : '<span class="time">' + esc(t.time) + '</span>') + '<span class="title">' + esc(t.title) + '</span><span class="detail">' + esc(t.detail) + '</span>' + (acts ? '<span class="acts">' + acts + '</span>' : "") + '</div></div>';
 	}
 
 	/* the hours of the day: checklist items are grouped by when they are done, keeping their order within a group */
@@ -991,7 +1160,7 @@ const deva2iast = (function () {
 		SLOTS.forEach((s, i) => {
 			const items = f.core.filter((t) => slotOf(t) === i);
 			if (!items.length) return;
-			h += '<div class="slot"><h3 class="slot-h"><svg viewBox="0 0 24 24" aria-hidden="true">' + s[2] + '</svg>' + s[0] + '</h3><div class="slot-list">' + items.map((x) => taskHtml(f, iso, x)).join("") + '</div></div>';
+			h += '<div class="slot"><h3 class="slot-h"><svg viewBox="0 0 24 24" aria-hidden="true">' + s[2] + '</svg>' + s[0] + '</h3><div class="slot-list">' + items.map((x) => taskHtml(f, iso, x, s[0])).join("") + '</div></div>';
 		});
 		return h;
 	}
@@ -1010,7 +1179,8 @@ const deva2iast = (function () {
 		let h = '<button class="link back" data-go="">← All festivals</button>';
 		const span = f.monthly ? "Every month" : f.start === f.end ? fmt(f.start, { day: "numeric", month: "short", year: "numeric" }) : fmt(f.start, { day: "numeric", month: "short" }) + " – " + fmt(f.end, { day: "numeric", month: "short", year: "numeric" });
 		h += '<section class="hero banner">' + TORAN + '<span class="dv">' + esc(f.deva) + '</span><h1>' + esc(f.name) + (f.year ? " " + f.year : "") + '</h1><p class="muted">' + esc(f.sub) + '</p>' +
-			'<div class="tags"><span class="tag">' + esc(span) + '</span><span class="tag">' + esc(GOD[f.deity].name) + '</span>' + (liveF ? '<span class="tag on">Happening now</span>' : "") + '</div></section>';
+			'<div class="tags"><span class="tag">' + esc(span) + '</span><span class="tag">' + esc(GOD[f.deity].name) + '</span>' + (liveF ? '<span class="tag on">Happening now</span>' : "") + '</div>' +
+			(PAGES ? '<a class="btn quiet" id="ics" style="margin-top:.6rem" href="' + icsFor(f) + '" download="' + f.id + '.ics">Add to calendar</a>' : '<a class="btn quiet" id="ics" hidden></a>') + '</section>';
 		h += '<p class="lede">' + esc(f.intro) + '</p>';
 		if (f.facts) h += '<section class="panchang" aria-label="Panchang"><div class="ph"><span class="eyebrow">Panchang · Pune</span><span>' + (liveF ? "Happening now" : esc(inDays(daysTo(f.start))).replace(/^./, (c) => c.toUpperCase())) + '</span></div><dl class="facts">' + f.facts.map(([k, v]) => "<dt>" + esc(k) + "</dt><dd>" + esc(v) + "</dd>").join("") + '</dl><p class="src">' + esc(f.factsSrc) + '.</p></section>';
 
@@ -1057,11 +1227,13 @@ const deva2iast = (function () {
 		const cls = mr ? "mr" : "sa";
 		let h = '<button class="link back" data-back>← Back</button>';
 		h += '<section class="hero"><span class="dv' + (mr ? " mr" : "") + '">' + esc(tx.deva) + '</span><h1>' + esc(tx.title) + '</h1><p class="muted">' + esc(tx.about) + '</p></section>';
-		h += '<div class="script-tog chips" role="group" aria-label="Script">' + [["both", "Both"], ["deva", "देवनागरी"], ["iast", "IAST"]].map(([k, l]) => '<button class="chip" aria-pressed="' + (state.script === k) + '" data-script="' + k + '">' + l + '</button>').join("") + '</div>';
+		h += '<div class="rtools"><div class="script-tog chips" role="group" aria-label="Script">' + [["both", "Both"], ["deva", "देवनागरी"], ["iast", "IAST"]].map(([k, l]) => '<button class="chip" aria-pressed="' + (state.script === k) + '" data-script="' + k + '">' + l + '</button>').join("") + '</div>' +
+			'<span class="sizes" role="group" aria-label="Text size"><button class="chip" data-size="-1" aria-label="Smaller text">A−</button><span id="size-pct">' + Math.round(scale() * 100) + '%</span><button class="chip" data-size="1" aria-label="Larger text">A+</button></span>' +
+			'<button class="btn" data-recite="' + key + '">Recite</button></div>';
 		if (tx.names) {
-			h += '<ol class="names">' + tx.names.map((n) => '<li><span class="sa">' + esc(n) + '</span><span class="lat">' + esc(iast(n)) + '</span></li>').join("") + '</ol>';
+			h += '<ol class="names" style="--scale:' + scale() + '">' + tx.names.map((n) => '<li><span class="sa">' + esc(n) + '</span><span class="lat">' + esc(iast(n)) + '</span></li>').join("") + '</ol>';
 		} else {
-			h += '<div class="text-body reader">' + tx.blocks.map((b) => b.head ? '<div class="verse"><h3>' + esc(b.head) + ' <span class="lat keep">' + esc(iast(b.head)) + '</span></h3></div>' :
+			h += '<div class="text-body reader" style="--scale:' + scale() + '">' + tx.blocks.map((b) => b.head ? '<div class="verse"><h3>' + esc(b.head) + ' <span class="lat keep">' + esc(iast(b.head)) + '</span></h3></div>' :
 				'<div class="verse' + (vnum(b) ? ' v" data-n="' + vnum(b) : "") + '"><p class="' + cls + '">' + esc(b.lines.join("\n")) + '</p><p class="lat">' + esc(b.lines.map((l) => iast(l, mr)).join("\n")) + '</p>' + (b.mean ? '<p class="mean">' + esc(b.mean) + '</p>' : "") + '</div>').join("") + '</div>';
 		}
 		if (tx.mean) h += '<details class="fold"><summary>Meaning</summary><div><p class="mean" style="white-space:pre-line">' + esc(tx.mean) + '</p></div></details>';
@@ -1070,6 +1242,109 @@ const deva2iast = (function () {
 		main.innerHTML = h;
 		document.body.dataset.script = state.script;
 	}
+
+	/* text size, 85–160%, remembered */
+	const scale = () => Math.min(1.6, Math.max(0.85, Number(state.scale) || 1));
+	function setScale(d) {
+		state.scale = Math.round(Math.min(1.6, Math.max(0.85, scale() + d * 0.15)) * 100) / 100;
+		save();
+		document.querySelectorAll(".text-body, .names, .recite").forEach((el) => el.style.setProperty("--scale", scale()));
+		const p = $("size-pct"); if (p) p.textContent = Math.round(scale() * 100) + "%";
+	}
+
+	/* recite: one verse at a time, with its own mala for counting recitations */
+	const rcEl = $("recite");
+	let rc = null; // { key, units, i }
+	function unitsOf(tx) {
+		if (tx.names) return tx.names.map((n) => ({ lines: [n] }));
+		const out = [];
+		let head = "";
+		for (const b of tx.blocks) { if (b.head) { head = b.head; continue; } out.push({ head, lines: b.lines }); head = ""; }
+		return out;
+	}
+	function renderRecite(dir) {
+		const tx = TEXTS[rc.key], u = rc.units[rc.i], mr = tx.lang === "mr" || tx.lang === "hi";
+		const card = $("rc-card");
+		const draw = () => {
+			const len = u.lines.join("").length;
+			card.className = "rc-card" + (u.lines.length > 4 || len > 220 ? " long" : "");
+			card.innerHTML = (u.head ? '<h3>' + esc(u.head) + ' · <span class="lat keep">' + esc(iast(u.head)) + '</span></h3>' : "") +
+				(state.script !== "iast" ? '<p class="' + (mr ? "mr" : "sa") + '">' + esc(u.lines.join("\n")) + '</p>' : "") +
+				(state.script !== "deva" ? '<p class="lat">' + esc(u.lines.map((l) => iast(l, mr)).join("\n")) + '</p>' : "");
+			$("rc-stage").scrollTop = 0;
+		};
+		$("rc-title").textContent = tx.title;
+		$("rc-pos").textContent = (rc.i + 1) + " of " + rc.units.length;
+		$("rc-bar").style.width = ((rc.i + 1) / rc.units.length * 100).toFixed(2) + "%";
+		$("rc-prev").disabled = rc.i === 0;
+		$("rc-next").disabled = rc.i === rc.units.length - 1;
+		if (!dir || matchMedia("(prefers-reduced-motion: reduce)").matches) return draw();
+		card.classList.add(dir > 0 ? "out-l" : "out-r");
+		setTimeout(() => { draw(); card.classList.add(dir > 0 ? "out-r" : "out-l"); requestAnimationFrame(() => requestAnimationFrame(() => card.classList.remove("out-l", "out-r"))); }, 130);
+	}
+	function renderRcMala() {
+		const ref = "text/" + rc.key, j = japaOf(ref), n = j.n % MALA;
+		$("rc-mala-n").textContent = n;
+		rcBeads.forEach((b, i) => b.classList.toggle("on", i < n));
+		$("rc-mala-meta").textContent = japaOn(ref, todayIso()) + " today · " + j.total + " in all";
+		$("rc-mala").setAttribute("aria-label", "Count one recitation. " + n + " of 108");
+	}
+	function rcStep(d) {
+		const n = rc.i + d;
+		if (n < 0 || n >= rc.units.length) return;
+		rc.i = n; state.rec[rc.key] = n; save();
+		renderRecite(d);
+	}
+	let rcWake = null;
+	function openRecite(key) {
+		const tx = TEXTS[key];
+		if (!tx) return;
+		const units = unitsOf(tx);
+		const r = state.rec && state.rec[key];
+		rc = { key, units, i: typeof r === "number" && r < units.length ? r : 0 };
+		rcEl.style.setProperty("--scale", scale());
+		rcEl.hidden = false;
+		document.documentElement.style.overflow = "hidden";
+		renderRecite(0); renderRcMala();
+		$("rc-stage").focus({ preventScroll: true });
+		if (navigator.wakeLock) navigator.wakeLock.request("screen").then((w) => { rcWake = w; }).catch(() => {});
+	}
+	function closeRecite() {
+		rcEl.hidden = true;
+		document.documentElement.style.overflow = "";
+		if (rcWake) { rcWake.release().catch(() => {}); rcWake = null; }
+		rc = null;
+		save();
+		render();
+	}
+	$("rc-close").addEventListener("click", closeRecite);
+	$("rc-prev").addEventListener("click", () => rcStep(-1));
+	$("rc-next").addEventListener("click", () => rcStep(1));
+	$("rc-smaller").addEventListener("click", () => setScale(-1));
+	$("rc-bigger").addEventListener("click", () => setScale(1));
+	$("rc-mala").addEventListener("click", () => {
+		const ref = "text/" + rc.key, j = japaOf(ref);
+		j.n += 1; j.total += 1; j.byDay[todayIso()] = japaOn(ref, todayIso()) + 1;
+		if (navigator.vibrate) navigator.vibrate(j.n % MALA === 0 ? [60, 60, 120] : 12);
+		renderRcMala(); save();
+	});
+	(function () {
+		let tx = null;
+		const st = $("rc-stage");
+		st.addEventListener("touchstart", (e) => { tx = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }, { passive: true });
+		st.addEventListener("touchend", (e) => {
+			if (!tx) return;
+			const t = e.changedTouches[0], dx = t.clientX - tx.x, dy = t.clientY - tx.y;
+			tx = null;
+			if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) rcStep(dx < 0 ? 1 : -1);
+		}, { passive: true });
+	})();
+	document.addEventListener("keydown", (e) => {
+		if (rcEl.hidden) return;
+		if (e.key === "Escape") closeRecite();
+		else if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); rcStep(1); }
+		else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); rcStep(-1); }
+	});
 
 	function viewMantras() {
 		setTab("mantra");
@@ -1122,6 +1397,7 @@ const deva2iast = (function () {
 		if (kind === "f") viewFestival(a, b);
 		else if (kind === "t") viewText(a);
 		else if (kind === "mantras") viewMantras();
+		else if (kind === "cal") viewCal();
 		else if (kind === "d") viewDeity(a);
 		else viewHome();
 		document.body.dataset.script = state.script;
@@ -1130,16 +1406,16 @@ const deva2iast = (function () {
 		const h = (location.hash || "").slice(1);
 		const m = h.match(/^(f|t|d)-([a-z0-9]+)(?:-(\d{4}-\d{2}-\d{2}))?$/);
 		if (m) return m[1] + "/" + m[2] + (m[3] ? "/" + m[3] : "");
-		return h === "mantras" ? "mantras" : "";
+		return h === "mantras" || h === "cal" ? h : "";
 	}
 
 	/* ---------- japa sheet ---------- */
 	const sheet = $("japa");
 	let jp = null; // { ref, iso, task, target }
 	let wake = null;
-	(function buildBeads() {
+	function buildBeads(svgId) {
 		const ns = "http://www.w3.org/2000/svg";
-		const svg = $("mala-svg");
+		const svg = $(svgId);
 		const core = document.createElementNS(ns, "circle");
 		core.setAttribute("cx", "66"); core.setAttribute("cy", "66"); core.setAttribute("r", "47"); core.setAttribute("class", "core");
 		svg.appendChild(core);
@@ -1153,8 +1429,10 @@ const deva2iast = (function () {
 		const meru = document.createElementNS(ns, "circle");
 		meru.setAttribute("cx", "66"); meru.setAttribute("cy", "6"); meru.setAttribute("r", "3.4"); meru.setAttribute("class", "meru");
 		svg.appendChild(meru);
-	})();
-	const beads = Array.from(document.querySelectorAll("#mala-svg .bead"));
+		return Array.from(svg.querySelectorAll(".bead"));
+	}
+	const beads = buildBeads("mala-svg");
+	const rcBeads = buildBeads("rc-mala-svg");
 	function renderJapa() {
 		const j = japaOf(jp.ref);
 		const n = j.n % MALA;
@@ -1212,10 +1490,12 @@ const deva2iast = (function () {
 
 	/* ---------- events ---------- */
 	document.addEventListener("click", (e) => {
-		const el = e.target.closest("[data-go],[data-tick],[data-days],[data-malas],[data-day],[data-japa],[data-script],[data-back]");
+		const el = e.target.closest("[data-go],[data-tick],[data-days],[data-malas],[data-day],[data-japa],[data-script],[data-back],[data-size],[data-recite]");
 		if (!el) return;
 		if (el.tagName === "A") e.preventDefault();
 		const [kind, id] = route.split("/");
+		if (el.dataset.size) return setScale(Number(el.dataset.size));
+		if (el.dataset.recite) return openRecite(el.dataset.recite);
 		if (el.dataset.japa) return openJapa(el.dataset.japa, el.dataset.iso, el.dataset.task, el.dataset.target);
 		if (el.hasAttribute("data-back")) { const p = history_.pop(); return go(p || "", { back: true }); }
 		if (el.dataset.go !== undefined) return go(el.dataset.go);
