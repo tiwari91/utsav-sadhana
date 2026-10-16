@@ -1,6 +1,6 @@
 <title>Utsav Sadhana</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Festival-by-festival sadhana: what to do each day, the texts to recite, and a mala counter, starting with Ganeshotsav.">
+<meta name="description" content="Festival-by-festival sadhana: what to do each day, the texts to recite, and a mala counter, from Ganeshotsav and Navratri to Diwali, Shivaratri and Janmashtami.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Hind:wght@400;500;600&family=Tiro+Devanagari+Marathi&family=Tiro+Devanagari+Sanskrit&display=swap">
@@ -359,6 +359,7 @@ const TEXTS = /*TEXTS*/;
 	/* the days a festival plan covers, given the chosen duration */
 	function planDays(f) {
 		if (f.monthly) return f.dates.map((d) => ({ date: d.date, title: d.name + " Sankashti", tithi: "Moonrise " + d.moon, focus: d.note || "" }));
+		if (!f.durations) return f.days;
 		const n = Math.ceil(planOf(f).days);
 		return f.days.slice(0, Math.max(2, n));
 	}
@@ -397,7 +398,7 @@ const TEXTS = /*TEXTS*/;
 			const x = up[0];
 			const d = daysTo(x.date);
 			const live = x.date <= todayIso() && x.end >= todayIso();
-			h += '<section class="next" aria-labelledby="next-h"><span class="eyebrow">' + (live ? "Happening now" : "Next Ganesha observance") + '</span>' +
+			h += '<section class="next" aria-labelledby="next-h"><span class="eyebrow">' + (live ? "Happening now" : "Next observance") + '</span>' +
 				'<h2 id="next-h">' + esc(x.label) + '</h2>' +
 				'<p class="when"><b>' + esc(fmt(x.date, { weekday: "long", day: "numeric", month: "long", year: "numeric" })) + '</b><span>' + (live ? "today" : esc(inDays(d))) + '</span></p>' +
 				'<p class="muted">' + esc(x.extra) + '</p>' +
@@ -406,9 +407,14 @@ const TEXTS = /*TEXTS*/;
 			if (later) h += '<p class="muted">Then <a href="#f/' + later.f.id + '" data-go="f/' + later.f.id + '">' + esc(later.label) + '</a>, ' + esc(inDays(daysTo(later.date))) + '.</p>';
 		}
 		h += '<section aria-labelledby="all-h" style="display:grid;gap:.6rem"><h2 id="all-h" class="eyebrow">Festivals</h2><div class="list">';
-		for (const f of FESTIVALS) {
+		// Every festival, soonest first by its next date (a monthly one by its next occurrence).
+		const t0 = todayIso();
+		const nextOf = (f) => f.monthly ? (f.dates.find((d) => d.date >= t0) || f.dates[f.dates.length - 1]).date : (f.end >= t0 ? f.start : "9" + f.start);
+		const byDate = FESTIVALS.slice().sort((a, b) => nextOf(a).localeCompare(nextOf(b)));
+		for (const f of byDate) {
 			const ready = f.status === "ready";
-			h += '<button class="row" ' + (ready ? 'data-go="f/' + f.id + '"' : "disabled") + '><span class="dv">' + esc(f.deva) + '</span><span class="t"><b>' + esc(f.name) + '</b><small>' + esc(f.sub) + " · " + esc(GOD[f.deity].name) + '</small></span><span class="pill' + (ready ? " ready" : "") + '">' + (ready ? "Open" : "Coming") + '</span></button>';
+			const when = f.monthly ? "Next " + fmt(nextOf(f), { day: "numeric", month: "short" }) : f.start ? fmt(f.start, { day: "numeric", month: "short", year: "numeric" }) : "";
+			h += '<button class="row" ' + (ready ? 'data-go="f/' + f.id + '"' : "disabled") + '><span class="dv">' + esc(f.deva) + '</span><span class="t"><b>' + esc(f.name) + '</b><small>' + esc(when ? when + " · " : "") + esc(GOD[f.deity].name) + '</small></span><span class="pill' + (ready ? " ready" : "") + '">' + (ready ? "Open" : "Coming") + '</span></button>';
 		}
 		h += '</div></section>';
 		h += footer();
@@ -442,7 +448,7 @@ const TEXTS = /*TEXTS*/;
 		let h = '<button class="link back" data-go="">← All festivals</button>';
 		h += '<section class="hero"><span class="dv">' + esc(f.deva) + '</span><h1>' + esc(f.name) + (f.year ? " " + f.year : "") + '</h1><p class="muted">' + esc(f.sub) + '</p></section>';
 		h += '<p class="lede">' + esc(f.intro) + '</p>';
-		if (f.facts) h += '<section style="display:grid;gap:.4rem"><dl class="facts">' + f.facts.map(([k, v]) => "<dt>" + esc(k) + "</dt><dd>" + esc(v) + "</dd>").join("") + '</dl><p class="src">' + esc(f.factsSrc) + ". " + esc(inDays(daysTo(f.start))).replace(/^./, (c) => c.toUpperCase()) + '.</p></section>';
+		if (f.facts) h += '<section style="display:grid;gap:.4rem"><dl class="facts">' + f.facts.map(([k, v]) => "<dt>" + esc(k) + "</dt><dd>" + esc(v) + "</dd>").join("") + '</dl><p class="src">' + esc(f.factsSrc) + ". " + (f.start <= t && f.end >= t ? "Happening now" : esc(inDays(daysTo(f.start))).replace(/^./, (c) => c.toUpperCase())) + '.</p></section>';
 
 		if (f.durations) {
 			const cur = f.durations.find((d) => d.days === plan.days) || f.durations[f.durations.length - 1];
@@ -475,8 +481,8 @@ const TEXTS = /*TEXTS*/;
 		setTab("home");
 		const tx = TEXTS[key];
 		if (!tx) return viewHome();
-		const cls = tx.lang === "mr" ? "mr" : "sa";
-		const mr = tx.lang === "mr";
+		const mr = tx.lang === "mr" || tx.lang === "hi";
+		const cls = mr ? "mr" : "sa";
 		let h = '<button class="link back" data-back>← Back</button>';
 		h += '<section class="hero"><span class="dv' + (mr ? " mr" : "") + '">' + esc(tx.deva) + '</span><h1>' + esc(tx.title) + '</h1><p class="muted">' + esc(tx.about) + '</p></section>';
 		h += '<div class="script-tog chips" role="group" aria-label="Script">' + [["both", "Both"], ["deva", "देवनागरी"], ["iast", "IAST"]].map(([k, l]) => '<button class="chip" aria-pressed="' + (state.script === k) + '" data-script="' + k + '">' + l + '</button>').join("") + '</div>';

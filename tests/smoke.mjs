@@ -19,7 +19,22 @@ for (const scheme of ["light", "dark"]) {
 	await page.waitForTimeout(400);
 	const wide = () => page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
 	if (scheme === "light") {
-		check("Home shows the next observance", /Sankashti|Ganeshotsav/.test(await page.textContent(".next")), (await page.textContent(".next h2")).trim());
+		check("Home shows the next observance", (await page.textContent(".next h2")).trim().length > 3, (await page.textContent(".next h2")).trim());
+		for (const id of ["navratri", "diwali", "sankranti", "vasantpanchami", "shivaratri", "ramnavami", "hanumanjayanti", "janmashtami", "sankashti"]) {
+			await page.click('.row[data-go="f/' + id + '"]');
+			await page.waitForTimeout(80);
+			const n = (await page.$$(".task")).length;
+			const over = await wide();
+			if (!(n >= 4 && over <= 0)) check(id + " opens with its checklist", false, n + " tasks, overflow " + over);
+			await page.click('[data-go=""] >> nth=0');
+		}
+		check("Every festival opens with a checklist and no sideways scroll", true);
+		await page.click('.row[data-go="f/ramnavami"]'); await page.click('[data-go="t/ramaraksha"] >> nth=0');
+		check("Ramaraksha opens", /रामरक्षा/.test(await page.textContent("main")));
+		await page.click("[data-back]"); await page.click('[data-go=""] >> nth=0');
+		await page.click('.row[data-go="f/hanumanjayanti"]'); await page.click('[data-go="t/chalisa"] >> nth=0');
+		check("Chalisa opens with IAST", /jaya hanumāna/.test(await page.textContent("main")));
+		await page.goto("file://" + ROOT + "/index.html");
 		check("Home has no sideways scroll", (await wide()) <= 0);
 		await page.screenshot({ path: OUT + "/home.png", fullPage: true });
 	}

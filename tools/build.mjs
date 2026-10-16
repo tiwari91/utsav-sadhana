@@ -12,17 +12,17 @@ const lines = (p) => read(p).split("\n");
 
 // Group source lines into blocks: a short "॥ name ॥" line is a heading; a verse closes at its
 // number (॥ 7॥) or at the next heading. Blank lines are layout only.
-function blocks(src) {
+function blocks(src, opt = {}) {
 	const out = [];
 	let cur = [];
 	const flush = () => { if (cur.length) out.push({ lines: cur }); cur = []; };
 	for (const raw of src) {
 		const l = raw.trim();
 		if (!l) continue;
-		const head = l.match(/^॥\s*([^॥०-९]{2,24}?)\s*॥$/);
+		const head = l.match(/^॥\s*([^॥०-९]{2,24}?)\s*॥$/) || (opt.heads && opt.heads.test(l) ? [l, l] : null);
 		if (head && !/इति/.test(l)) { flush(); out.push({ head: head[1] }); continue; }
 		cur.push(l);
-		if (/॥\s*([०-९]+|धृ)\s*॥\s*$/.test(l) || /^॥\s*इति/.test(l)) flush();
+		if (/॥\s*([०-९]+|धृ)\s*॥\s*$/.test(l) || /^॥\s*इति/.test(l) || (opt.pairs && /॥\s*$/.test(l))) flush();
 	}
 	flush();
 	return out;
@@ -68,6 +68,18 @@ const TEXTS = {
 		about: "Offer one blade of durva (or a pair) with each name. Twenty-one is Ganesha's number: 21 durva, 21 modak.",
 		names,
 		src: "sanskritdocuments.org, Mahaganapati Ekavimshati Namavali", url: "https://sanskritdocuments.org/doc_ganesha/mahAgaNapatyekaviMshatinAmAvalI.html",
+	},
+	ramaraksha: {
+		title: "Shri Ramaraksha Stotram", short: "Ramaraksha", deva: "श्रीरामरक्षास्तोत्रम्", lang: "sa",
+		about: "Budha Kaushika's shield of Rama's names: viniyoga, dhyana and 38 verses. Recited daily through Chaitra Navratri.",
+		blocks: blocks(between(lines("sources/rraksha.deva.txt"), /^अस्य श्रीरामरक्षा/, /सम्पूर्णम्/)),
+		src: "sanskritdocuments.org, rraksha", url: "https://sanskritdocuments.org/doc_raama/rraksha.html",
+	},
+	chalisa: {
+		title: "Shri Hanuman Chalisa", short: "Hanuman Chalisa", deva: "श्रीहनुमान चालीसा", lang: "hi",
+		about: "Tulasidasa's forty chaupais in Awadhi, between the opening and closing dohas.",
+		blocks: blocks(between(lines("sources/hanuman40.deva.txt"), /^दोहा$/, /सुर भूप/), { heads: /^(दोहा|चौपाई)$/, pairs: true }),
+		src: "sanskritdocuments.org, hanuman40", url: "https://sanskritdocuments.org/doc_hanumaana/hanuman40.html",
 	},
 };
 for (const [k, t] of Object.entries(TEXTS)) if (!t.names && !t.blocks.some((b) => b.lines)) throw new Error("empty text " + k);
