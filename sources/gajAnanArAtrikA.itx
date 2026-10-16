@@ -1,0 +1,68 @@
+% Text title            : Shri Gajanana Aratrika
+% File name             : gajAnanArAtrikA.itx
+% Category              : ganesha, shrIdharasvAmI, AratI
+% Location              : doc\_ganesha
+% Author                : Shridharasvami
+% Proofread by          : Manish Gavkar
+% Description/comments  : shrIdharasvAmI stotraratnamAlikA
+% Latest update         : February 11, 2023
+% Send corrections to   : Sanskrit@cheerful.com
+%
+% This text is prepared by volunteers and is to be used for personal study 
+% and research. The file is not to be copied or reposted for promotion of 
+% any website or individuals or for commercial purpose without permission. 
+% Please help to maintain respect for volunteer spirit.
+%
+\documentstyle[11pt,multicol,itrans]{article}
+#include=ijag.inc
+#endwordvowel=.h
+\portraitwide
+\parindent=100pt                
+\let\usedvng=\Largedvng      % for 1 column     
+\pagenumbering{itrans} 
+\def\engtitle#1{\hrule\medskip\centerline{\LARGE #1}}
+\def\itxtitle#1{\medskip\centerline{\LARGEdvng #1}\medskip\hrule}
+\def\endtitles{\medskip\obeyspaceslines}
+%%
+\begin{document}
+\engtitle{.. Shri Gajanana Aratrika ..}##
+\itxtitle{.. shrIgajAnanArAtrikA ..}##\endtitles ##
+            (geyam)
+jaya deva jaya deva jayagajamukhadeva |
+sachchitsukhaghanarUpa sarvAnandakara || dhruvapadam ||
+o~NkAraikasvarUpa parabrahmAkAra
+      sarvAbhayavararUpa nityaM mokShakara |
+sarvAmaranutamArchanasaMskR^itapadayugala
+      sarvAgraNividhihariharasarvAmararUpa || 1||
+timirAj~nAnanivArakadinamaNimatishuddha
+      bhavabhayaharachidratnaM sakalAbhIShTakara |
+daivIsampatpUritanijasukhakarachandra
+      Atmaj~nAnaviraktishreyassiddhikara || 2||
+OM gaM gaNapatayenaghamanuvigrahadeva
+      sakalapApavinAshakama~NgalamatipUta |
+doShaghna pApaghna shApaghna vibhava
+      vighnAmbudhishoShaNakaramadbhutamukhakamala || 3||
+svAnandAmR^italoka vaidikadharmaguro
+      shrutipAvitasachcharitapradamatihitavan |
+dharmoddhAradhurINa dharaNIbhAgyakara
+      aviratatattvamasIti bodhanapaTudeva || 4||
+sumukhavinAyakanAmnA kR^itayugaparipAla
+      gaNesha iti nAmnA tu tretAparipAla |
+gajamukhanAmnApyevaM dvAparaparipAla
+      kalikAmAdinivAraNabrahmAnandakara || 5||
+
+iti shrImat paramahaMsaparivrAjakAchArya sadguru bhagavAn
+shrIdharasvAmImahArAjavirachitA shrIgajAnanArAtrikA sampUrNA |
+
+shrIkShetravaradapuraM, gaNeshachaturthI
+
+##
+Proofread by Manish Gavkar
+
+\medskip\hrule\obeylines
+
+Please send corrections to sanskrit at cheerful dot c om
+Last updated \today
+https://sanskritdocuments.org
+
+\end{document}

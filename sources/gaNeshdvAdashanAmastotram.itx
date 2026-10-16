@@ -1,0 +1,72 @@
+% Text title            : gaNeshadvAdashanAmastotram 1 with Namavali
+% File name             : gaNeshdvAdashanAmastotram.itx
+% Category              : ganesha, stotra, dvAdasha, mudgalapurANa, nAmAvalI
+% Location              : doc\_ganesha
+% Author                : Traditional
+% Transliterated by     : Karthik Chandan.P, Amith K Nagaraj, Preeti Bhandare
+% Proofread by          : Karthik Chandan.P, Amith K Nagara, Preeti Bhandarej
+% Description-comments  : mudgalapurANa
+% Latest update         : June 8, 2024
+% Send corrections to   : sanskrit at cheerful dot c om
+%
+% This text is prepared by volunteers and is to be used for personal study 
+% and research. The file is not to be copied or reposted for promotion of 
+% any website or individuals or for commercial purpose without permission. 
+% Please help to maintain respect for volunteer spirit.
+%
+\documentstyle[11pt,multicol,itrans]{article}
+#include=ijag.inc
+#endwordvowel=.h
+\portraitwide
+\parindent=100pt                
+\let\usedvng=\Largedvng      % for 1 column     
+\pagenumbering{itrans} 
+\def\engtitle#1{\hrule\medskip\centerline{\LARGE #1}}
+\def\itxtitle#1{\medskip\centerline{\LARGEdvng #1}\medskip\hrule}
+\def\endtitles{\medskip\obeyspaceslines}
+%%
+\begin{document}
+\engtitle{.. Shri Ganesha Dvadashanama Stotram with Namavali ..}##
+\itxtitle{.. shrIgaNeshadvAdashanAmastotram nAmAvalIsahitam ..}##\endtitles ##
+       shrIgaNeshAya namaH ||
+shuklAmbaradharaM vishNuM shashivarNaM chaturbhujam |
+prasannavadanaM dhyAyetsarvavighnopashAntayeH || 1||
+abhIpsitArthasiddhyarthaM pUjito yaH surAsuraiH |
+sarvavighnaharastasmai gaNAdhipataye namaH || 2||
+gaNAnAmadhipashchaNDo gajavaktrastrilochanaH |
+prasanno bhava me nityaM varadAtarvinAyaka || 3||
+sumukhashchaikadantashcha kapilo gajakarNakaH |
+lambodarashcha vikaTo vighnanAsho vinAyakaH || 4||
+dhUmraketurgaNAdhyakSho bhAlachandro gajAnanaH |
+dvAdashaitAni nAmAni gaNeshasya tu yaH paThet || 5||
+vidyArthI labhate vidyAM dhanArthi vipulaM dhanam |
+iShTakAmaM tu kAmArthI dharmArthI mokShamakShayam || 6||
+vidyAraMbhe vivAhe cha praveshe nirgame tathA |
+sa~NgrAme sa~NkaTe chaiva vighnastasya na jAyate || 7||
+
+iti mudgalapurANoktaM shrIgaNeshadvAdashanAmastotraM sampUrNam |
+
+shrI gaNesha dvAdashanAmAvaliH |
+OM sumukhAya namaH . 1.
+OM ekadantAya namaH . 2.
+OM kapilAya namaH . 3.
+OM gajakarNakAya namaH . 4.
+OM lambodarAya namaH . 5.
+OM vikaTAya namaH . 6.
+OM vighnarAjAya namaH . 7.
+OM vinAyakAya namaH . 8.
+OM dhUmaketave namaH . 9.
+OM gaNAdhyakShAya namaH . 10.
+OM bhAlachandrAya namaH . 11.
+OM gajAnanAya namaH . 12.
+##
+Encoded and proofread by
+Karthik Chandan.P, Amith K Nagaraj, Preeti Bhandare
+
+\medskip\hrule\obeylines
+
+Please send corrections to sanskrit@cheerful.com
+Last updated \today
+https://sanskritdocuments.org
+
+\end{document}

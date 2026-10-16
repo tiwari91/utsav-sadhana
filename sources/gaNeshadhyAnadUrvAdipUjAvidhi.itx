@@ -1,0 +1,143 @@
+% Text title            : Shri Ganesha Dhyanadurvadipujavidhi
+% File name             : gaNeshadhyAnadUrvAdipUjAvidhi.itx
+% Category              : ganesha, mudgalapurANa, dhyAnam, pUjA
+% Location              : doc\_ganesha
+% Proofread by          : Yash Khasbage, Preeti Bhandare
+% Description/comments  : mudgalapurANaM panchamaH khaNDaH | adhyAyaH 44 | 5.44. 6-52||
+% Latest update         : June 4, 2024
+% Send corrections to   : sanskrit at cheerful dot c om
+%
+% This text is prepared by volunteers and is to be used for personal study 
+% and research. The file is not to be copied or reposted for promotion of 
+% any website or individuals or for commercial purpose without permission. 
+% Please help to maintain respect for volunteer spirit.
+%
+\documentstyle[11pt,multicol,itrans]{article}
+#include=ijag.inc
+#endwordvowel=.h
+\portraitwide
+\parindent=100pt                
+\let\usedvng=\Largedvng      % for 1 column     
+\pagenumbering{itrans} 
+\def\engtitle#1{\hrule\medskip\centerline{\LARGE #1}}
+\def\itxtitle#1{\medskip\centerline{\LARGEdvng #1}\medskip\hrule}
+\def\endtitles{\medskip\obeyspaceslines}
+%%
+\begin{document}
+\engtitle{.. Shri Ganesha Dhyanadurvadipujavidhi ..}##
+\itxtitle{.. shrIgaNeshadhyAnadUrvAdipUjAvidhi ..}##\endtitles ##
+|| shrIgaNeshAya namaH ||
+aila uvAcha |
+namAmi vighneshvarapAdapa~NkajaM suchihnitaM chAkhiladaM nijAtmanAm |
+dhvajAsipadmAbhayavajralA~nChanaiH parashvadhenaiva sukomalaM param || 6||
+suraktapAdA~NgulakaiH sukomalairnakhaprabhAtAmratayA surAjitam |
+sugulphayuktaM mR^idumAMsalaM mahan mohaM haret tattimiraM hR^idi sthitam || 7||
+ja~Nghe pare raktasubhAmaye tato dhyAyAmi mAMsena yute sukomale |
+tajjAnunI mAMsalake suromabhirAkomalairvakrashikhaiH susaMvR^ite || 8||
+UrU sumAMsena samAvR^itau parau rambhAsamAnau suvirAjitau tathA |
+raktau hR^idA chintanamAtrabhAvato bhaktipradau vighnaharasya chintaye || 9||
+kaTiM sadA mAMsalaraktara~njitAM suvartulAM madhyamabhAgasaMshritAm |
+gaNeshvarasyaiva tu chintayAmyahaM sadA sukhAnandakarasya nityadA || 10||
+vastraM suraktaM hR^idi chintayAmyahamanantamaulyaM kaTibhAgasaMsthitam |
+nAbhiM suvR^ittAM paramashriyA yutAM sheShasya saMvAsakarIM tu chintaye || 11||
+mahodaraM mAMsalabhAvasaMyutaM suromayuktaM prabhayA virAjitam |
+vichintaye.ahaM sakalaprakAshakaM trayIpramUlaM paramavyayaM param || 12||
+shrIvakratuNDasya vishAlarUpakaM vakShastathA raktamayaM sumAMsalam |
+raktaM stanAbhyAM hR^idayaM tu chintaye chintAmaNiM tatra sukhapradaM param || 13||
+kaNThaM trirekhAyutameva mAMsalaM raktaM gaNeshasya cha tejasA yutam |
+skandhau vR^iShaskandhasamau sukomalau dhyAyAmi chitte satataM suraktakau || 14||
+bAhU sadA mAMsalakau prabhAsitau svAnandanAthasya mano.atisaukhyadau |
+hastau tathA raktasutejasA yutau vAmau hR^idA dakShiNakau tu chintaye || 15||
+karA~NgulIrviMshatikAH suvartulA nakhaiH suraktaishcha sutejasA yutAH |
+gaNeshvarasyaiva hR^idi prachintaye svabhaktarakShAkarikAH subhUShitAH || 16||
+mukhaM tu shuNDAyutameva chintaye trinetrayuktaM paramaprakAshakam |
+sadaikadantasya cha tIkShNadantakaM svabhaktakAn premarasena saukhyadam || 17||
+karNau vishAlau hR^idi chintaye parau bhaktAya niShkAmasukAmadau tathA |
+shUrpAkR^itI cha~nchalabhAvadhAriNau vighneshvarasyaiva cha vedarUpiNau || 18||
+kapolakau ShaTpadarUpadhAribhirmunIshvarairbrahmamadadravArthibhiH |
+susaMvR^itau nAdayutairnirantaraM gaNeshvarasyaiva hR^idA vichintaye || 19||
+bhAlaM sutejoyutameva chintaye shrIDhuNDhirAjasya nishAkarasthalam |
+raktAShTagandhaishcha suchitritaM prabhorbinduprayuktaM tvatha taNDulairyutam || 20||
+keshaiH samAchChAditamastakaM tathA sa~nchintaye vighnavinAshakAriNaH |
+brahmANDamUle prabhumastakAshrite kumbhasthale brahmavarasya saukhyade || 21||
+gaNeshadehaM parichintayAmyahaM subhUShaNairbhUShitakaM vichitrakaiH |
+anarghamUlyaishcha suvastrakaistathA sushobhitaM brahmavarasya sarvadA || 22||
+vichitragandhaiH parilepitaM tathA suchitritaM bhaktavaraiH suyogibhiH |
+gaNAdhipaM sAdhu hR^idi sthitaM sadA vichintaye.ahaM nijabhaktilAlasam || 23||
+pAshA~NkushAdyaishcha susaMstutaM paraM DhuNDhiM pramodAdibhireva nityadA |
+gaNeshvaraM davevaraistathondururAjena pUjyaM cha suchintaye hR^idi || 24||
+vedaiH purANaiH smR^itibhishcha shAstrakaiH stotraiH stutaM dehadharairvichintaye |
+brahmapriyAdyaishcha gaNairasa~NkhyakairbhaktyA tathA mudgalamukhyakaiH param || 25||
+sarvA~NgasaMshobhanarUpayuktayA sid.hdhyA gaNeshaM parichintaye hR^idi |
+saMsevitaM vAmagayA sushaktibhiH sid.hdhyAdibhiH saMvR^itayA svamAyayA || 26||
+bud.hdhyA kalAbhishcha susevitaM tathA vidyAbhirArAdgaNanAyakaM hR^idi |
+sarvA~NgasaMshobhanayA svamAyayA sa~nchintaye dakShiNabhAgabhUShayA || 27||
+lakSheNa lAbhena cha vighnanAyakaM saMsevitaM shobhanashobhanena tu |
+sa~nchintaye putravareNa sarvadA brahmeshvaraM bhaktajanaiH svadhAmagaiH || 28||
+anantamantraiH kathitaM svarUpakaM vichintaye vaktumashakyabhAvataH |
+hR^idi sthitaM dhyAnasulolupaM paraM gaNeshvaraM brahmamayAgadhAriNam || 29||
+mudgala uvAcha |
+evamailaH sa rAjarShirgaNeshabhajane rataH |
+dhyAnaM kR^itvA sadA.atiShThadgaNeshasya nivR^ittitaH || 30||
+prAtaH kAle samutthAya sastrIkaH sa mahIpatiH |
+dharmayuktaM chakArA.api nityaM karma nirantaram || 31||
+tato gaNeshvaraM bhaktyA.apUjayadbhaktisaMyutaH |
+yathA gArgyeNa bho dakSha shikShitaH sa tathA.akarot || 32||
+shamImandAradUrvAshchApUjayadbhaktisaMyutaH |
+prArthya patrA~NkurAdyaM sa puShpaM chaivA.a.achinonnR^ipaH || 33||
+dakSha uvAcha |
+shamImandAradUrvANAM pUjanaM vada mudgala |
+siddherbuddheshcha vipendra sutayorlakShalAbhayoH || 34||
+shamImandAradUrvANAM prArthanA kIdR^ishI bhavet |
+tAM kR^itvA puShpapatrAdIMshchinomyahaM tvadAj~nayA || 35||
+kena mantreNa yogIndra shamImandArakAMstadA |
+narottamo gaNeshAya pareshAya samarpayet || 36||
+mudgala uvAcha |
+shR^iNu dakSha mahAprAj~na gANapatyaparAyaNa |
+santuShTo.ahaM visheSheNa prashnena cha vadAmi te || 37||
+gaNeshasyaiva mantreNa pUjanIyA ime matAH |
+vastubhirgANapatyaishcha abhavaMstoShasaMyutAH || 38||
+strIpumbhAvAtmakaM dakSha nAsti tatra vichArataH |
+gakAraH siddhirUpashcha NakAro buddhiruchyate || 39||
+tayoH svAmI gaNeshaH sa tredhArUpadharo babhau |
+gaNAstasya tathA pUjyA gANapatyaishcha mantrakaiH || 40||
+gakArAdbimbabhAvAkhyo lakShaH putraH prakathyate |
+tathA gakArarUpAdvai lAbhastau tanmayau matau || 41||
+shamImandArakau dakSha varadAnAdvisheShataH |
+gaNeshAkArarUpau tau bhAvayennAtra saMshayaH || 42||
+dUrvAM devIM gaNeshasya mantreNApUjayennaraH |
+athavA vaidikairmantraiH kANDAdibhiH prapUjayet || 43||
+nAmamantreNa shUdrastAn pUjayet sarvabhAvataH |
+etadeva rahasyaM te kathitaM sarvama~njasA || 44||
+prArthanAM te pravakShyAmi shR^iNu dakSha mahAmate |
+snAnayukto vanaM gatvA.athavA pure svamandire || 45||
+yatra dUrvA cha mandAraH shamI tiShThati tatra saH |
+gatvA praNamya tAnAdau prArthayedbhaktisaMyutaH || 46||
+dUrve.annabrahmarUpe chAmR^itarUpe shatA~Nkure |
+gaNeshaprINanArthAya chinomi tvAM kShamasva bhoH || 47||
+shamI sarvaprade devi gaNesharUpadhAriNi |
+chinomi tvAM gaNeshasya prINanAya namAmyaham || 48||
+mandAravA~nChitArthasya dAtarvighnesharUpaka |
+kShamasva prINanArthAya gaNeshasya chinomya.aham || 49||
+evaM prArthya prajAnAtha shamImandArakau purA |
+dUrvApatrANi puShpANi vibhuM hyAnAyya pUjayet || 50||
+sahasranAmamantraishcha aShTottarashatairnaraH |
+ekaviMshatikaishchaiva nAmabhistAH samarpayet || 51||
+athavA mUlamantreNa nAmamantreNa vA tathA |
+gANeshairvividhairmantrairdUrvAdIni samarpayet || 52||
+
+iti shrIgaNeshadhyAnadUrvAdipUjAvidhi sampUrNam ||
+
+\- || mudgalapurANaM pa~nchamaH khaNDaH | adhyAyaH 44 | 5\.44. 6\-52|| 
+##
+- .. mudgalapurANaM pa~nchamaH khaNDaH . adhyAyaH 44 . 5.44. 6-52.. 
+
+Proofread by Yash Khasbage, Preeti Bhandare 
+
+\medskip\hrule\obeylines
+
+Please send corrections to sanskrit@cheerful.com
+Last updated \today
+https://sanskritdocuments.org
+
+\end{document}

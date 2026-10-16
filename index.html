@@ -1,0 +1,901 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Utsav Sadhana</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Festival-by-festival sadhana: what to do each day, the texts to recite, and a mala counter, starting with Ganeshotsav.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Hind:wght@400;500;600&family=Tiro+Devanagari+Marathi&family=Tiro+Devanagari+Sanskrit&display=swap">
+<style>
+/* Layout: a pothi-leaf reading column. Home lists the next observance and every festival; a festival opens on a strip of its days, with today's checklist under it. A full-screen mala sheet does the japa. */
+:root {
+	--paper: #faf4e8;
+	--surface: #f3e7d2;
+	--ink: #2a1c10;
+	--ink-2: #6d5643;
+	--accent: #b0301c;      /* sindoor */
+	--accent-ink: #fff8ee;
+	--durva: #4d7a26;       /* durva grass: done, progress */
+	--wash: #f6dcc8;
+	--rule: #e6d5b9;
+	--shadow: rgba(84, 46, 10, 0.14);
+	--scrim: rgba(42, 28, 16, 0.38);
+	--bead: #dcc6a0;
+
+	--f-sa: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", "Kohinoor Devanagari", "Devanagari Sangam MN", "Mangal", serif;
+	--f-mr: "Tiro Devanagari Marathi", "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", "Kohinoor Devanagari", "Mangal", serif;
+	--f-lat: "Gentium Book Plus", "Noto Serif", "Charis SIL", Georgia, serif;
+	--f-ui: "Hind", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--paper: #120f17; --surface: #1d1922; --ink: #f0e4cf; --ink-2: #ab9e8c;
+		--accent: #f07b5c; --accent-ink: #1d0904; --durva: #95c167; --wash: #33201f;
+		--rule: #2c2631; --shadow: rgba(0, 0, 0, 0.5); --scrim: rgba(4, 3, 8, 0.66); --bead: #44394a;
+		color-scheme: dark;
+	}
+}
+:root[data-theme="dark"] {
+	--paper: #120f17; --surface: #1d1922; --ink: #f0e4cf; --ink-2: #ab9e8c;
+	--accent: #f07b5c; --accent-ink: #1d0904; --durva: #95c167; --wash: #33201f;
+	--rule: #2c2631; --shadow: rgba(0, 0, 0, 0.5); --scrim: rgba(4, 3, 8, 0.66); --bead: #44394a;
+	color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+	background: var(--paper); color: var(--ink);
+	font: 400 16px/1.55 var(--f-ui);
+	padding-left: max(16px, env(safe-area-inset-left, 0px));
+	padding-right: max(16px, env(safe-area-inset-right, 0px));
+	padding-block: 0 48px;
+}
+.col { max-width: 42rem; margin: 0 auto; display: grid; gap: 1.5rem; }
+button { font: inherit; color: inherit; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; font-weight: 600; }
+p { margin: 0; }
+.sa { font-family: var(--f-sa); }
+.mr { font-family: var(--f-mr); }
+.lat { font-family: var(--f-lat); }
+.muted { color: var(--ink-2); }
+.eyebrow { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; }
+
+/* header */
+.top {
+	position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+	background: var(--paper); border-bottom: 1px solid var(--rule);
+	margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+	padding: .6rem max(16px, env(safe-area-inset-right, 0px)) .6rem max(16px, env(safe-area-inset-left, 0px));
+}
+.top-in { max-width: 42rem; margin: 0 auto; display: flex; align-items: center; gap: .75rem; }
+.brand { display: flex; align-items: baseline; gap: .5rem; flex: 1; min-width: 0; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+.brand b { font-family: var(--f-sa); font-size: 1.35rem; font-weight: 400; color: var(--accent); }
+.brand span { font-size: .95rem; font-weight: 600; white-space: nowrap; }
+.tabs { display: flex; gap: .25rem; }
+.tab { border: 0; background: none; padding: .35rem .7rem; border-radius: 99px; cursor: pointer; font-size: .9rem; color: var(--ink-2); }
+.tab[aria-current="page"] { background: var(--wash); color: var(--ink); font-weight: 500; }
+.sync { font-size: .72rem; color: var(--ink-2); padding: .4rem 0 0; text-align: right; max-width: 42rem; margin: 0 auto; }
+
+main { padding-top: 1.25rem; }
+
+/* home */
+.next {
+	background: var(--surface); border-radius: 14px; padding: 1.1rem 1.2rem;
+	display: grid; gap: .55rem; border: 1px solid var(--rule);
+}
+.next h2 { font-size: 1.45rem; }
+.next .when { display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-variant-numeric: tabular-nums; }
+.next .when b { color: var(--accent); font-weight: 600; }
+.btn {
+	display: inline-flex; align-items: center; gap: .4rem; justify-self: start;
+	border: 0; border-radius: 99px; padding: .55rem 1.05rem; cursor: pointer;
+	background: var(--accent); color: var(--accent-ink); font-weight: 500; text-decoration: none;
+}
+.btn.quiet { background: var(--wash); color: var(--ink); }
+.list { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.row {
+	display: grid; grid-template-columns: 4.6rem 1fr auto; align-items: center; gap: .9rem;
+	padding: .8rem 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; cursor: pointer; width: 100%;
+}
+.row:disabled { cursor: default; }
+.row .dv { font-family: var(--f-sa); font-size: 1.05rem; color: var(--accent); line-height: 1.2; }
+.row .t { min-width: 0; }
+.row .t b { display: block; font-weight: 600; }
+.row .t small { color: var(--ink-2); font-size: .85rem; }
+.pill { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; padding: .15rem .55rem; border-radius: 99px; background: var(--wash); color: var(--ink-2); white-space: nowrap; }
+.pill.ready { background: var(--accent); color: var(--accent-ink); }
+.row:disabled .dv { color: var(--ink-2); }
+
+/* festival */
+.hero { display: grid; gap: .35rem; }
+.hero .dv { font-family: var(--f-sa); font-size: clamp(2rem, 7vw, 2.8rem); color: var(--accent); line-height: 1.15; }
+.hero h1 { font-size: 1.5rem; }
+.lede { max-width: 62ch; }
+.facts { display: grid; grid-template-columns: minmax(9rem, auto) 1fr; gap: .35rem 1rem; margin: 0; font-size: .95rem; }
+.facts dt { color: var(--ink-2); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+.src { font-size: .78rem; color: var(--ink-2); }
+.choose { display: grid; gap: .45rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip { border: 1px solid var(--rule); background: none; border-radius: 99px; padding: .35rem .8rem; cursor: pointer; font-size: .9rem; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip-note { font-size: .85rem; color: var(--ink-2); }
+
+.strip { display: flex; gap: .45rem; overflow-x: auto; padding: .2rem .1rem .5rem; scroll-snap-type: x proximity; }
+.day {
+	flex: 0 0 auto; width: 4.4rem; scroll-snap-align: start;
+	display: grid; justify-items: center; gap: .15rem; padding: .5rem .2rem .45rem;
+	border: 1px solid var(--rule); border-radius: 12px; background: none; cursor: pointer;
+}
+.day[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); }
+.day.gone { opacity: .45; }
+.day small { font-size: .68rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; }
+.day b { font-size: 1.15rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.ring { width: 22px; height: 22px; }
+.ring circle { fill: none; stroke-width: 3; }
+.ring .bg { stroke: var(--rule); }
+.ring .fg { stroke: var(--durva); stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; }
+
+.today { display: grid; gap: .8rem; }
+.today h2 { font-size: 1.3rem; }
+.today .tithi { color: var(--accent); font-weight: 500; }
+.notice { border-left: 3px solid var(--accent); padding: .55rem .85rem; background: var(--surface); border-radius: 0 10px 10px 0; display: grid; gap: .4rem; }
+.notice .sa { font-size: 1.15rem; line-height: 1.6; white-space: pre-line; }
+
+.check { display: grid; border-top: 1px solid var(--rule); }
+.task { display: grid; grid-template-columns: 2.2rem 1fr; gap: .2rem .7rem; padding: .75rem 0; border-bottom: 1px solid var(--rule); }
+.tick {
+	width: 1.9rem; height: 1.9rem; border-radius: 50%; border: 2px solid var(--bead); background: none; cursor: pointer;
+	display: grid; place-items: center; padding: 0;
+}
+.tick svg { width: 1rem; height: 1rem; stroke: var(--accent-ink); stroke-width: 3; fill: none; opacity: 0; }
+.tick[aria-checked="true"] { background: var(--durva); border-color: var(--durva); }
+.tick[aria-checked="true"] svg { opacity: 1; stroke: var(--paper); }
+.task .body { min-width: 0; display: grid; gap: .15rem; }
+.task .time { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.task .title { font-weight: 600; }
+.task.done .title { color: var(--ink-2); }
+.task .detail { font-size: .92rem; color: var(--ink-2); }
+.task .acts { display: flex; flex-wrap: wrap; gap: .5rem; padding-top: .25rem; }
+.link { border: 0; background: none; padding: 0; color: var(--accent); cursor: pointer; font-weight: 500; font-size: .9rem; text-decoration: underline; text-underline-offset: 3px; }
+.meter { font-size: .85rem; font-variant-numeric: tabular-nums; color: var(--durva); font-weight: 500; }
+
+details.fold { border-top: 1px solid var(--rule); padding: .7rem 0; }
+details.fold:last-of-type { border-bottom: 1px solid var(--rule); }
+details.fold summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+details.fold summary::-webkit-details-marker { display: none; }
+details.fold summary::after { content: "+"; color: var(--ink-2); font-weight: 400; }
+details.fold[open] summary::after { content: "–"; }
+details.fold > div { padding-top: .7rem; display: grid; gap: .6rem; }
+.kv { display: grid; grid-template-columns: minmax(7rem, 11rem) 1fr; gap: .4rem 1rem; font-size: .93rem; }
+.kv b { font-weight: 500; }
+ol.steps { margin: 0; padding-left: 1.4rem; columns: 2 13rem; column-gap: 2rem; font-size: .93rem; }
+.texts { display: grid; gap: .4rem; }
+
+/* sankashti dates */
+.dates { display: grid; gap: .45rem; }
+.date-btn { display: grid; grid-template-columns: 5.2rem 1fr auto; gap: .8rem; align-items: center; text-align: left; border: 1px solid var(--rule); border-radius: 12px; padding: .6rem .8rem; background: none; cursor: pointer; }
+.date-btn[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); }
+.date-btn b { font-variant-numeric: tabular-nums; }
+.date-btn small { color: var(--ink-2); display: block; font-size: .82rem; }
+
+/* reader */
+.script-tog { display: flex; gap: .3rem; }
+.text-body { display: grid; gap: 1.1rem; }
+.verse { display: grid; gap: .25rem; }
+.verse .sa, .verse .mr { font-size: 1.2rem; line-height: 1.75; white-space: pre-line; }
+.verse .lat { font-size: 1rem; color: var(--ink-2); white-space: pre-line; font-style: italic; }
+.verse h3 { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 600; padding-top: .4rem; }
+.mean { font-size: .95rem; max-width: 62ch; }
+.names { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: .1rem 1.5rem; counter-reset: n; }
+.names li { list-style: none; display: grid; grid-template-columns: 1.8rem 1fr; padding: .25rem 0; border-bottom: 1px solid var(--rule); }
+.names li::before { counter-increment: n; content: counter(n); color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: .85rem; padding-top: .2rem; }
+.names .sa { font-size: 1.1rem; }
+.names .lat { font-size: .85rem; color: var(--ink-2); grid-column: 2; font-style: italic; }
+body[data-script="deva"] .lat:not(.keep) { display: none; }
+body[data-script="iast"] .verse .sa, body[data-script="iast"] .verse .mr, body[data-script="iast"] .names .sa { display: none; }
+body[data-script="iast"] .verse .lat, body[data-script="iast"] .names .lat { color: var(--ink); font-style: normal; font-size: 1.1rem; }
+
+/* deities */
+.gods { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .6rem; }
+.god { display: grid; gap: .1rem; text-align: left; padding: .8rem .9rem; border: 1px solid var(--rule); border-radius: 12px; background: none; cursor: pointer; }
+.god .dv { font-family: var(--f-sa); font-size: 1.3rem; color: var(--accent); line-height: 1.25; }
+.god small { color: var(--ink-2); font-size: .8rem; }
+.mantra { display: grid; gap: .35rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+.mantra:first-of-type { border-top: 1px solid var(--rule); }
+.mantra .sa { font-size: 1.3rem; line-height: 1.7; white-space: pre-line; }
+.mantra .lat { font-size: .98rem; color: var(--ink-2); font-style: italic; white-space: pre-line; }
+.mantra .meta { display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: center; font-size: .85rem; color: var(--ink-2); }
+
+/* japa sheet */
+.sheet { position: fixed; inset: 0; z-index: 20; background: var(--paper); display: grid; grid-template-rows: auto 1fr auto; padding: calc(env(safe-area-inset-top, 0px) + .8rem) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 1rem) max(16px, env(safe-area-inset-left, 0px)); }
+.sheet-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; max-width: 42rem; width: 100%; margin: 0 auto; }
+.sheet-mid { display: grid; place-content: center; justify-items: center; gap: 1.2rem; text-align: center; min-height: 0; overflow: auto; }
+.sheet .sa { font-size: clamp(1.4rem, 5vw, 2rem); line-height: 1.6; white-space: pre-line; max-width: 30ch; }
+.sheet .lat { color: var(--ink-2); font-style: italic; white-space: pre-line; }
+.mala-btn { position: relative; width: min(64vw, 15rem); aspect-ratio: 1; max-width: 100%; border: 0; background: none; cursor: pointer; padding: 0; border-radius: 50%; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.mala-btn svg { width: 100%; height: 100%; display: block; }
+.mala-btn .bead { fill: var(--bead); transition: fill .12s; }
+.mala-btn .bead.on { fill: var(--accent); }
+.mala-btn .meru { fill: var(--durva); }
+.mala-btn .core { fill: var(--surface); stroke: var(--rule); }
+.mala-btn:active .core { fill: var(--wash); }
+.mala-num { position: absolute; inset: 0; display: grid; place-content: center; pointer-events: none; }
+.mala-num b { font-size: 2.6rem; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums; }
+.mala-num small { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin-top: .3rem; }
+.sheet-foot { display: flex; justify-content: center; flex-wrap: wrap; gap: .6rem 1.4rem; font-size: .9rem; color: var(--ink-2); font-variant-numeric: tabular-nums; align-items: center; }
+.sheet-foot b { color: var(--durva); }
+.close { border: 1px solid var(--rule); background: none; border-radius: 99px; padding: .35rem .9rem; cursor: pointer; }
+
+.foot { font-size: .8rem; color: var(--ink-2); display: grid; gap: .3rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
+.back { justify-self: start; }
+
+@media (max-width: 30rem) {
+	.brand span { display: none; }
+	.facts, .kv { grid-template-columns: 1fr; gap: .1rem; }
+	.facts dd, .kv span { padding-bottom: .4rem; }
+	.row { grid-template-columns: 3.6rem 1fr auto; gap: .6rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<header class="top">
+	<div class="top-in">
+		<button class="brand" id="home-btn" aria-label="Utsav Sadhana, home"><b>उत्सव साधना</b><span>Utsav Sadhana</span></button>
+		<nav class="tabs" aria-label="Sections">
+			<button class="tab" id="tab-home" data-go="">Festivals</button>
+			<button class="tab" id="tab-mantra" data-go="mantras">Mantras</button>
+		</nav>
+	</div>
+	<p class="sync" id="sync">Your progress stays in this browser.</p>
+</header>
+<main id="main" class="col" tabindex="-1"></main>
+
+<div class="sheet" id="japa" hidden role="dialog" aria-modal="true" aria-labelledby="japa-name">
+	<div class="sheet-top">
+		<span class="eyebrow" id="japa-name">Japa</span>
+		<button class="close" id="japa-close">Done</button>
+	</div>
+	<div class="sheet-mid">
+		<p class="sa" id="japa-deva"></p>
+		<p class="lat" id="japa-iast"></p>
+		<button class="mala-btn" id="mala" aria-label="Count one repetition">
+			<svg viewBox="0 0 132 132" aria-hidden="true" id="mala-svg"></svg>
+			<span class="mala-num"><b id="mala-n">0</b><small>of 108</small></span>
+		</button>
+	</div>
+	<div class="sheet-foot">
+		<span id="japa-today"></span>
+		<span id="japa-total"></span>
+		<button class="link" id="mala-undo">Undo one</button>
+	</div>
+</div>
+
+<script>
+/* Hand-written content for Utsav Sadhana. Long texts (Atharvashirsha, Sankatanashana stotram,
+   Sukhakarta aarti, the 21 names) are not here: tools/build.mjs reads them verbatim from sources/
+   and adds them as TEXTS. IAST is generated in the page from the Devanagari.
+
+   A festival is data: add one to FESTIVALS (with its deity's mantras in DEITIES) and the app
+   shows it. Dates are for Pune, from Drik Panchang (checked 16 Oct 2026). */
+
+const DEITIES = [
+	{
+		id: "ganesha", name: "Ganesha", deva: "श्रीगणेश", day: "Wednesday, and every Chaturthi",
+		about: "Remover of obstacles, worshipped first before any undertaking.",
+		mantras: [
+			{ id: "gam", name: "Mula mantra", deva: "ॐ गं गणपतये नमः", mean: "Om, salutations to Ganapati. 'Gam' is his seed syllable; the Atharvashirsha (verse 7) builds this mantra letter by letter.", count: 108, src: "Ganapati Atharvashirsha 7" },
+			{ id: "vakratunda", name: "Vakratunda shloka", deva: "वक्रतुण्ड महाकाय सूर्यकोटिसमप्रभ ।\nनिर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥", mean: "O curved-trunked one of great body, bright as a crore suns: make all my work free of obstacles, always.", count: 11, src: "Ganesha Pratah-smaranam (sanskritdocuments.org)" },
+			{ id: "gayatri", name: "Ganesha Gayatri", deva: "एकदंताय विद्महे । वक्रतुण्डाय धीमहि ॥\nतन्नो दंतिः प्रचोदयात् ॥", mean: "We know the single-tusked one; we meditate on the curved-trunked one. May the tusked one inspire us.", count: 108, src: "Ganapati Atharvashirsha 8" },
+			{ id: "shuklambara", name: "Dhyana shloka", deva: "शुक्लाम्बरधरं विष्णुं शशिवर्णं चतुर्भुजम् ।\nप्रसन्नवदनं ध्यायेत् सर्वविघ्नोपशान्तये ॥", mean: "Meditate on the all-pervading one clad in white, moon-coloured, four-armed, with a gracious face, so that every obstacle is calmed. Said before any puja or study.", count: 3, src: "Opening of the Ganesha Dvadashanama stotram" },
+			{ id: "abhipsita", name: "Before any work", deva: "अभीप्सितार्थसिद्ध्यर्थं पूजितो यः सुरासुरैः ।\nसर्वविघ्नहरस्तस्मै गणाधिपतये नमः ॥", mean: "Salutations to the lord of the ganas, remover of all obstacles, whom gods and asuras worship to gain what they seek.", count: 3, src: "Ganesha Pratah-smaranam (sanskritdocuments.org)" },
+		],
+	},
+	{
+		id: "shiva", name: "Shiva", deva: "शिव", day: "Monday, Pradosh, Maha Shivaratri",
+		about: "The auspicious one; destroyer of ignorance, lord of yogis.",
+		mantras: [
+			{ id: "panchakshari", name: "Panchakshari", deva: "ॐ नमः शिवाय", mean: "Om, salutations to Shiva. The five-syllable mantra of the Yajurveda's Shri Rudram.", count: 108, src: "Krishna Yajurveda, Shri Rudram (Namakam 8)" },
+			{ id: "mrityunjaya", name: "Mahamrityunjaya", deva: "ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम् ।\nउर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय माऽमृतात् ॥", mean: "We worship the three-eyed one, fragrant, who makes us flourish. As a ripe cucumber falls free of its vine, may he free us from death, not from immortality. Chanted for health and protection.", count: 108, src: "Rigveda 7.59.12" },
+		],
+	},
+	{
+		id: "vishnu", name: "Vishnu", deva: "विष्णु", day: "Thursday, Ekadashi",
+		about: "The preserver, who takes avatars to restore dharma.",
+		mantras: [
+			{ id: "ashtakshari", name: "Ashtakshari", deva: "ॐ नमो नारायणाय", mean: "Om, salutations to Narayana. The eight-syllable mantra.", count: 108, src: "Narayana Upanishad" },
+			{ id: "dvadashakshari", name: "Dvadashakshari", deva: "ॐ नमो भगवते वासुदेवाय", mean: "Om, salutations to Bhagavan Vasudeva. The twelve-syllable mantra of the Bhagavata.", count: 108, src: "Bhagavata Purana" },
+		],
+	},
+	{
+		id: "krishna", name: "Krishna", deva: "श्रीकृष्ण", day: "Janmashtami, Ekadashi",
+		about: "Vishnu's avatar; teacher of the Gita.",
+		mantras: [
+			{ id: "mahamantra", name: "Maha-mantra", deva: "हरे कृष्ण हरे कृष्ण कृष्ण कृष्ण हरे हरे ।\nहरे राम हरे राम राम राम हरे हरे ॥", mean: "Calling on Hari, Krishna and Rama. Sixteen names, chanted on a mala.", count: 108, src: "Kali-santarana Upanishad" },
+			{ id: "pranata", name: "Pranata-klesha-nashaya", deva: "कृष्णाय वासुदेवाय हरये परमात्मने ।\nप्रणतक्लेशनाशाय गोविन्दाय नमो नमः ॥", mean: "Salutations again and again to Krishna, son of Vasudeva, Hari, the supreme Self, Govinda, who ends the troubles of those who bow to him.", count: 11, src: "Bhagavata Purana" },
+		],
+	},
+	{
+		id: "rama", name: "Rama", deva: "श्रीराम", day: "Ram Navami",
+		about: "Vishnu's avatar; the ideal king of the Ramayana.",
+		mantras: [
+			{ id: "trayodashakshari", name: "Taraka mantra", deva: "श्रीराम जय राम जय जय राम", mean: "Victory to Shri Rama. Samarth Ramdas's thirteen-syllable japa.", count: 108, src: "Samarth Ramdas tradition" },
+			{ id: "ramarameti", name: "Rama nama", deva: "श्रीराम राम रामेति रमे रामे मनोरमे ।\nसहस्रनाम तत्तुल्यं रामनाम वरानने ॥", mean: "Shiva to Parvati: chanting 'Rama, Rama' is equal to the thousand names of Vishnu.", count: 3, src: "Vishnu Sahasranama, phalashruti" },
+		],
+	},
+	{
+		id: "hanuman", name: "Hanuman", deva: "हनुमान", day: "Tuesday, Saturday, Hanuman Jayanti",
+		about: "Rama's devotee; strength, courage and service.",
+		mantras: [
+			{ id: "manojavam", name: "Manojavam", deva: "मनोजवं मारुततुल्यवेगं जितेन्द्रियं बुद्धिमतां वरिष्ठम् ।\nवातात्मजं वानरयूथमुख्यं श्रीरामदूतं शरणं प्रपद्ये ॥", mean: "I take refuge in Rama's messenger: swift as the mind, fast as the wind, master of the senses, wisest of the wise, son of the wind, chief of the vanaras.", count: 11, src: "Ramaraksha stotram" },
+			{ id: "ham", name: "Nama mantra", deva: "ॐ हं हनुमते नमः", mean: "Om, salutations to Hanuman.", count: 108, src: "Traditional" },
+		],
+	},
+	{
+		id: "durga", name: "Durga", deva: "दुर्गा", day: "Navratri, Tuesday, Friday",
+		about: "The Divine Mother who destroys evil.",
+		mantras: [
+			{ id: "sarvamangala", name: "Sarva-mangala", deva: "सर्वमङ्गलमाङ्गल्ये शिवे सर्वार्थसाधिके ।\nशरण्ये त्र्यम्बके गौरि नारायणि नमोऽस्तु ते ॥", mean: "Auspiciousness of all that is auspicious, gracious one who fulfils every aim, refuge, three-eyed Gauri, Narayani: salutations to you.", count: 11, src: "Devi Mahatmya 11.10" },
+			{ id: "dum", name: "Nama mantra", deva: "ॐ दुं दुर्गायै नमः", mean: "Om, salutations to Durga.", count: 108, src: "Traditional" },
+		],
+	},
+	{
+		id: "lakshmi", name: "Lakshmi", deva: "महालक्ष्मी", day: "Friday, Diwali (Lakshmi Puja)",
+		about: "Goddess of prosperity and well-being.",
+		mantras: [
+			{ id: "mahalakshmi", name: "Nama mantra", deva: "ॐ श्रीं महालक्ष्म्यै नमः", mean: "Om, salutations to Mahalakshmi. 'Shrim' is her seed syllable.", count: 108, src: "Traditional" },
+			{ id: "lgayatri", name: "Lakshmi Gayatri", deva: "ॐ महालक्ष्म्यै च विद्महे विष्णुपत्न्यै च धीमहि ।\nतन्नो लक्ष्मीः प्रचोदयात् ॥", mean: "We know Mahalakshmi; we meditate on Vishnu's consort. May Lakshmi inspire us.", count: 108, src: "Traditional" },
+		],
+	},
+	{
+		id: "saraswati", name: "Saraswati", deva: "सरस्वती", day: "Vasant Panchami, before study",
+		about: "Goddess of learning, speech and music.",
+		mantras: [
+			{ id: "saraswati-namas", name: "Before study", deva: "सरस्वति नमस्तुभ्यं वरदे कामरूपिणि ।\nविद्यारम्भं करिष्यामि सिद्धिर्भवतु मे सदा ॥", mean: "Salutations to you, Saraswati, giver of boons. I begin my study; may it always succeed.", count: 3, src: "Traditional" },
+			{ id: "aim", name: "Nama mantra", deva: "ॐ ऐं सरस्वत्यै नमः", mean: "Om, salutations to Saraswati. 'Aim' is her seed syllable.", count: 108, src: "Traditional" },
+		],
+	},
+	{
+		id: "surya", name: "Surya", deva: "सूर्य", day: "Sunday, Makar Sankranti, Chhath",
+		about: "The sun, giver of light and health.",
+		mantras: [
+			{ id: "gayatri-savitri", name: "Gayatri mantra", deva: "ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि ।\nधियो यो नः प्रचोदयात् ॥", mean: "We meditate on the radiant light of the divine Savitr; may it inspire our minds.", count: 108, src: "Rigveda 3.62.10" },
+			{ id: "suryaya", name: "Arghya mantra", deva: "ॐ सूर्याय नमः", mean: "Om, salutations to Surya. Said while offering water to the rising sun.", count: 12, src: "Traditional (first of the 12 Surya namaskara names is ॐ मित्राय नमः)" },
+		],
+	},
+];
+
+/* Days of a festival: "date" is the calendar day in Pune; "core" practices repeat each day. */
+const FESTIVALS = [
+	{
+		id: "ganeshotsav", deity: "ganesha", status: "ready",
+		name: "Ganeshotsav", deva: "गणेशोत्सव", sub: "Bhadrapada Shukla Chaturthi to Anant Chaturdashi",
+		year: 2027, start: "2027-09-04", end: "2027-09-14",
+		facts: [
+			["Ganesh Chaturthi", "Saturday 4 September 2027"],
+			["Madhyahna puja muhurat", "11:19 AM to 12:25 PM (best time for sthapana)"],
+			["Chaturthi tithi", "2:18 PM, 3 Sep to 12:25 PM, 4 Sep"],
+			["Do not look at the moon", "3 Sep, 2:18 PM to 8:31 PM, and 4 Sep, 9:44 AM to 9:13 PM"],
+			["Anant Chaturdashi (visarjan)", "Tuesday 14 September 2027"],
+		],
+		factsSrc: "Drik Panchang, Pune, checked 16 Oct 2026",
+		intro: "For ten days Ganapati is a guest in the home. The sadhana is simple and steady: welcome him at the right muhurat, worship him every morning and evening with durva, red flowers and modak, recite the Atharvashirsha, keep a daily japa, and send him off with the promise to come back next year.",
+		durations: [
+			{ days: 1.5, label: "1½ days", note: "Visarjan on 5 Sep, after the afternoon uttarpuja" },
+			{ days: 5, label: "5 days", note: "Visarjan on 8 Sep, often with Gauri" },
+			{ days: 7, label: "7 days", note: "Visarjan on 10 Sep" },
+			{ days: 11, label: "Till Anant Chaturdashi", note: "Visarjan on 14 Sep, as Pune's mandals do" },
+		],
+		core: [
+			{ id: "dhyana", time: "Morning", title: "Bath, lamp and dhyana", detail: "Light the lamp. Recite the dhyana shloka and Vakratunda shloka three times each.", mantra: "ganesha/shuklambara" },
+			{ id: "puja", time: "Morning", title: "Panchopachara puja", detail: "Gandha (sandal paste), pushpa (red flowers, hibiscus), dhupa, dipa, naivedya. Offer 21 durva with the 21 names.", text: "names21" },
+			{ id: "atharva", time: "Morning", title: "Atharvashirsha path", detail: "Recite once, slowly. On Chaturthi many families recite it 21 times.", text: "atharva" },
+			{ id: "japa", time: "Any time", title: "Japa: ॐ गं गणपतये नमः", detail: "Your daily mala target, seated facing east or north.", mantra: "ganesha/gam", japa: true },
+			{ id: "sankata", time: "Midday", title: "Sankatanashana stotram", detail: "The twelve names, from Narada. Recite once; three times if facing a difficulty.", text: "sankata" },
+			{ id: "naivedya", time: "Midday", title: "Naivedya of modak", detail: "Ukadiche modak, laddu or jaggery with coconut. Share it as prasad." },
+			{ id: "aarti", time: "Evening", title: "Aarti: Sukhakarta Dukhaharta", detail: "Morning and evening, with the whole household.", text: "aarti" },
+			{ id: "reflect", time: "Night", title: "Quiet minute", detail: "Ganesha Gayatri 11 times, then one obstacle you will work on tomorrow.", mantra: "ganesha/gayatri" },
+		],
+		/* Ashtavinayak contemplation for days 2–9, in the traditional yatra order from Morgaon. */
+		days: [
+			{ date: "2027-09-04", tithi: "Chaturthi", title: "Sthapana", focus: "Install the murti in the madhyahna muhurat (11:19 AM–12:25 PM). Prana pratishtha and shodashopachara puja, 21 modak, 21 durva. Do not look at the moon tonight.", special: ["shodasha", "moon"] },
+			{ date: "2027-09-05", tithi: "Rishi Panchami", title: "Mayureshwar, Morgaon", focus: "Honour the seven rishis. 1½-day Ganpati visarjan today after the uttarpuja. Contemplate Mayureshwar of Morgaon, first of the Ashtavinayak." },
+			{ date: "2027-09-06", tithi: "Shashthi", title: "Siddhivinayak, Siddhatek", focus: "The only Ashtavinayak with the trunk turned right. Ask for success in one task you have been putting off." },
+			{ date: "2027-09-07", tithi: "Saptami", title: "Ballaleshwar, Pali", focus: "Named after the boy devotee Ballal. A day for a child in the house to do the aarti." },
+			{ date: "2027-09-08", tithi: "Ashtami", title: "Varadavinayak, Mahad", focus: "The giver of boons. 5-day visarjan today in many homes. If you keep Gauri, check your panchang for avahan, puja and visarjan (Anuradha, Jyeshtha and Mula nakshatras)." },
+			{ date: "2027-09-09", tithi: "Navami", title: "Chintamani, Theur", focus: "The wish-fulfilling jewel that calms a restless mind. Add one extra mala of japa today." },
+			{ date: "2027-09-10", tithi: "Dashami", title: "Girijatmaj, Lenyadri", focus: "Parvati's son, in a Buddhist-era cave. 7-day visarjan today." },
+			{ date: "2027-09-11", tithi: "Ekadashi", title: "Vighneshwar, Ozar", focus: "Who defeated the demon Vighnasura. Name one obstacle and offer it." },
+			{ date: "2027-09-12", tithi: "Dvadashi", title: "Mahaganapati, Ranjangaon", focus: "The form Shiva worshipped before defeating Tripurasura. Last of the eight." },
+			{ date: "2027-09-13", tithi: "Trayodashi", title: "Gratitude", focus: "Recite the Atharvashirsha three times. Prepare for visarjan: modak, flowers, coconut." },
+			{ date: "2027-09-14", tithi: "Anant Chaturdashi", title: "Uttarpuja and visarjan", focus: "Uttarpuja, aarti, ask forgiveness for any lapse, then visarjan. Say: Ganpati Bappa Morya, pudhchya varshi lavkar ya. It is also Anant Vrat for Vishnu.", special: ["shodasha", "visarjan"] },
+		],
+		samagri: [
+			["Murti", "Clay (shadu) murti; it dissolves cleanly at visarjan"],
+			["Seat", "Chowki or pat with a red or yellow cloth, rice heap (akshata)"],
+			["Durva", "21 blades a day (three-tipped), tied in pairs or offered one by one"],
+			["Flowers", "Red hibiscus (jaswand), marigold, a garland"],
+			["Shami and mandar leaves", "If available; both are dear to Ganesha"],
+			["Puja items", "Haldi, kumkum, sindoor, sandal paste, akshata, janeu, kapoor, agarbatti, ghee lamp"],
+			["Naivedya", "21 ukadiche modak on the first day; fruits, coconut, jaggery"],
+			["For abhisheka", "Panchamrit: milk, curd, ghee, honey, sugar; clean water"],
+			["Tulsi", "By custom tulsi is kept away from Ganesha. Some traditions offer it on Chaturthi only."],
+		],
+		shodasha: ["Dhyana and avahana (invite)", "Asana (seat)", "Padya (water for the feet)", "Arghya (water for the hands)", "Achamana (water to sip)", "Snana (bath, panchamrit)", "Vastra (cloth)", "Yajnopavita (sacred thread)", "Gandha (sandal paste)", "Pushpa (flowers, durva)", "Dhupa (incense)", "Dipa (lamp)", "Naivedya (food offering)", "Tambula and dakshina", "Pradakshina and namaskara", "Mantra-pushpanjali"],
+		moon: {
+			why: "Seeing the moon on Bhadrapada Shukla Chaturthi brings mithya dosha, a false accusation. Krishna saw it and was accused of stealing the Syamantaka jewel.",
+			deva: "सिंहः प्रसेनमवधीत्सिंहो जाम्बवता हतः ।\nसुकुमारक मारोदीस्तव ह्येष स्यमन्तकः ॥",
+			mean: "The lion killed Prasena; Jambavan killed the lion. Do not cry, little one: this Syamantaka is yours. If you see the moon by mistake, recite this three times.",
+			src: "Syamantaka story, Vishnu Purana and Bhagavata; verse as printed in vrata books",
+		},
+	},
+	{
+		id: "sankashti", deity: "ganesha", status: "ready", monthly: true,
+		name: "Sankashti Chaturthi", deva: "संकष्टी चतुर्थी", sub: "Every Krishna Paksha Chaturthi",
+		intro: "A monthly fast for Ganesha. Eat light or fast through the day, worship Ganesha in the evening, offer arghya to the moon when it rises, then break the fast. A Tuesday Sankashti is Angaraki, the most auspicious.",
+		dates: [
+			{ date: "2026-10-29", name: "Vakratunda", moon: "8:58 PM", note: "Same day as Karwa Chauth" },
+			{ date: "2026-11-27", name: "Ganadhipa", moon: "9:53 PM" },
+			{ date: "2026-12-26", name: "Akhuratha", moon: "8:49 PM" },
+		],
+		datesSrc: "Drik Panchang, Pune, checked 16 Oct 2026. Moonrise varies by city; check yours.",
+		core: [
+			{ id: "s-sankalpa", time: "Morning", title: "Sankalpa and fast", detail: "Take the vow to fast until moonrise: fruit, milk, sabudana, or water only." },
+			{ id: "s-japa", time: "Any time", title: "Japa: ॐ गं गणपतये नमः", detail: "At least one mala.", mantra: "ganesha/gam", japa: true },
+			{ id: "s-puja", time: "Evening", title: "Puja with durva and modak", detail: "21 durva with the 21 names, red flowers, modak.", text: "names21" },
+			{ id: "s-sankata", time: "Evening", title: "Sankatanashana stotram", detail: "The stotram this day is named for.", text: "sankata" },
+			{ id: "s-moon", time: "Moonrise", title: "Arghya to the moon", detail: "Water, milk, akshata and flowers offered to the rising moon. Then break the fast." },
+			{ id: "s-aarti", time: "Night", title: "Aarti", detail: "Sukhakarta Dukhaharta.", text: "aarti" },
+		],
+	},
+	{ id: "navratri", deity: "durga", status: "soon", name: "Navratri", deva: "नवरात्रि", sub: "Nine nights of the Goddess" },
+	{ id: "diwali", deity: "lakshmi", status: "soon", name: "Diwali Lakshmi Puja", deva: "लक्ष्मीपूजन", sub: "Amavasya of Kartika" },
+	{ id: "shivaratri", deity: "shiva", status: "soon", name: "Maha Shivaratri", deva: "महाशिवरात्रि", sub: "The great night of Shiva" },
+	{ id: "ramnavami", deity: "rama", status: "soon", name: "Ram Navami", deva: "रामनवमी", sub: "Rama's birth" },
+	{ id: "hanumanjayanti", deity: "hanuman", status: "soon", name: "Hanuman Jayanti", deva: "हनुमान जयंती", sub: "Chaitra Purnima" },
+	{ id: "janmashtami", deity: "krishna", status: "soon", name: "Janmashtami", deva: "जन्माष्टमी", sub: "Krishna's birth at midnight" },
+	{ id: "vasantpanchami", deity: "saraswati", status: "soon", name: "Vasant Panchami", deva: "वसंत पंचमी", sub: "Saraswati Puja" },
+	{ id: "sankranti", deity: "surya", status: "soon", name: "Makar Sankranti", deva: "मकर संक्रांति", sub: "The sun turns north" },
+];
+
+const TEXTS = {"atharva":{"title":"Ganapati Atharvashirsha","short":"Atharvashirsha","deva":"श्रीगणपत्यथर्वशीर्ष","lang":"sa","about":"The Upanishad of Ganapati, with its opening and closing shanti mantras. Recite slowly; the phalashruti (verses 11–14) describes the fruits.","blocks":[{"head":"शान्ति पाठ"},{"lines":["ॐ भद्रं कर्णेभिः श‍ृणुयाम देवा ।","भद्रं पश्येमाक्षभिर्यजत्राः ॥","स्थिरैरङ्गैस्तुष्टुवांसस्तनूभिः ।","व्यशेम देवहितं यदायुः ॥","ॐ स्वस्ति न इन्द्रो वृद्धश्रवाः ।","स्वस्ति नः पूषा विश्ववेदाः ॥","स्वस्तिनस्तार्क्ष्यो अरिष्टनेमिः ।","स्वस्ति नो बृहस्पतिर्दधातु ॥","ॐ तन्मामवतु","तद् वक्तारमवतु","अवतु माम्","अवतु वक्तारम्","ॐ शांतिः ।  शांतिः ॥ शांतिः॥।"]},{"head":"उपनिषत्"},{"lines":["हरिः ॐ नमस्ते गणपतये ॥","त्वमेव प्रत्यक्षं तत्त्वमसि ॥ त्वमेव केवलं कर्ताऽसि ॥","त्वमेव केवलं धर्ताऽसि ॥ त्वमेव केवलं हर्ताऽसि ॥","त्वमेव सर्वं खल्विदं ब्रह्मासि ॥","त्वं साक्षादात्माऽसि नित्यम् ॥ १॥"]},{"head":"स्वरूप तत्त्व"},{"lines":["ऋतं वच्मि (वदिष्यामि) ॥ सत्यं वच्मि (वदिष्यामि) ॥ २॥"]},{"lines":["अव त्वं माम् ॥ अव वक्तारम् ॥ अव श्रोतारम् ॥","अव दातारम् ॥ अव धातारम् ॥","अवानूचानमव शिष्यम् ॥","अव पश्चात्तात् ॥ अव पुरस्तात् ॥","अवोत्तरात्तात् ॥ अव दक्षिणात्तात् ॥","अव चोर्ध्वात्तात् ॥ अवाधरात्तात् ॥","सर्वतो मां पाहि पाहि समंतात् ॥ ३॥"]},{"lines":["त्वं वाङ्मयस्त्वं चिन्मयः ॥","त्वमानंदमयस्त्वं ब्रह्ममयः ॥","त्वं सच्चिदानंदाद्वितीयोऽसि ॥","त्वं प्रत्यक्षं ब्रह्मासि ॥","त्वं ज्ञानमयो विज्ञानमयोऽसि ॥ ४॥"]},{"lines":["सर्वं जगदिदं त्वत्तो जायते ॥","सर्वं जगदिदं त्वत्तस्तिष्ठति ॥","सर्वं जगदिदं त्वयि लयमेष्यति ॥","सर्वं जगदिदं त्वयि प्रत्येति ॥","त्वं भूमिरापोऽनलोऽनिलो नभः ॥","त्वं चत्वारि वाक्पदानि ॥ ५॥"]},{"lines":["त्वं गुणत्रयातीतः त्वमवस्थात्रयातीतः ॥","त्वं देहत्रयातीतः ॥ त्वं कालत्रयातीतः ॥","त्वं मूलाधारस्थितोऽसि नित्यम् ॥","त्वं शक्तित्रयात्मकः ॥","त्वां योगिनो ध्यायंति नित्यम् ॥","त्वं ब्रह्मा त्वं विष्णुस्त्वं रुद्रस्त्वं","इन्द्रस्त्वं अग्निस्त्वं वायुस्त्वं सूर्यस्त्वं चंद्रमास्त्वं","ब्रह्मभूर्भुवःस्वरोम् ॥ ६॥"]},{"head":"गणेश मंत्र"},{"lines":["गणादिं पूर्वमुच्चार्य वर्णादिं तदनंतरम् ॥","अनुस्वारः परतरः ॥ अर्धेन्दुलसितम् ॥ तारेण ऋद्धम् ॥","एतत्तव मनुस्वरूपम् ॥ गकारः पूर्वरूपम् ॥","अकारो मध्यमरूपम् ॥ अनुस्वारश्चान्त्यरूपम् ॥","बिन्दुरुत्तररूपम् ॥ नादः संधानम् ॥","संहितासंधिः ॥ सैषा गणेशविद्या ॥","गणकऋषिः ॥ निचृद्गायत्रीच्छंदः ॥","गणपतिर्देवता ॥ ॐ गं गणपतये नमः ॥ ७॥"]},{"head":"गणेश गायत्री"},{"lines":["एकदंताय विद्महे । वक्रतुण्डाय धीमहि ॥","तन्नो दंतिः प्रचोदयात् ॥ ८॥"]},{"head":"गणेश रूप"},{"lines":["एकदंतं चतुर्हस्तं पाशमंकुशधारिणम् ॥","रदं च वरदं हस्तैर्बिभ्राणं मूषकध्वजम् ॥","रक्तं लंबोदरं शूर्पकर्णकं रक्तवाससम् ॥","रक्तगंधानुलिप्तांगं रक्तपुष्पैः सुपूजितम् ॥","भक्तानुकंपिनं देवं जगत्कारणमच्युतम् ॥","आविर्भूतं च सृष्ट्यादौ प्रकृतेः पुरुषात्परम् ॥","एवं ध्यायति यो नित्यं स योगी योगिनां वरः ॥ ९॥"]},{"head":"अष्ट नाम गणपति"},{"lines":["नमो व्रातपतये । नमो गणपतये । नमः प्रमथपतये ।","नमस्तेऽस्तु लंबोदरायैकदंताय ।","विघ्ननाशिने शिवसुताय । श्रीवरदमूर्तये नमो नमः ॥ १०॥"]},{"head":"फलश्रुति"},{"lines":["एतदथर्वशीर्षं योऽधीते ॥ स ब्रह्मभूयाय कल्पते ॥","स सर्वतः सुखमेधते ॥ स सर्व विघ्नैर्नबाध्यते ॥","स पंचमहापापात्प्रमुच्यते ॥","सायमधीयानो दिवसकृतं पापं नाशयति ॥","प्रातरधीयानो रात्रिकृतं पापं नाशयति ॥","सायंप्रातः प्रयुंजानो अपापो भवति ॥","सर्वत्राधीयानोऽपविघ्नो भवति ॥","धर्मार्थकाममोक्षं च विंदति ॥","इदमथर्वशीर्षमशिष्याय न देयम् ॥","यो यदि मोहाद्दास्यति स पापीयान् भवति","सहस्रावर्तनात् यं यं काममधीते","तं तमनेन साधयेत् ॥ ११॥"]},{"lines":["अनेन गणपतिमभिषिंचति स वाग्मी भवति ॥","चतुर्थ्यामनश्नन् जपति स विद्यावान् भवति ।","स यशोवान् भवति ॥","इत्यथर्वणवाक्यम् ॥ ब्रह्माद्यावरणं विद्यात्","न बिभेति कदाचनेति ॥ १२॥"]},{"lines":["यो दूर्वांकुरैर्यजति स वैश्रवणोपमो भवति ॥","यो लाजैर्यजति स यशोवान् भवति ॥","स मेधावान् भवति ॥","यो मोदकसहस्रेण यजति","स वाञ्छितफलमवाप्नोति ॥","यः साज्यसमिद्भिर्यजति","स सर्वं लभते स सर्वं लभते ॥ १३॥"]},{"lines":["अष्टौ ब्राह्मणान् सम्यग्ग्राहयित्वा","सूर्यवर्चस्वी भवति ॥","सूर्यग्रहे महानद्यां प्रतिमासंनिधौ","वा जप्त्वा सिद्धमंत्रो भवति ॥","महाविघ्नात्प्रमुच्यते ॥ महादोषात्प्रमुच्यते ॥","महापापात् प्रमुच्यते ॥","स सर्वविद्भवति स सर्वविद्भवति ॥","य एवं वेद इत्युपनिषत् ॥ १४॥"]},{"head":"शान्ति मंत्र"},{"lines":["ॐ सहनाववतु ॥ सहनौभुनक्तु ॥","सह वीर्यं करवावहै ॥","तेजस्विनावधीतमस्तु मा विद्विषावहै ॥","ॐ भद्रं कर्णेभिः श‍ृणुयाम देवा ।","भद्रं पश्येमाक्षभिर्यजत्राः ॥","स्थिरैरंगैस्तुष्टुवांसस्तनूभिः ।","व्यशेम देवहितं यदायुः ॥","ॐ स्वस्ति न इन्द्रो वृद्धश्रवाः ।","स्वस्ति नः पूषा विश्ववेदाः ॥","स्वस्तिनस्तार्क्ष्यो अरिष्टनेमिः ।","स्वस्ति नो बृहस्पतिर्दधातु ॥","ॐ शांतिः । शांतिः ॥ शांतिः ॥।","॥ इति श्रीगणपत्यथर्वशीर्षं समाप्तम् ॥"]}],"src":"sanskritdocuments.org, atharva","url":"https://sanskritdocuments.org/doc_ganesha/atharva.html"},"sankata":{"title":"Sankatanashana Ganesha Stotram","short":"Sankatanashana stotram","deva":"संकटनाशनं गणेशस्तोत्रम्","lang":"sa","about":"Narada's hymn of twelve names, recited to clear difficulties, and on every Sankashti.","blocks":[{"lines":["श्रीगणेशाय नमः । नारद उवाच ।","प्रणम्य शिरसा देवं गौरीपुत्रं विनायकम् ।","भक्तावासं स्मरेन्नित्यमायुःकामार्थसिद्धये ॥ १॥"]},{"lines":["प्रथमं वक्रतुण्डं च एकदन्तं द्वितीयकम् ।","तृतीयं कृष्णपिङ्गाक्षं गजवक्त्रं चतुर्थकम् ॥ २॥"]},{"lines":["लम्बोदरं पञ्चमं च षष्ठं विकटमेव च ।","सप्तमं विघ्नराजेन्द्रं धूम्रवर्णं तथाष्टमम् ॥ ३॥"]},{"lines":["नवमं भालचन्द्रं च दशमं तु विनायकम् ।","एकादशं गणपतिं द्वादशं तु गजाननम् ॥ ४॥"]},{"lines":["द्वादशैतानि नामानि त्रिसन्ध्यं यः पठेन्नरः ।","न च विघ्नभयं तस्य सर्वसिद्धिकरः प्रभुः ॥ ५॥"]},{"lines":["विद्यार्थी लभते विद्यां धनार्थी लभते धनम् ।","पुत्रार्थी लभते पुत्रान्मोक्षार्थी लभते गतिम् ॥ ६॥"]},{"lines":["जपेद्गणपतिस्तोत्रं षड्भिर्मासैः फलं लभेत् ।","संवत्सरेण सिद्धिं च लभते नात्र संशयः ॥ ७॥"]},{"lines":["अष्टभ्यो ब्राह्मणेभ्यश्च लिखित्वा यः समर्पयेत् ।","तस्य विद्या भवेत्सर्वा गणेशस्य प्रसादतः ॥ ८॥"]},{"lines":["॥ इति श्रीनारदपुराणे संकटनाशनं गणेशस्तोत्रं सम्पूर्णम् ॥"]}],"mean":"Salutations to Lord Ganesha.\nNarada said -\nLet him continuously worship in his mind the son of Gauri, VinAyaka, the refuge of his devotees, for attainment of longevity, desires and wealth.\nFirst, as the one with the twisted trunk;\nSecondly, as the one with the single tusk.\nThirdly, as the one with dark brown eyes;\nFourthly, as the one with the elephant's mouth.\nFifthly, as the one with the belly like a pot;\nSixtly, as the grotesque one.\nSeventhly, as the king of obstacles;\nEighthly, as the smoke-colored one.\nNinthly, as the moon-crested one;\nTenthly, as the remover of obstacles.\nEleventhly, as the lord of all,\nTwelfthly, as the elephant-faced one.\nWhoever repeats these twelve names at dawn, noon and sunset, there is no fear of failure, nay, constant fortune.\nHe who desires wisdom, obtains wisdom; he who desires wealth, obtains wealth.\nHe who desires sons, obtains sons; he who desires liberation attains liberation.\nWhoever chants this hymn to Ganapati reaches him in six months, and in one year he reaches perfection, there is no doubt about this.\nWhoever makes copies of this and distributes them to eight Brahmana, he reaches wisdom immediately (all knowledge will be his), due to the grace of Ganesha.","src":"sanskritdocuments.org, ganesha8","url":"https://sanskritdocuments.org/doc_ganesha/ganesha8.html","credit":"Translation as given in the source. It notes that 'bhaktāvāsaṃ' (verse 1) varies between prints."},"aarti":{"title":"Sukhakarta Dukhaharta","short":"the aarti","deva":"सुखकर्ता दुखहर्ता","lang":"mr","about":"Samarth Ramdas's Marathi aarti, sung first at every Ganesha aarti in Maharashtra. The refrain (धृ) follows each stanza.","blocks":[{"lines":["सुखकर्ता दुखहर्ता, वार्ता विघ्नांची।","नुरवी; पुरवी प्रेम, कृपा जयाची।","सर्वांगी सुंदर, उटी शेंदुराची।","कंठी झळके माळ, मुक्ताफळांची॥१॥"]},{"lines":["जय देव, जय देव जय मंगलमूर्ती।","दर्शनमात्रे मन कामना पुरती ॥धृ॥"]},{"lines":["रत्नखचित फरा, तुज गौरीकुमरा।","चंदनाची उटी, कुमकुम केशरा।","हिरेजडित मुकुट, शोभतो बरा।","रुणझुणती नूपुरे, चरणी घागरिया।","जय देव जय देव जय मंगलमूर्ती ॥२॥"]},{"lines":["लंबोदर पीतांबर, फणिवरबंधना।","सरळ सोंड, वक्रतुंड त्रिनयना।","दास रामाचा, वाट पाहे सदना।","संकटी पावावे, निर्वाणी रक्षावे, सुरवरवंदना।","जय देव जय देव, जय मंगलमूर्ती।","दर्शनमात्रे मनकामना पुरती ॥३॥"]}],"mean":"1. Bringer of joy, remover of sorrow, whose grace leaves no trace of obstacles and fills us with love. Beautiful in every limb, smeared with sindoor, a pearl necklace shining at his throat.\nRefrain: Victory, victory to the auspicious one; the mere sight of you fulfils the mind's wishes.\n2. A jewelled ornament for you, son of Gauri; sandal paste, kumkum and saffron; a diamond-studded crown that suits you well; anklets jingling at your feet.\n3. Big-bellied, in yellow silk, with the king of serpents as a belt; straight trunk, curved face, three eyes. Rama's servant waits for you at home: come to us in trouble, protect us at the end, you whom the gods worship.","src":"Wikipedia, Sukhakarta Dukhaharta","url":"https://en.wikipedia.org/wiki/Sukhakarta_Dukhaharta","credit":"Checked against Marathi Wikipedia, which reads पूर्ती for पुरती in the refrain. Meaning is our summary."},"names21":{"title":"21 names for the durva offering","short":"the 21 names","deva":"महागणपत्येकविंशतिनामावलिः","lang":"sa","about":"Offer one blade of durva (or a pair) with each name. Twenty-one is Ganesha's number: 21 durva, 21 modak.","names":["ॐ गणञ्जाय नमः","ॐ गणपतये नमः","ॐ हेरम्बाय नमः","ॐ धरणीधराय नमः","ॐ महागणपतये नमः","ॐ लक्षप्रदाय नमः","ॐ क्षिप्रप्रसादनाय नमः","ॐ अमोघसिद्धये नमः","ॐ अमिताय नमः","ॐ मन्त्राय नमः","ॐ चिन्तामणये नमः","ॐ निधये नमः","ॐ सुमङ्गलाय नमः","ॐ बीजाय नमः","ॐ आशापूरकाय नमः","ॐ वरदाय नमः","ॐ शिवाय नमः","ॐ काश्यपाय नमः","ॐ नन्दनाय नमः","ॐ वाचासिद्धाय नमः","ॐ ढुण्ढिर्विनायकाय नमः"],"src":"sanskritdocuments.org, Mahaganapati Ekavimshati Namavali","url":"https://sanskritdocuments.org/doc_ganesha/mahAgaNapatyekaviMshatinAmAvalI.html"}};
+// <translit>
+/* Devanagari to IAST. For Hindi (the Chalisa) it follows ISO 15919 where IAST
+   has no letter: ड़ = ṛ, ढ़ = ṛh, so the vowel ऋ becomes r̥. The inherent "a"
+   is written wherever the Devanagari has it (no schwa deletion). */
+const deva2iast = (function () {
+	const CONS = { "क": "k", "ख": "kh", "ग": "g", "घ": "gh", "ङ": "ṅ", "च": "c", "छ": "ch", "ज": "j", "झ": "jh", "ञ": "ñ",
+		"ट": "ṭ", "ठ": "ṭh", "ड": "ḍ", "ढ": "ḍh", "ण": "ṇ", "त": "t", "थ": "th", "द": "d", "ध": "dh", "न": "n",
+		"प": "p", "फ": "ph", "ब": "b", "भ": "bh", "म": "m", "य": "y", "र": "r", "ल": "l", "ळ": "ḷ", "व": "v",
+		"श": "ś", "ष": "ṣ", "स": "s", "ह": "h" };
+	const NUKTA = { "क": "q", "ख": "k͟h", "ग": "ġ", "ज": "z", "ड": "ṛ", "ढ": "ṛh", "फ": "f", "य": "ẏ" };
+	const VOW = { "अ": "a", "आ": "ā", "इ": "i", "ई": "ī", "उ": "u", "ऊ": "ū", "ऋ": "ṛ", "ॠ": "ṝ", "ऌ": "ḷ", "ॡ": "ḹ",
+		"ए": "e", "ऐ": "ai", "ओ": "o", "औ": "au", "ऍ": "ê", "ऑ": "ô" };
+	const MAT = { "ा": "ā", "ि": "i", "ी": "ī", "ु": "u", "ू": "ū", "ृ": "ṛ", "ॄ": "ṝ", "ॢ": "ḷ", "ॣ": "ḹ",
+		"े": "e", "ै": "ai", "ो": "o", "ौ": "au", "ॅ": "ê", "ॉ": "ô" };
+	const SIGN = { "ं": "ṃ", "ः": "ḥ", "ँ": "m̐", "ऽ": "’", "ॐ": "oṃ", "।": "|", "॥": "||",
+		"०": "0", "१": "1", "२": "2", "३": "3", "४": "4", "५": "5", "६": "6", "७": "7", "८": "8", "९": "9" };
+	const SKIP = /[‌‍᳐-᳿॒॑]/;
+	return function (input, hindi) {
+		const s = input.normalize("NFC");
+		let out = "";
+		let pending = false; // a consonant waits for its vowel
+		let last = null;     // last consonant letter, for nukta
+		for (const ch of s) {
+			if (SKIP.test(ch)) continue;
+			if (ch === "़") { // nukta
+				if (last && NUKTA[last]) out = out.slice(0, out.length - CONS[last].length) + NUKTA[last];
+				last = null;
+				continue;
+			}
+			if (CONS[ch]) {
+				if (pending) out += "a";
+				out += CONS[ch];
+				pending = true;
+				last = ch;
+				continue;
+			}
+			last = null;
+			if (MAT[ch] !== undefined) {
+				out += (hindi && ch === "ृ") ? "r̥" : MAT[ch];
+				pending = false;
+				continue;
+			}
+			if (ch === "्") { pending = false; continue; } // virama
+			if (pending) {
+				out += "a";
+				pending = false;
+				// a + independent i/u inside a word would read as the diphthong; mark the hiatus
+				if (ch === "इ") { out += "ï"; continue; }
+				if (ch === "उ") { out += "ü"; continue; }
+			}
+			if (VOW[ch] !== undefined) out += (hindi && ch === "ऋ") ? "r̥" : VOW[ch];
+			else if (SIGN[ch] !== undefined) out += SIGN[ch];
+			else out += ch;
+		}
+		if (pending) out += "a";
+		return out;
+	};
+})();
+// </translit>
+
+(function () {
+	"use strict";
+	const $ = (id) => document.getElementById(id);
+	const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+	const iast = (s, marathi) => deva2iast(s, marathi);
+	const MALA = 108;
+	const DAY_MS = 86400000;
+	const main = $("main");
+
+	/* ---------- dates (all local, date-only) ---------- */
+	const pad = (n) => String(n).padStart(2, "0");
+	const isoOf = (d) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+	const dateOf = (iso) => { const [y, m, d] = iso.split("-").map(Number); return new Date(y, m - 1, d); };
+	const todayIso = () => isoOf(new Date());
+	const daysTo = (iso) => Math.round((dateOf(iso) - dateOf(todayIso())) / DAY_MS);
+	const fmt = (iso, o) => dateOf(iso).toLocaleDateString("en-IN", o || { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+	const inDays = (n) => n === 0 ? "today" : n === 1 ? "tomorrow" : n > 1 ? "in " + n + " days" : Math.abs(n) + " days ago";
+
+	/* ---------- state: per person in db when signed in, else this browser ---------- */
+	const KEY = "utsav-sadhana";
+	let state = { done: {}, japa: {}, plan: {}, script: "both" };
+	try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) state = Object.assign(state, s); } catch (e) { /* no storage */ }
+	let remote = null;   // db doc reference once available
+	let saveT = null;
+	function save() {
+		try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* no storage */ }
+		if (!remote) return;
+		clearTimeout(saveT);
+		saveT = setTimeout(() => {
+			remote.set({ done: state.done, japa: state.japa, plan: state.plan, script: state.script, at: Date.now() }).catch(() => {
+				$("sync").textContent = "Couldn't save to your account just now; progress is kept in this browser.";
+			});
+		}, 600);
+	}
+	function mergeMax(a, b) {
+		const out = Object.assign({}, a);
+		for (const k in b) {
+			const x = out[k], y = b[k];
+			if (x && typeof x === "object" && y && typeof y === "object") out[k] = mergeMax(x, y);
+			else if (typeof x === "number" && typeof y === "number") out[k] = Math.max(x, y);
+			else if (x === undefined) out[k] = y;
+			else if (y === true) out[k] = true;
+		}
+		return out;
+	}
+	(async function connect() {
+		if (!window.claude || !window.claude.use) return;
+		try {
+			const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+			if (!db || !user) return;
+			const id = await user.id();
+			if (!id) return;
+			const ref = db.collection("data/users/" + id).doc("sadhana");
+			const snap = await ref.get();
+			const d = snap && (typeof snap.data === "function" ? snap.data() : snap.data);
+			if (d) {
+				state.done = mergeMax(state.done, d.done || {});
+				state.japa = mergeMax(state.japa, d.japa || {});
+				state.plan = Object.assign({}, d.plan || {}, state.plan);
+				if (d.script) state.script = d.script;
+			}
+			remote = ref;
+			$("sync").textContent = "Your progress is saved to your Claude account, privately.";
+			save();
+			render();
+		} catch (e) { /* stay local */ }
+	})();
+
+	/* ---------- lookups ---------- */
+	const FEST = Object.fromEntries(FESTIVALS.map((f) => [f.id, f]));
+	const GOD = Object.fromEntries(DEITIES.map((d) => [d.id, d]));
+	const mantraOf = (ref) => { const [g, m] = ref.split("/"); return GOD[g].mantras.find((x) => x.id === m); };
+	const planOf = (f) => (state.plan[f.id] = Object.assign({ days: f.durations ? f.durations[f.durations.length - 1].days : 1, malas: 1 }, state.plan[f.id] || {}));
+	const doneKey = (f, iso, t) => f.id + ":" + iso + ":" + t;
+	const japaOf = (ref) => (state.japa[ref] = Object.assign({ total: 0, n: 0, byDay: {} }, state.japa[ref] || {}));
+	const japaOn = (ref, iso) => (japaOf(ref).byDay[iso] || 0);
+
+	/* the days a festival plan covers, given the chosen duration */
+	function planDays(f) {
+		if (f.monthly) return f.dates.map((d) => ({ date: d.date, title: d.name + " Sankashti", tithi: "Moonrise " + d.moon, focus: d.note || "" }));
+		const n = Math.ceil(planOf(f).days);
+		return f.days.slice(0, Math.max(2, n));
+	}
+	function dayProgress(f, iso) {
+		const items = f.core;
+		let n = 0;
+		for (const t of items) if (state.done[doneKey(f, iso, t.id)]) n++;
+		return n / items.length;
+	}
+	function nextObservance() {
+		const t = todayIso();
+		const all = [];
+		for (const f of FESTIVALS) {
+			if (f.status !== "ready") continue;
+			if (f.monthly) f.dates.forEach((d) => all.push({ f, date: d.date, end: d.date, label: d.name + " Sankashti", extra: "Moonrise " + d.moon + " (Pune)" + (d.note ? ". " + d.note : "") }));
+			else all.push({ f, date: f.start, end: f.end, label: f.name + " " + f.year, extra: fmt(f.start, { day: "numeric", month: "short" }) + " to " + fmt(f.end, { day: "numeric", month: "short" }) });
+		}
+		return all.filter((x) => x.end >= t).sort((a, b) => a.date.localeCompare(b.date));
+	}
+
+	/* ---------- views ---------- */
+	function setTab(name) {
+		$("tab-home").setAttribute("aria-current", name === "home" ? "page" : "false");
+		$("tab-mantra").setAttribute("aria-current", name === "mantra" ? "page" : "false");
+	}
+	function ringSvg(p) {
+		const c = 2 * Math.PI * 8;
+		return '<svg class="ring" viewBox="0 0 22 22" aria-hidden="true"><circle class="bg" cx="11" cy="11" r="8"/><circle class="fg" cx="11" cy="11" r="8" stroke-dasharray="' + (c * p).toFixed(2) + " " + c.toFixed(2) + '"/></svg>';
+	}
+
+	function viewHome() {
+		setTab("home");
+		const up = nextObservance();
+		let h = "";
+		if (up.length) {
+			const x = up[0];
+			const d = daysTo(x.date);
+			const live = x.date <= todayIso() && x.end >= todayIso();
+			h += '<section class="next" aria-labelledby="next-h"><span class="eyebrow">' + (live ? "Happening now" : "Next Ganesha observance") + '</span>' +
+				'<h2 id="next-h">' + esc(x.label) + '</h2>' +
+				'<p class="when"><b>' + esc(fmt(x.date, { weekday: "long", day: "numeric", month: "long", year: "numeric" })) + '</b><span>' + (live ? "today" : esc(inDays(d))) + '</span></p>' +
+				'<p class="muted">' + esc(x.extra) + '</p>' +
+				'<button class="btn" data-go="f/' + x.f.id + (x.f.monthly ? "/" + x.date : "") + '">Open the sadhana</button></section>';
+			const later = up.find((y) => y.f.id !== x.f.id);
+			if (later) h += '<p class="muted">Then <a href="#f/' + later.f.id + '" data-go="f/' + later.f.id + '">' + esc(later.label) + '</a>, ' + esc(inDays(daysTo(later.date))) + '.</p>';
+		}
+		h += '<section aria-labelledby="all-h" style="display:grid;gap:.6rem"><h2 id="all-h" class="eyebrow">Festivals</h2><div class="list">';
+		for (const f of FESTIVALS) {
+			const ready = f.status === "ready";
+			h += '<button class="row" ' + (ready ? 'data-go="f/' + f.id + '"' : "disabled") + '><span class="dv">' + esc(f.deva) + '</span><span class="t"><b>' + esc(f.name) + '</b><small>' + esc(f.sub) + " · " + esc(GOD[f.deity].name) + '</small></span><span class="pill' + (ready ? " ready" : "") + '">' + (ready ? "Open" : "Coming") + '</span></button>';
+		}
+		h += '</div></section>';
+		h += footer();
+		main.innerHTML = h;
+	}
+
+	function taskHtml(f, iso, t) {
+		const k = doneKey(f, iso, t.id);
+		const on = !!state.done[k];
+		let acts = "";
+		if (t.text) acts += '<button class="link" data-go="t/' + t.text + '">Read ' + esc(TEXTS[t.text].short) + '</button>';
+		if (t.mantra && !t.japa) acts += '<button class="link" data-japa="' + t.mantra + '" data-iso="' + iso + '">Count on mala</button>';
+		if (t.japa) {
+			const target = planOf(f).malas * MALA;
+			const got = japaOn(t.mantra, iso);
+			acts += '<button class="link" data-japa="' + t.mantra + '" data-iso="' + iso + '" data-task="' + k + '" data-target="' + target + '">Start japa</button><span class="meter">' + got + " / " + target + '</span>';
+		}
+		return '<div class="task' + (on ? " done" : "") + '"><button class="tick" role="checkbox" aria-checked="' + on + '" data-tick="' + k + '" aria-label="' + esc(t.title) + '"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button>' +
+			'<div class="body"><span class="time">' + esc(t.time) + '</span><span class="title">' + esc(t.title) + '</span><span class="detail">' + esc(t.detail) + '</span>' + (acts ? '<span class="acts">' + acts + '</span>' : "") + '</div></div>';
+	}
+
+	function viewFestival(id, pick) {
+		setTab("home");
+		const f = FEST[id];
+		if (!f || f.status !== "ready") return viewHome();
+		const plan = planOf(f);
+		const days = planDays(f);
+		const t = todayIso();
+		let sel = pick && days.find((d) => d.date === pick) ? pick : (days.find((d) => d.date === t) || days.find((d) => d.date > t) || days[0]).date;
+		const day = days.find((d) => d.date === sel);
+		let h = '<button class="link back" data-go="">← All festivals</button>';
+		h += '<section class="hero"><span class="dv">' + esc(f.deva) + '</span><h1>' + esc(f.name) + (f.year ? " " + f.year : "") + '</h1><p class="muted">' + esc(f.sub) + '</p></section>';
+		h += '<p class="lede">' + esc(f.intro) + '</p>';
+		if (f.facts) h += '<section style="display:grid;gap:.4rem"><dl class="facts">' + f.facts.map(([k, v]) => "<dt>" + esc(k) + "</dt><dd>" + esc(v) + "</dd>").join("") + '</dl><p class="src">' + esc(f.factsSrc) + ". " + esc(inDays(daysTo(f.start))).replace(/^./, (c) => c.toUpperCase()) + '.</p></section>';
+
+		if (f.durations) {
+			const cur = f.durations.find((d) => d.days === plan.days) || f.durations[f.durations.length - 1];
+			h += '<section class="choose"><span class="eyebrow" id="dur-l">How long Ganpati stays</span><div class="chips" role="group" aria-labelledby="dur-l">' +
+				f.durations.map((d) => '<button class="chip" aria-pressed="' + (d === cur) + '" data-days="' + d.days + '">' + esc(d.label) + '</button>').join("") + '</div><p class="chip-note">' + esc(cur.note) + '</p></section>';
+		}
+		h += '<section class="choose"><span class="eyebrow" id="mal-l">Daily japa</span><div class="chips" role="group" aria-labelledby="mal-l">' +
+			[1, 3, 11].map((m) => '<button class="chip" aria-pressed="' + (plan.malas === m) + '" data-malas="' + m + '">' + m + (m === 1 ? " mala" : " malas") + " · " + (m * MALA) + '</button>').join("") + '</div></section>';
+
+		if (f.monthly) {
+			h += '<section class="dates" aria-label="Dates">' + f.dates.map((d) => '<button class="date-btn" aria-pressed="' + (d.date === sel) + '" data-day="' + d.date + '"><b>' + esc(fmt(d.date, { day: "numeric", month: "short" })) + '</b><span>' + esc(d.name) + '<small>' + esc(fmt(d.date, { weekday: "long" })) + (d.note ? " · " + esc(d.note) : "") + '</small></span><span class="meter">Moon ' + esc(d.moon) + '</span></button>').join("") + '</section><p class="src">' + esc(f.datesSrc) + '</p>';
+		} else {
+			h += '<div class="strip" role="group" aria-label="Days of the festival">' + days.map((d, i) => '<button class="day' + (d.date < t ? " gone" : "") + '" aria-pressed="' + (d.date === sel) + '" data-day="' + d.date + '" aria-label="Day ' + (i + 1) + ", " + esc(fmt(d.date, { weekday: "long", day: "numeric", month: "long" })) + '"><small>Day ' + (i + 1) + '</small><b>' + dateOf(d.date).getDate() + '</b><small>' + esc(fmt(d.date, { weekday: "short" })) + '</small>' + ringSvg(dayProgress(f, d.date)) + '</button>').join("") + '</div>';
+		}
+
+		h += '<section class="today" aria-labelledby="day-h"><div><span class="eyebrow">' + esc(fmt(day.date, { weekday: "long", day: "numeric", month: "long" })) + " · " + esc(inDays(daysTo(day.date))) + '</span><h2 id="day-h">' + esc(day.title) + ' <span class="tithi">' + esc(day.tithi) + '</span></h2></div>';
+		if (day.focus) h += '<p>' + esc(day.focus) + '</p>';
+		if (day.special && day.special.includes("moon") && f.moon) h += '<div class="notice"><b>If you see the moon by mistake</b><p class="muted">' + esc(f.moon.why) + '</p><p class="sa">' + esc(f.moon.deva) + '</p><p class="lat keep">' + esc(iast(f.moon.deva)) + '</p><p>' + esc(f.moon.mean) + '</p><p class="src">' + esc(f.moon.src) + '</p></div>';
+		if (day.special && day.special.includes("shodasha")) h += '<details class="fold" open><summary>Shodashopachara: the sixteen offerings</summary><div><ol class="steps">' + f.shodasha.map((s) => "<li>" + esc(s) + "</li>").join("") + '</ol><p class="src">One common order; your family or purohit may differ.</p></div></details>';
+		h += '<div class="check">' + f.core.map((x) => taskHtml(f, day.date, x)).join("") + '</div></section>';
+
+		if (f.samagri) h += '<details class="fold"><summary>Samagri</summary><div class="kv">' + f.samagri.map(([k, v]) => "<b>" + esc(k) + "</b><span>" + esc(v) + "</span>").join("") + '</div></details>';
+		const used = [...new Set(f.core.filter((x) => x.text).map((x) => x.text))];
+		h += '<details class="fold"><summary>Texts for this sadhana</summary><div class="texts">' + used.map((k) => '<button class="link" data-go="t/' + k + '">' + esc(TEXTS[k].title) + '</button>').join("") + '<button class="link" data-go="d/' + f.deity + '">All ' + esc(GOD[f.deity].name) + ' mantras</button></div></details>';
+		h += footer();
+		main.innerHTML = h;
+	}
+
+	function viewText(key) {
+		setTab("home");
+		const tx = TEXTS[key];
+		if (!tx) return viewHome();
+		const cls = tx.lang === "mr" ? "mr" : "sa";
+		const mr = tx.lang === "mr";
+		let h = '<button class="link back" data-back>← Back</button>';
+		h += '<section class="hero"><span class="dv' + (mr ? " mr" : "") + '">' + esc(tx.deva) + '</span><h1>' + esc(tx.title) + '</h1><p class="muted">' + esc(tx.about) + '</p></section>';
+		h += '<div class="script-tog chips" role="group" aria-label="Script">' + [["both", "Both"], ["deva", "देवनागरी"], ["iast", "IAST"]].map(([k, l]) => '<button class="chip" aria-pressed="' + (state.script === k) + '" data-script="' + k + '">' + l + '</button>').join("") + '</div>';
+		if (tx.names) {
+			h += '<ol class="names">' + tx.names.map((n) => '<li><span class="sa">' + esc(n) + '</span><span class="lat">' + esc(iast(n)) + '</span></li>').join("") + '</ol>';
+		} else {
+			h += '<div class="text-body">' + tx.blocks.map((b) => b.head ? '<div class="verse"><h3>' + esc(b.head) + ' <span class="lat keep">' + esc(iast(b.head)) + '</span></h3></div>' :
+				'<div class="verse"><p class="' + cls + '">' + esc(b.lines.join("\n")) + '</p><p class="lat">' + esc(b.lines.map((l) => iast(l, mr)).join("\n")) + '</p>' + (b.mean ? '<p class="mean">' + esc(b.mean) + '</p>' : "") + '</div>').join("") + '</div>';
+		}
+		if (tx.mean) h += '<details class="fold"><summary>Meaning</summary><div><p class="mean" style="white-space:pre-line">' + esc(tx.mean) + '</p></div></details>';
+		h += '<p class="src">Source: <a href="' + esc(tx.url) + '" target="_blank" rel="noopener">' + esc(tx.src) + '</a>. ' + esc(tx.credit || "") + '</p>';
+		h += footer();
+		main.innerHTML = h;
+		document.body.dataset.script = state.script;
+	}
+
+	function viewMantras() {
+		setTab("mantra");
+		let h = '<section class="hero"><span class="dv">मन्त्र</span><h1>Mantras by deity</h1><p class="muted">Each with its source, the usual count, and a mala to count on.</p></section>';
+		h += '<div class="gods">' + DEITIES.map((d) => '<button class="god" data-go="d/' + d.id + '"><span class="dv">' + esc(d.deva) + '</span><b>' + esc(d.name) + '</b><small>' + esc(d.day) + '</small></button>').join("") + '</div>';
+		h += '<p class="src">Seed (bija) mantras such as गं, श्रीं, ऐं, दुं and हं are traditionally learnt from a guru. The nama mantras and shlokas are open to everyone.</p>';
+		h += footer();
+		main.innerHTML = h;
+	}
+
+	function viewDeity(id) {
+		setTab("mantra");
+		const d = GOD[id];
+		if (!d) return viewMantras();
+		let h = '<button class="link back" data-go="mantras">← All deities</button>';
+		h += '<section class="hero"><span class="dv">' + esc(d.deva) + '</span><h1>' + esc(d.name) + '</h1><p class="muted">' + esc(d.about) + " Days: " + esc(d.day) + '.</p></section><div>';
+		for (const m of d.mantras) {
+			const ref = d.id + "/" + m.id;
+			const j = japaOf(ref);
+			h += '<article class="mantra"><span class="eyebrow">' + esc(m.name) + '</span><p class="sa">' + esc(m.deva) + '</p><p class="lat">' + esc(iast(m.deva)) + '</p><p class="mean">' + esc(m.mean) + '</p>' +
+				'<p class="meta"><span>Usual count: ' + m.count + '</span><span>' + esc(m.src) + '</span>' + (j.total ? '<span class="meter">' + j.total + ' counted so far</span>' : "") + '</p>' +
+				'<button class="btn quiet" data-japa="' + ref + '" data-iso="' + todayIso() + '" data-target="' + m.count + '">Count on mala</button></article>';
+		}
+		h += '</div>';
+		const fests = FESTIVALS.filter((f) => f.deity === d.id);
+		if (fests.length) h += '<p class="muted">Festivals: ' + fests.map((f) => f.status === "ready" ? '<a href="#f/' + f.id + '" data-go="f/' + f.id + '">' + esc(f.name) + "</a>" : esc(f.name) + " (coming)").join(", ") + '.</p>';
+		h += footer();
+		main.innerHTML = h;
+	}
+
+	function footer() {
+		return '<footer class="foot"><p>Long texts are reproduced from <a href="https://sanskritdocuments.org" target="_blank" rel="noopener">sanskritdocuments.org</a> (volunteer-prepared, for personal study) and the aarti from Wikipedia. Festival dates and moonrise are for Pune, from Drik Panchang.</p><p>Follow your family custom or purohit where it differs.</p></footer>';
+	}
+
+	/* ---------- router ---------- */
+	let route = "";
+	let history_ = [];
+	function go(r, opts) {
+		if (!opts || !opts.back) history_.push(route);
+		route = r;
+		try { if (/^[A-Za-z0-9._~-]*$/.test(r.replace(/\//g, "-"))) location.hash = r ? r.replace(/\//g, "-") : ""; } catch (e) { /* ignore */ }
+		render();
+		window.scrollTo(0, 0);
+		main.focus({ preventScroll: true });
+	}
+	function render() {
+		const [kind, a, b] = route.split("/");
+		if (kind === "f") viewFestival(a, b);
+		else if (kind === "t") viewText(a);
+		else if (kind === "mantras") viewMantras();
+		else if (kind === "d") viewDeity(a);
+		else viewHome();
+		document.body.dataset.script = state.script;
+	}
+	function fromHash() {
+		const h = (location.hash || "").slice(1);
+		const m = h.match(/^(f|t|d)-([a-z0-9]+)(?:-(\d{4}-\d{2}-\d{2}))?$/);
+		if (m) return m[1] + "/" + m[2] + (m[3] ? "/" + m[3] : "");
+		return h === "mantras" ? "mantras" : "";
+	}
+
+	/* ---------- japa sheet ---------- */
+	const sheet = $("japa");
+	let jp = null; // { ref, iso, task, target }
+	let wake = null;
+	(function buildBeads() {
+		const ns = "http://www.w3.org/2000/svg";
+		const svg = $("mala-svg");
+		const core = document.createElementNS(ns, "circle");
+		core.setAttribute("cx", "66"); core.setAttribute("cy", "66"); core.setAttribute("r", "47"); core.setAttribute("class", "core");
+		svg.appendChild(core);
+		for (let i = 0; i < MALA; i++) {
+			const a = (-90 + (i + 1.5) * (360 / (MALA + 3))) * Math.PI / 180;
+			const c = document.createElementNS(ns, "circle");
+			c.setAttribute("cx", (66 + 60 * Math.cos(a)).toFixed(2)); c.setAttribute("cy", (66 + 60 * Math.sin(a)).toFixed(2));
+			c.setAttribute("r", "1.75"); c.setAttribute("class", "bead");
+			svg.appendChild(c);
+		}
+		const meru = document.createElementNS(ns, "circle");
+		meru.setAttribute("cx", "66"); meru.setAttribute("cy", "6"); meru.setAttribute("r", "3.4"); meru.setAttribute("class", "meru");
+		svg.appendChild(meru);
+	})();
+	const beads = Array.from(document.querySelectorAll("#mala-svg .bead"));
+	function renderJapa() {
+		const j = japaOf(jp.ref);
+		const n = j.n % MALA;
+		const today = japaOn(jp.ref, jp.iso);
+		$("mala-n").textContent = n;
+		beads.forEach((b, i) => b.classList.toggle("on", i < n));
+		$("japa-today").innerHTML = (jp.iso === todayIso() ? "Today " : esc(fmt(jp.iso, { day: "numeric", month: "short" })) + " ") + "<b>" + today + "</b>" + (jp.target ? " of " + jp.target : "");
+		$("japa-total").textContent = j.total + " in all";
+		$("mala").setAttribute("aria-label", "Count one repetition. " + n + " of 108 on this mala, " + today + " today");
+	}
+	function openJapa(ref, iso, task, target) {
+		const m = mantraOf(ref);
+		jp = { ref, iso, task, target: target ? Number(target) : 0 };
+		$("japa-name").textContent = GOD[ref.split("/")[0]].name + " · " + m.name;
+		$("japa-deva").textContent = m.deva;
+		$("japa-iast").textContent = iast(m.deva);
+		sheet.hidden = false;
+		document.documentElement.style.overflow = "hidden";
+		renderJapa();
+		$("mala").focus();
+		if (navigator.wakeLock) navigator.wakeLock.request("screen").then((w) => { wake = w; }).catch(() => {});
+	}
+	function closeJapa() {
+		sheet.hidden = true;
+		document.documentElement.style.overflow = "";
+		if (wake) { wake.release().catch(() => {}); wake = null; }
+		jp = null;
+		save();
+		render();
+	}
+	function count(d) {
+		const j = japaOf(jp.ref);
+		if (d < 0 && (j.n <= 0 || japaOn(jp.ref, jp.iso) <= 0)) return;
+		j.n += d; j.total += d;
+		j.byDay[jp.iso] = japaOn(jp.ref, jp.iso) + d;
+		const today = j.byDay[jp.iso];
+		if (navigator.vibrate) navigator.vibrate(d > 0 && j.n % MALA === 0 ? [60, 60, 120] : 12);
+		if (jp.task) state.done[jp.task] = jp.target ? today >= jp.target : state.done[jp.task];
+		renderJapa();
+		save();
+	}
+	$("mala").addEventListener("click", () => count(1));
+	$("mala-undo").addEventListener("click", () => count(-1));
+	$("japa-close").addEventListener("click", closeJapa);
+	document.addEventListener("keydown", (e) => {
+		if (sheet.hidden) return;
+		if (e.key === "Escape") closeJapa();
+		else if ((e.key === " " || e.key === "Enter") && document.activeElement === $("mala")) { e.preventDefault(); count(1); }
+	});
+	document.addEventListener("visibilitychange", () => {
+		// The browser drops the lock while the page is hidden; ask again when it comes back.
+		if (document.visibilityState !== "visible") { wake = null; return; }
+		if (!sheet.hidden && !wake && navigator.wakeLock) navigator.wakeLock.request("screen").then((w) => { wake = w; }).catch(() => {});
+	});
+
+	/* ---------- events ---------- */
+	document.addEventListener("click", (e) => {
+		const el = e.target.closest("[data-go],[data-tick],[data-days],[data-malas],[data-day],[data-japa],[data-script],[data-back]");
+		if (!el) return;
+		if (el.tagName === "A") e.preventDefault();
+		const [kind, id] = route.split("/");
+		if (el.dataset.japa) return openJapa(el.dataset.japa, el.dataset.iso, el.dataset.task, el.dataset.target);
+		if (el.hasAttribute("data-back")) { const p = history_.pop(); return go(p || "", { back: true }); }
+		if (el.dataset.go !== undefined) return go(el.dataset.go);
+		if (el.dataset.tick) { state.done[el.dataset.tick] = !state.done[el.dataset.tick]; save(); render(); return; }
+		if (el.dataset.days) { state.plan[id].days = Number(el.dataset.days); save(); render(); return; }
+		if (el.dataset.malas) { state.plan[id].malas = Number(el.dataset.malas); save(); render(); return; }
+		if (el.dataset.day) { route = "f/" + id + "/" + el.dataset.day; render(); return; }
+		if (el.dataset.script) { state.script = el.dataset.script; save(); render(); }
+	});
+	$("home-btn").addEventListener("click", () => go(""));
+	window.addEventListener("hashchange", () => {
+		const r = fromHash();
+		if (r !== route && !route.startsWith(r + "/")) { route = r; render(); }
+	});
+
+	route = fromHash();
+	render();
+})();
+</script>
+</body></html>

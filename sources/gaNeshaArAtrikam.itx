@@ -1,0 +1,65 @@
+% Text title            : gaNesha ArAtrikam
+% File name             : gaNeshaArAtrikam.itx
+% Category              : ganesha, AratI, moropant
+% Location              : doc\_ganesha
+% Author                : Mayurakavi (Moropant)
+% Transliterated by     : V. Kumaran vkumaran at hotmail.com
+% Proofread by          : V. Kumaran vkumaran at hotmail.com
+% Description/comments  : samskRitamArAtrikam by Moropanta
+% Latest update         : March 4, 2018
+% Send corrections to   : sanskrit at cheerful dot c om
+%
+% This text is prepared by volunteers and is to be used for personal study 
+% and research. The file is not to be copied or reposted for promotion of 
+% any website or individuals or for commercial purpose without permission. 
+% Please help to maintain respect for volunteer spirit.
+%
+\documentstyle[11pt,multicol,itrans]{article}
+#include=ijag.inc
+#endwordvowel=.h
+\portraitwide
+\parindent=100pt                
+\let\usedvng=\Largedvng      % for 1 column     
+\pagenumbering{itrans} 
+\def\engtitle#1{\hrule\medskip\centerline{\LARGE #1}}
+\def\itxtitle#1{\medskip\centerline{\LARGEdvng #1}\medskip\hrule}
+\def\endtitles{\medskip\obeyspaceslines}
+%%
+\begin{document}
+\engtitle{.. Shri Ganesha Sanskrit Arati ..}##
+\itxtitle{.. shrIgaNesha saMskR^itamArAtrikam ..}##\endtitles ##
+jayadeva jayadeva gajamukha sukhaheto |
+netarvighnagaNAnAM jADyarNavaseto || dhruvapadam ||
+yena bhavadupAyanatAM nItA navadUrvA
+vidyAsampatkIrtistenAptA.apUrvA |
+muktirlabhyA sukhatastava nityA.apUrvA
+dhAryA jagataH sthitaye bhUmau divi pUrvA || jayadeva jayadeva0 || 1||
+prathamanamaskR^itibhAk tvaM tava lokaprathitaM
+dR^iShTaM sadvyavahAre gurubhirapi cha kathitam |
+yaH kashchana vimukhastvayi nijasiddheHpathi taM
+vividhA vighnA bhagavan kurvanti vyathitam || jayadeva jayadeva0 || 2||
+bAlaM sakR^idanusarati tvaddR^iShTishchettA
+manurAsImiva dAsyo vidyAH sa hi vettA |
+pavipANiriva paraM parapakShANAM bhettA
+bhavati mayUro.aheriva mohasyachChettA || jayadeva jayadeva0 || 3||
+
+iti shrImayUrakavivirachitaM shrIgaNesha saMskR^itamArAtrikaM sampUrNam |
+##
+In the refrain lines, netarvighnagaNAnAM
+is built with ##netaH## as ##sambodhanaM##
+in relation with another ##sambodhana
+sukhaheto## in the first line.
+Alternatively, additional options provided
+were ## netA ##as one who carries away
+hordes of troubles, not as a leader and
+## hartA##
+
+Encoded and proofread by V. Kumaran vkumaran at hotmail.com
+
+\medskip\hrule\obeylines
+
+Please send corrections to sanskrit at cheerful dot c om
+Last updated \today
+https://sanskritdocuments.org
+
+\end{document}
