@@ -1,7 +1,7 @@
 /* Utsav Sadhana service worker: keeps the page, icons and fonts on the device so the
    texts open with no signal. The page is network-first (so updates arrive), fonts are
    cache-first, and the font CSS is served from cache while it refreshes. */
-const VERSION = "d98542da4c5e";
+const VERSION = "145ca2a40bc8";
 const CACHE = "utsav-" + VERSION;
 const FONTS = "utsav-fonts";
 const SHELL = [ "./", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png" ];
